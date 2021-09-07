@@ -3,7 +3,7 @@
 #define UMLRELATIONSHIP
 
 #include <string>
-#include <UMLClass.h>
+#include "UMLClass.h"
 
 class UMLRelationship {
 	private:
@@ -12,6 +12,11 @@ class UMLRelationship {
 		UMLClass& ClassDest;
 
 	public:
+		UMLRelationship(std::string name, UMLClass& src, UMLClass& dest);
+		~UMLRelationship();
+
 		std::string get_relationship_name();
+		UMLClass* get_src_class();
+		UMLClass* get_dest_class();
 };
 #endif
