@@ -13,12 +13,17 @@ class UMLClass{
 
 	public:
 		UMLClass(std::string name);
+		UMLClass(std::string name, std::vector<UMLAttribute> attributes);
 		~UMLClass();
 
 		std::string get_class_name();
-		std::vector<UMLAttribute> get_all_attributes();
+		void set_class_name(std::string newName);
 
+		std::vector<UMLAttribute> get_all_attributes();
 		bool add_attribute(UMLAttribute attribute);
 		bool remove_attribute(UMLAttribute attribute);
+
+		bool operator==(const UMLClass& u) const;
+
 };
 #endif

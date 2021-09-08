@@ -1,11 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "UMLClass.h"
 
-
-    
-
-
+/*
 int main()
 {
     int N;
@@ -33,3 +31,4 @@ int main()
     
     return 0;
 }
+*/
