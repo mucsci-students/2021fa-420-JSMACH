@@ -9,23 +9,23 @@ int main()
 {
     int N;
     
-    cout << "Please Enter Number of classes: ";
-    cin >> N;
+    std::cout << "Please Enter Number of classes: ";
+    std::cin >> N;
     
 
     
-    vector<string> store(N);
+    std::vector<string> store(N);
     
     for (int i = 0; i < N; i++)
     {
-        cout << "Class #" << i+1 << " ";
-        cin >> store[i];
+        std::cout << "Class #" << i+1 << " ";
+        std::cin >> store[i];
     }
     
-    cout << "\n\nHere are the classes:\n";
+    std::cout << "\n\nHere are the classes:\n";
     for (size_t i=0; i<store.size(); ++i)
     {
-        cout << store[i] << '\t';
+        std::cout << store[i] << '\t';
     }
     
     
