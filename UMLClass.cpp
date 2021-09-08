@@ -1,6 +1,12 @@
 #include "UMLClass.h"
 #include "UMLAttribute.h"
 
+UMLClass::~UMLClass(){}	
+
+UMLClass::UMLClass(std::string name){
+	this->ClassName = name;
+}
+
 UMLClass::UMLClass(std::string name, std::vector<UMLAttribute> attributes) {
 	this->ClassName = name;
 	this->ClassAttributes = attributes;

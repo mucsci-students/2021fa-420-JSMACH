@@ -12,6 +12,7 @@ class UMLClass{
 		std::vector<UMLAttribute> ClassAttributes;
 
 	public:
+		UMLClass(std::string name);
 		UMLClass(std::string name, std::vector<UMLAttribute> attributes);
 		~UMLClass();
 
