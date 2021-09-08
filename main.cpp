@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 
 
     
@@ -14,7 +15,7 @@ int main()
     
 
     
-    std::vector<string> store(N);
+    std::vector<std::string>  store(N);
     
     for (int i = 0; i < N; i++)
     {
