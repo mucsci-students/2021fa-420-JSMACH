@@ -15,4 +15,6 @@
 4. `cmake . .`
 5. `cmake build .`
 6. An executable should now be available in your "out" directory
+7. If you are not on Windows or CMake does not use Visual Studio to compile, you may simply have a Makefile in
+the project root now. If thats the case you can just type `make` to compile the program.
 
