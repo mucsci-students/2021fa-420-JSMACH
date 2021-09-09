@@ -13,8 +13,11 @@
 
 3. Navigate to the project root (Should have a CMakeLists.txt file in it)
 4. `cmake . .`
-5. `cmake build .`
-6. An executable should now be available in your "out" directory
-7. If you are not on Windows or CMake does not use Visual Studio to compile, you may simply have a Makefile in
-the project root now. If thats the case you can just type `make` to compile the program.
+5. If cmake compiled with Visual Studio, then you should have a .sln file that you can compile using either Visual Studio or using the Visual Studio Developer Command Prompt with 
+
+    ```cl /EHsc main.cpp```
+
+8. If cmake compiled with GCC (probably on Mac or Linux) you should have a Makefile that can be used to compile with 
+
+    ```make```
 
