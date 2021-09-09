@@ -3,7 +3,7 @@
 #include <string>
 #include "UMLClass.h"
 
-/*
+
 int main()
 {
     int N;
@@ -31,4 +31,4 @@ int main()
     
     return 0;
 }
-*/
+
