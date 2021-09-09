@@ -21,14 +21,21 @@ class UMLModel {
         // Duplicates should not be allowed in this list.
         // Any insert/deletions to this list should go through the add/remove methods.
         std::list <UMLClass> AllClasses;
+        std::list <UMLRelationship> AllRelationships;
 
         // Internal method for getting an iterator to the class in the model by name.
         std::list<UMLClass>::iterator get_class_iter_by_name(std::string className);
+
+        std::list<UMLRelationship>::iterator get_relationship_iter_by_name(std::string relationshipName);
         
     public:
+
+        UMLModel();
+        ~UMLModel();
+        
         // Checks to see if the class name already exists in the model.
         // Returns true if the class exists in the model already, and false otherwise.
-        bool does_model_contain_class(std::string className);
+        bool does_class_exist(std::string className);
 
         // Adds a class to the model from a name alone.
         // Returns true if the add was successful, false if it failed.
@@ -42,12 +49,21 @@ class UMLModel {
         // Returns true if the removal was successful, false otherwise.
         bool remove_class(std::string className);
 
-        // Gets a reference to the UMLClass object in the model by the name.
-        // This should mainly be used for editing the class's attributes directly.
-        UMLClass& get_class_by_name(std::string className);
+        // Modify a class name from the nameFrom parameter to the nameTo parameter.
+        // Returns false in cases where either the nameFrom doesnt exist or the
+        // nameTo is not a valid name. Returns true if the modify was successful.
+        bool modify_class_name(std::string nameFrom, std::string nameTo);
 
-        // Returns a list that contains all the current classes in the model.
-        std::list <std::string> get_all_class_names();
+        // Returns a string list that contains all the current classes in the model.
+        const std::list <std::string> get_all_class_names();
+
+        bool does_relationship_exist(std::string relationshipName);
+
+        bool add_relationship(std::string relationshipName, UMLClass& src, UMLClass& dest);
+
+        bool delete_relationship(std::string relationshipName);
+
+        const std::list <UMLRelationship> get_all_relationships();
 
 };
 
