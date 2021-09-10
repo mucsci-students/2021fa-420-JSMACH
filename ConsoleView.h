@@ -36,7 +36,13 @@ public:
     //PrintListofClass will Print out the list of classes currently in the Model
     //@para: list<string> 
     void PrintAllClasses(std::list<std::string> x){}
-        
+    
+    
+    //Print The current Soruce and Dest of the Relationship 
+    //@para: UMLRelationship obj
+    void PrintSourceandDest(UMLRelationship x){}
+    
+    
   
   
 };
