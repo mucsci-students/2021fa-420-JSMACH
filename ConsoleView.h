@@ -12,6 +12,7 @@ private:
     std::string input2:
 public:
     UserInput(std::string input1, std::string input2);
+    std::string UserInputLoop() const{return std::string;}
     ~UserInput();
 };
 
