@@ -35,7 +35,7 @@ public:
     
     //PrintListofClass will Print out the list of classes currently in the Model
     //@para: list<string> 
-    void PrintAllClasses(std::list<std::string> x)
+    void PrintAllClasses(std::list<std::string> x){}
         
   
   
