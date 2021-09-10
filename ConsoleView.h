@@ -6,7 +6,7 @@
     Very little if any application logic is handled in the view class.
 */
 class ConsoleView
-
+{
 
 public:
     ConsoleView();
