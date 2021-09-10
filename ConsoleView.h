@@ -6,6 +6,7 @@
 #include "UMLRelationship.h"
 #include <vector>
 #include <list>
+#include <iostream>
 
 
 /*
