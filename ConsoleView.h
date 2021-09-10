@@ -31,7 +31,7 @@ public:
     
     //PrintClassRelations will Print the current list of Relationships the class being passed has
     //@para: UmlClass Obj
-    void PrintClassRelations(UMLClass X){}
+    void PrintClassRelations(UMLRelationship X){}
     
     //PrintListofClass will Print out the list of classes currently in the Model
     //@para: list<string> 
