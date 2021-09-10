@@ -11,7 +11,7 @@ class ConsoleView
 public:
     ConsoleView();
   
-    UserInputLoop();
+    void UserInputLoop();
   
 };
 
