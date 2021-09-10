@@ -6,7 +6,7 @@ int UserInputLoop()
     std::cout << "Enter the amount of Classes to add:" << std::endl;
     std::cin >> count;
 
-    string ClassName, ClassAttribute;
+    std::string ClassName, ClassAttribute;
     for(int i = 0; i < count; ++i)
     {
         std::cout << "Please enter the names of your classes: " << std::endl;
