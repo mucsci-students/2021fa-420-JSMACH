@@ -1,26 +1,26 @@
 
-int UserInputLoop()
-{
-    std::vector<UMLClass> Classes;
-    int count = 0;
-    std::cout << "Enter the amount of Classes to add:" << std::endl;
-    std::cin >> count;
+PrintClassName(UMLClass X){
+    
+    std::cout<< x.get_class_name(); 
+    
+   }
 
-    std::string ClassName, ClassAttribute;
-    for(int i = 0; i < count; ++i)
-    {
-        std::cout << "Please enter the names of your classes: " << std::endl;
-
-        std::cin >> ClassName;
-        stf::cin >> ClassAttribute;
-
-        Classes.set_class_name(ClassName);
-        Classes.add_attribute(ClassAttribute);
-    }
-
+PrintClassAttribute(UMLClass x){
+    
     for(const UMLClass & e : Classes)
     {
         std::cout << "UMLClass:" << std::endl;
-        std::cout << e.getClassname() << " " << e.getAttributetname() << std::endl;
+        std::cout << e.get_all_attributes() << std::endl;
     }
+    
+}
+
+
+PrintClassRelations(UMLRelationship x){
+    
+    std::cout<< x.get_relationship_name();
+}
+
+PrintSourceandDest(UMLRelationship x){
+    std::cout << x. get_src_class() << x.get_dest_class();
 }
