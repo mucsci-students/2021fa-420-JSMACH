@@ -9,9 +9,9 @@ class ConsoleView
 {
 
 public:
-    ConsoleView();
+    ConsoleView(){};
   
-    void UserInputLoop();
+    void UserInputLoop(){};
   
 };
 
