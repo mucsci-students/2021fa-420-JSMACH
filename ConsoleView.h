@@ -7,7 +7,7 @@
 #include <vector>
 #include <list>
 #include <iostream>
-
+#include <algorithm>
 
 /*
     The ConsoleView is responsible for displaying information to the user.
