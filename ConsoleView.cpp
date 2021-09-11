@@ -7,11 +7,9 @@ PrintClassName(UMLClass X){
 
 PrintClassAttribute(UMLClass x){
     
-    for(const UMLClass & e : x)
-    {
-        std::cout << "UMLClass:" << std::endl;
-        std::cout << e.get_all_attributes() << std::endl;
-    }
+    std::cout << "List of Classes:";
+    std::for_each(nums.cbegin(), nums.cend(), print);
+    std::cout << '\n';
     
 }
 
