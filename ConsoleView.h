@@ -19,7 +19,7 @@ class ConsoleView
 public:
     ConsoleView(){};
   
-    void UserInputLoop(){}  
+    
     
     
     // PrintClass Name will be used to Print the names of the class being passed by the user
