@@ -16,7 +16,7 @@ void ConsoleView::PrintClassName(UMLClass X){
 // we must iterate over the vector of elements while we print each attirbute stored 
 //the std::for_each takes in two iterators and a function which will be applied 
 //@Para: UMLClass OBJ
-void PrintClassAttribute(UMLClass x){
+void ConsoleView::PrintClassAttribute(UMLClass x){
     auto y= x.get_all_attributes(); //vector created 
     std::cout << "List of Classes:";
     print= std::ostream_iterator<int>(std::cout);//print out each item
