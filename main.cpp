@@ -7,8 +7,7 @@
 
 int main()
 {
-   ConsoleView view ;
-   view.UserInputLoop();
+
      
 }
 
