@@ -24,24 +24,24 @@ public:
     
     // PrintClass Name will be used to Print the names of the class being passed by the user
     //@ Para: UMLClass object 
-    void PrintClassName(UMLClass X){}
+    void ConsoleView::PrintClassName(UMLClass X){}
     
     //PrintClass Attribute will Print a List of Attributes which are stored in the specified class
     //@Para: UMLClass Object  
-    void PrintClassAttribute(UMLClass X){}
+    void ConsoleView::PrintClassAttribute(UMLClass X){}
     
     //PrintClassRelations will Print the current list of Relationships the class being passed has
     //@para: UmlClass Obj
-    void PrintClassRelations(UMLRelationship X){}
+    void ConsoleView::PrintClassRelations(UMLRelationship X){}
     
     //PrintListofClass will Print out the list of classes currently in the Model
     //@para: list<string> 
-    void PrintAllClasses(std::list<std::string> x){}
+    void ConsoleView::PrintAllClasses(std::list<std::string> x){}
     
     
     //Print The current Soruce and Dest of the Relationship 
     //@para: UMLRelationship obj
-    void PrintSourceandDest(UMLRelationship x){}
+    void ConsoleView::PrintSourceandDest(UMLRelationship x){}
     
     
   
