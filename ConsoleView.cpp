@@ -1,4 +1,4 @@
-#include "ConsoleView"
+#include "ConsoleView.h"
 //All these functions return void, they are simply here 
 //for the user to call when they want to get information on 
 //a CLASS (or a list of all classes), RELATIONSHIP, or ATTRIBUTE
