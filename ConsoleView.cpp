@@ -5,7 +5,7 @@
 //Prtint class will be used to print the name of a class given a UMLClass object
 //By using the get_class_name function from the UMLClass, it then prints the name of the Class given
 //@Para: UMLClass OBJ
-PrintClassName(UMLClass X){
+void ConsoleView::PrintClassName(UMLClass X){
     
     std::cout<< x.get_class_name(); 
     
@@ -16,9 +16,10 @@ PrintClassName(UMLClass X){
 // we must iterate over the vector of elements while we print each attirbute stored 
 //the std::for_each takes in two iterators and a function which will be applied 
 //@Para: UMLClass OBJ
-PrintClassAttribute(UMLClass x){
+void PrintClassAttribute(UMLClass x){
     auto y= x.get_all_attributes(); //vector created 
     std::cout << "List of Classes:";
+    print= std::ostream_iterator<int>(std::cout);//print out each item
     std::for_each(y.cbegin(), y.cend(), print); //iteration 
     std::cout << '\n';
     
@@ -27,7 +28,7 @@ PrintClassAttribute(UMLClass x){
 //PrintClassRelations Will print the name of a given relationship 
 //By using the get_relationship_name we can get the class name
 //@Para: UMLRelationship OBJ
-PrintClassRelations(UMLRelationship x){
+void ConsoleView::PrintClassRelations(UMLRelationship x){
     
     std::cout<< x.get_relationship_name();
 }
@@ -36,6 +37,6 @@ PrintClassRelations(UMLRelationship x){
 //Print both the source and destination
 //Using both the get_src_class and get_dest_class 
 //@Para: UMLRelationship OBJ
-PrintSourceandDest(UMLRelationship x){
-    std::cout << x. get_src_class() << x.get_dest_class();
+void ConsoleView::PrintSourceandDest(UMLRelationship x){
+    std::cout << x.get_src_class().get_class_name() << x.get_dest_class().get_class_name();
 }
