@@ -6,6 +6,8 @@
 
 ### Instructions:
 
+[![C/C++ CI](https://github.com/mucsci-students/2021fa-420-JSMACH/actions/workflows/realmain.yml/badge.svg)](https://github.com/mucsci-students/2021fa-420-JSMACH/actions/workflows/realmain.yml)
+
 1. Clone repo to desired local folder
 2. Run this command: 
 
