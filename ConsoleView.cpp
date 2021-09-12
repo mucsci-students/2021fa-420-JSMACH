@@ -8,7 +8,7 @@
 //@Para: UMLClass OBJ
 void ConsoleView::PrintClassName(UMLClass X){
     
-    std::cout<< x.get_class_name(); 
+    std::cout<< X.get_class_name(); 
     
  }
 
@@ -18,11 +18,9 @@ void ConsoleView::PrintClassName(UMLClass X){
 //the std::for_each takes in two iterators and a function which will be applied 
 //@Para: UMLClass OBJ
 void ConsoleView::PrintClassAttribute(UMLClass x){
-    auto y= x.get_all_attributes(); //vector created 
-    std::cout << "List of Classes:";
-    print= std::ostream_iterator<int>(std::cout);//print out each item
-    std::for_each(y.cbegin(), y.cend(), print); //iteration 
-    std::cout << '\n';
+    std::vector<UMLAttribute> path=x.get_all_attributes(); //vector created 
+    for (auto i: path)
+     std::cout << i;
     
 }
 
