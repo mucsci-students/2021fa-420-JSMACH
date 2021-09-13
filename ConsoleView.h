@@ -51,7 +51,7 @@ public:
     friend std::ostream& operator<<(std::ostream &out, UMLRelationship x);
 
     
-    UMLRelationship
+    
     //turn objects into strings
     std::string to_string(UMLAttribute x);
     std::string to_string(UMLRelationship x);

@@ -3,6 +3,10 @@
 //for the user to call when they want to get information on 
 //a CLASS (or a list of all classes), RELATIONSHIP, or ATTRIBUTE
 
+
+
+
+/* overloaded <<
 std::ostream& operator<<(std::ostream &out, UMLAttribute c)
 {
     out << c;
@@ -20,12 +24,13 @@ std::ostream& operator<<(std::ostream &out, ClassSrc c)
     out << c;
     return out;
 }
+
 std::ostream& operator<<(std::ostream &out, UMLRelationship c)
 {
     out << c;
     return out;
 }
-
+*/
 
 std::string to_string(UMLAttribute c)
 {
@@ -50,7 +55,7 @@ void ConsoleView::PrintClassName(UMLClass X){
 void ConsoleView::PrintClassAttribute(UMLClass x){
     std::vector<UMLAttribute> path=x.get_all_attributes(); //vector created 
     for (auto i: path)
-     std::cout << i;
+     std::cout <<std::to_string(i);
     
 }
 
@@ -67,6 +72,7 @@ void ConsoleView::PrintClassRelations(UMLRelationship x){
 //Using both the get_src_class and get_dest_class 
 //@Para: UMLRelationship OBJ
 void ConsoleView::PrintSourceandDest(UMLRelationship x){
-    std::cout << x.get_src_class().get_class_name() << x->get_dest_class().get_class_name();
+    std::cout << std::to_string(x.get_src_class().get_class_name()) << std::to_string(x->get_dest_class().get_class_name());
     
 }
+
