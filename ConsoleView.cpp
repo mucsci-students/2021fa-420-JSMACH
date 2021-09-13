@@ -7,9 +7,9 @@
 
 std::ostream& operator<<(std::ostream& os, const std::vector<UMLAttribute>& vec) {
     for (auto& l : vec) {
-        os << l << "  ";
+        out << l << "  ";
     }
-    return os;
+    return out;
 }
 /* overloaded <<
 std::ostream& operator<<(std::ostream &out, UMLAttribute c)
@@ -61,8 +61,7 @@ void ConsoleView::PrintClassName(UMLClass X){
 //@Para: UMLClass OBJ
 void ConsoleView::PrintClassAttribute(UMLClass x){
     std::vector<UMLAttribute> path=x.get_all_attributes(); //vector created 
-    for (auto i: path)
-     std::cout <<i;
+    std::cout << path;
     
 }
 
