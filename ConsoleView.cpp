@@ -4,6 +4,12 @@
 //a CLASS (or a list of all classes), RELATIONSHIP, or ATTRIBUTE
 
 
+std::ostream& operator<<(std::ostream& out, const UMLRelationship& dt) {
+    
+    out << dt;
+    
+    return out;
+}
 
 std::ostream& operator<<(std::ostream& out, const std::vector<UMLAttribute>& vec) {
     
