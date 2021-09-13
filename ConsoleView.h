@@ -48,9 +48,14 @@ public:
     //Had to overload the << operator to take our objects 
     friend std::ostream& operator<<(std::ostream &out, UMLAttribute x);
     friend std::ostream& operator<<(std::ostream &out, UMLClass x);
+    friend std::ostream& operator<<(std::ostream &out, UMLRelationship x);
 
+    
+    UMLRelationship
     //turn objects into strings
     std::string to_string(UMLAttribute x);
+    std::string to_string(UMLRelationship x);
+    std::string to_string(UMLClass x);
 
   
   
