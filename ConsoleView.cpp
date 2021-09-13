@@ -5,7 +5,12 @@
 
 
 
-
+std::ostream& operator<<(std::ostream& os, const std::vector<UMLAttribute>& vec) {
+    for (auto& l : vec) {
+        os << l << "  ";
+    }
+    return os;
+}
 /* overloaded <<
 std::ostream& operator<<(std::ostream &out, UMLAttribute c)
 {
