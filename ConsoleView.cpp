@@ -17,6 +17,12 @@ std::ostream& operator<<(std::ostream& out, const std::vector<UMLAttribute>& vec
     
     return out;
 }
+std::ostream& operator<<(std::ostream& out, const UMLClass& x) {
+    
+    out << x;
+    
+    return out;
+}
 
 std::ostream& operator<<(std::ostream& out, const UMLAttribute& dt)
 {
