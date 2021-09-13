@@ -23,7 +23,7 @@ std::ostream& operator<<(std::ostream& out, const UMLAttribute& dt)
     out << dt;
     return out;
 }
-
+/*
 std::string to_string(UMLAttribute c)
 {
     std::ostringstream ss;
@@ -36,6 +36,7 @@ std::string to_string(UMLRelationship c)
     ss << *c;
     return ss.str();
 }
+*/
 
 //Prtint class will be used to print the name of a class given a UMLClass object
 //By using the get_class_name function from the UMLClass, it then prints the name of the Class given
@@ -72,6 +73,6 @@ void ConsoleView::PrintClassRelations(UMLRelationship x){
 //Using both the get_src_class and get_dest_class 
 //@Para: UMLRelationship OBJ
 void ConsoleView::PrintSourceandDest(UMLRelationship x){
-    std::cout << std::to_string(x.get_src_class().get_class_name()) << std::to_string(x->get_dest_class().get_class_name());
+    std::cout << x.get_src_class().get_class_name() << x.get_dest_class().get_class_name());
     
 }
