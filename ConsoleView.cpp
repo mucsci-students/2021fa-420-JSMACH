@@ -24,6 +24,13 @@ std::string to_string(UMLAttribute c)
     ss << c;
     return ss.str();
 }
+std::string to_string(UMLRelationship c)
+{
+    std::ostringstream ss;
+    ss << c;
+    return ss.str();
+}
+
 //Prtint class will be used to print the name of a class given a UMLClass object
 //By using the get_class_name function from the UMLClass, it then prints the name of the Class given
 //@Para: UMLClass OBJ
