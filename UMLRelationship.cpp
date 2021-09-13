@@ -1,10 +1,9 @@
 #include "UMLRelationship.h"
 #include <string>
 
-UMLRelationship::UMLRelationship(std::string name, UMLClass& src, UMLClass& dest){
-  this->RelationshipName=name;
-  this->ClassSrc= src;
-  this->ClassDest=dest;
+UMLRelationship::UMLRelationship(std::string name, UMLClass src, UMLClass dest)
+  : RelationshipName(name), ClassSrc(src), ClassDest (dest)
+{
 }
 
 auto UMLRelationship::get_relationship_name(){
