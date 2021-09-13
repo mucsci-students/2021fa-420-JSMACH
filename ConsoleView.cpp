@@ -49,5 +49,5 @@ void ConsoleView::PrintClassRelations(UMLRelationship x){
 //Using both the get_src_class and get_dest_class 
 //@Para: UMLRelationship OBJ
 void ConsoleView::PrintSourceandDest(UMLRelationship x){
-    std::cout << x.get_src_class()->get_class_name() << x.get_dest_class()->get_class_name();
+    std::cout << x.get_src_class() << x.get_dest_class();
 }
