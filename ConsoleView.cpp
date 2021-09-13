@@ -57,7 +57,7 @@ void ConsoleView::PrintClassName(UMLClass X){
 void ConsoleView::PrintClassAttribute(UMLClass x){
     std::vector<UMLAttribute> path=x.get_all_attributes(); //vector created 
     for (auto i: path)
-     std::cout <<std::to_string(i);
+     std::cout <<i;
     
 }
 
@@ -77,4 +77,3 @@ void ConsoleView::PrintSourceandDest(UMLRelationship x){
     std::cout << std::to_string(x.get_src_class().get_class_name()) << std::to_string(x->get_dest_class().get_class_name());
     
 }
-
