@@ -27,13 +27,13 @@ std::ostream& operator<<(std::ostream& out, const UMLAttribute& dt)
 std::string to_string(UMLAttribute c)
 {
     std::ostringstream ss;
-    ss << c;
+    ss << *c;
     return ss.str();
 }
 std::string to_string(UMLRelationship c)
 {
     std::ostringstream ss;
-    ss << c;
+    ss << *c;
     return ss.str();
 }
 
