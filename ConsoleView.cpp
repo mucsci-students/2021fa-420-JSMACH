@@ -3,7 +3,7 @@
 //for the user to call when they want to get information on 
 //a CLASS (or a list of all classes), RELATIONSHIP, or ATTRIBUTE
 
-std::ostream& ConsoleView::operator<<(std::ostream &out, UMLAttribute c)
+std::ostream& operator<<(std::ostream &out, UMLAttribute c)
 {
     out << c;
     return out;
@@ -11,7 +11,7 @@ std::ostream& ConsoleView::operator<<(std::ostream &out, UMLAttribute c)
 
 std::string to_string(UMLAttribute c)
 {
-    auto ss;
+    std::ostringstream ss;
     ss << c;
     return ss.str();
 }

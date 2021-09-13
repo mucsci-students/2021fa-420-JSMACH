@@ -43,8 +43,14 @@ public:
     //Print The current Soruce and Dest of the Relationship 
     //@para: UMLRelationship obj
     void PrintSourceandDest(UMLRelationship x);
-    
-    
+
+    //Had to overload the << operator to take our objects 
+    friend std::ostream& operator<<(std::ostream &out, UMLAttribute x);
+    friend std::ostream& operator<<(std::ostream &out, UMLClass x);
+
+    //turn objects into strings
+    std::string to_string(UMLAttribute x);
+
   
   
 };
