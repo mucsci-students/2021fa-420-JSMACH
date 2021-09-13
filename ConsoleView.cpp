@@ -30,7 +30,7 @@ std::ostream& operator<<(std::ostream &out, UMLRelationship c)
     out << c;
     return out;
 }
-*/
+
 
 std::string to_string(UMLAttribute c)
 {
@@ -46,6 +46,8 @@ void ConsoleView::PrintClassName(UMLClass X){
     std::cout<< X.get_class_name(); 
     
  }
+
+*/
 
 //PrintClassAttribute is used to print the names of the Attributes in a given UMLClass Object 
 // The attirbutes are stored in a vector so to print out each of the attributes in a class
