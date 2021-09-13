@@ -12,6 +12,11 @@ std::ostream& operator<<(std::ostream& out, const std::vector<UMLAttribute>& vec
     return out;
 }
 
+std::ostream& operator<<(std::ostream& out, const UMLAttribute& dt)
+{
+    out << dt
+    return out;
+}
 
 std::string to_string(UMLAttribute c)
 {
@@ -28,7 +33,7 @@ void ConsoleView::PrintClassName(UMLClass X){
     
  }
 
-*/
+
 
 //PrintClassAttribute is used to print the names of the Attributes in a given UMLClass Object 
 // The attirbutes are stored in a vector so to print out each of the attributes in a class

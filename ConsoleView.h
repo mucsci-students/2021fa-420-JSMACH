@@ -49,6 +49,7 @@ public:
     friend std::ostream& operator<<(std::ostream &out, UMLAttribute x);
     friend std::ostream& operator<<(std::ostream &out, UMLClass x);
     friend std::ostream& operator<<(std::ostream &out, UMLRelationship x);
+    friend std::ostream& operator<<(std::ostream &out, std::vector<UMLAttribute>& x);
 
     
     
