@@ -62,7 +62,8 @@ void ConsoleView::PrintClassName(UMLClass X){
 //@Para: UMLClass OBJ
 void ConsoleView::PrintClassAttribute(UMLClass x){
     std::vector<UMLAttribute> path=x.get_all_attributes(); //vector created 
-    std::cout << path;
+    for (auto iter : path)
+    std::cout << (*iter).get_class_name();
     
 }
 
