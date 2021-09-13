@@ -5,34 +5,10 @@
 
 
 
-std::ostream& operator<<(std::ostream& os, const std::vector<UMLAttribute>& vec) {
+std::ostream& operator<<(std::ostream& out, const std::vector<UMLAttribute>& vec) {
     for (auto& l : vec) {
         out << l << "  ";
     }
-    return out;
-}
-/* overloaded <<
-std::ostream& operator<<(std::ostream &out, UMLAttribute c)
-{
-    out << c;
-    return out;
-}
-
-std::ostream& operator<<(std::ostream &out, ClassDest c)
-{
-    out << c;
-    return out;
-}
-
-std::ostream& operator<<(std::ostream &out, ClassSrc c)
-{
-    out << c;
-    return out;
-}
-
-std::ostream& operator<<(std::ostream &out, UMLRelationship c)
-{
-    out << c;
     return out;
 }
 
