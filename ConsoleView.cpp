@@ -8,7 +8,7 @@
 std::ostream& operator<<(std::ostream& out, const std::vector<UMLAttribute>& vec) {
     
         out << vec;
-    }
+    
     return out;
 }
 
