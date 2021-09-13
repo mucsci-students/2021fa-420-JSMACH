@@ -6,8 +6,8 @@
 
 
 std::ostream& operator<<(std::ostream& out, const std::vector<UMLAttribute>& vec) {
-    for (auto& l : vec) {
-        out << l << "  ";
+    
+        out << vec;
     }
     return out;
 }
