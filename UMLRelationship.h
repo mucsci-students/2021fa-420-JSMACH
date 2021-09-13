@@ -16,7 +16,7 @@ class UMLRelationship {
 		~UMLRelationship();
 
 		std::string get_relationship_name();
-		UMLClass* get_src_class();
-		UMLClass* get_dest_class();
+		UMLClass get_src_class();
+		UMLClass get_dest_class();
 };
 #endif
