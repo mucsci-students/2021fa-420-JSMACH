@@ -7,14 +7,14 @@
 
 std::ostream& operator<<(std::ostream& out, const std::vector<UMLAttribute>& vec) {
     
-        out << vec;
+    out << vec;
     
     return out;
 }
 
 std::ostream& operator<<(std::ostream& out, const UMLAttribute& dt)
 {
-    out << dt
+    out << dt;
     return out;
 }
 
