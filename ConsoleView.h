@@ -9,6 +9,7 @@
 #include <iostream>
 #include <algorithm>
 #include <iterator>
+#include <sstream>
 
 /*
     The ConsoleView is responsible for displaying information to the user.
