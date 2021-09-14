@@ -4,12 +4,11 @@
 #include "UMLAttribute.h"
 #include "UMLClass.h"
 #include "UMLRelationship.h"
+#include "UMLModel.h"
 #include <vector>
 #include <list>
 #include <iostream>
 #include <algorithm>
-#include <iterator>
-#include <sstream>
 
 /*
     The ConsoleView is responsible for displaying information to the user.
@@ -19,7 +18,9 @@ class ConsoleView
 {
 
 public:
-    ConsoleView();
+    std::string Name;
+    ConsoleView(std:: string);
+    
   
     
     
@@ -45,19 +46,11 @@ public:
     //@para: UMLRelationship obj
     void PrintSourceandDest(UMLRelationship x);
 
-    //Had to overload the << operator to take our objects 
-    friend std::ostream& operator<<(std::ostream &out, UMLAttribute x);
-    friend std::ostream& operator<<(std::ostream &out, UMLClass x);
-    friend std::ostream& operator<<(std::ostream &out, UMLRelationship x);
-    friend std::ostream& operator<<(std::ostream &out, std::vector<UMLAttribute>& x);
+    //Print All the classes stored in the model
+    //@para: UMLMODEL
+    void Print_All_Classes(UMLModel x);
 
     
-    
-    //turn objects into strings
-    std::string to_string(UMLAttribute x);
-    std::string to_string(UMLRelationship x);
-    std::string to_string(UMLClass x);
-
   
   
 };
