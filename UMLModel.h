@@ -21,6 +21,10 @@ class UMLModel {
         // Duplicates should not be allowed in this list.
         // Any insert/deletions to this list should go through the add/remove methods.
         std::list <UMLClass> AllClasses;
+
+        //Contains all current existing relationships
+        //Relationship must have name, source, destination
+        //No duplicate names allowed
         std::list <UMLRelationship> AllRelationships;
 
         // Internal method for getting an iterator to the class in the model by name.
@@ -63,7 +67,9 @@ class UMLModel {
 
         bool delete_relationship(std::string relationshipName);
 
-        const std::list <UMLRelationship> get_all_relationships();
+        const std::list <UMLRelationship> get_class_relationships();
+        
+
 
 };
 
