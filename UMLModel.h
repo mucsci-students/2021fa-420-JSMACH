@@ -21,6 +21,7 @@ class UMLModel {
         // Duplicates should not be allowed in this list.
         // Any insert/deletions to this list should go through the add/remove methods.
         std::list <UMLClass> AllClasses;
+        std::list <UMLRelationship> AllRelationships;
 
         //Contains all current existing relationships
         //Relationship must have name, source, destination
