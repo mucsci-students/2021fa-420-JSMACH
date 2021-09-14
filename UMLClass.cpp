@@ -3,14 +3,13 @@
 
 UMLClass::~UMLClass(){}	
 
-UMLClass::UMLClass(std::string name){
-	this->ClassName = name;
-}
+UMLClass::UMLClass(std::string name)
+	: ClassName (name)
+{}
 
-UMLClass::UMLClass(std::string name, std::vector<UMLAttribute> attributes) {
-	this->ClassName = name;
-	this->ClassAttributes = attributes;
-}
+UMLClass::UMLClass(std::string name, std::vector<UMLAttribute> attributes)
+	: ClassName (name), ClassAttributes (attributes)
+{}
 
 std::string UMLClass::get_class_name() {
 	return this->ClassName;
