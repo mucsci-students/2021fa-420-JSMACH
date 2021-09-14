@@ -63,13 +63,16 @@ class UMLModel {
 
         bool does_relationship_exist(std::string relationshipName);
 
-        bool add_relationship(std::string relationshipName, UMLClass& src, UMLClass& dest);
+        bool add_relationship(std::string relationshipName, UMLClass src, UMLClass dest);
 
-        bool delete_relationship(std::string relationshipName);
+        bool remove_relationship(std::string relationshipName);
 
-        const std::list <UMLRelationship> get_class_relationships();
+        const std::list <UMLRelationship> get_class_relationships(std::string className);
         
-
+        // Returns relationship object by name
+        // Will return an empty relationship object if it doesnt exist, which
+        // may result in undesired behavior! Call does_relationship_exist first! :)
+        const UMLRelationship get_relationship_by_name(std::string relationshipName);
 
 };
 
