@@ -15,8 +15,9 @@
     `pip3 install cmake`
 
 3. Navigate to the project root (Should have a CMakeLists.txt file in it)
-4. `cmake . .`
-5. If cmake compiled with Visual Studio, then you should have a .sln file that you can compile using either Visual Studio or using the Visual Studio Developer Command Prompt with 
+4. `conan install .`
+5. `cmake . .`
+6. If cmake compiled with Visual Studio, then you should have a .sln file that you can compile using either Visual Studio or using the Visual Studio Developer Command Prompt with 
 
     ```cl /EHsc main.cpp```
 
