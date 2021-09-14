@@ -3,6 +3,7 @@
 ### Dependencies:
 
 - CMake (version 3.17.0 minimum)
+- Conan package manager
 
 ### Instructions:
 
