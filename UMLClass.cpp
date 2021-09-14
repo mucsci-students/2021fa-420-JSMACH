@@ -3,6 +3,8 @@
 
 UMLClass::~UMLClass(){}	
 
+UMLClass::UMLClass(){}
+
 UMLClass::UMLClass(std::string name)
 	: ClassName (name)
 {}
@@ -27,7 +29,7 @@ bool UMLClass::operator==(const UMLClass& u) const
 {
 	return ClassName == u.ClassName;
 }
-
+/*
 void to_json(json& j, const UMLClass& uc)
 {
 	j = json {{"name", uc.get_class_name()}, {"attributes", uc.get_all_attributes()}};
@@ -37,3 +39,4 @@ void from_json(json& j, const UMLClass& uc)
 {
 
 }
+*/

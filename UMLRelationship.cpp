@@ -2,6 +2,8 @@
 #include "UMLClass.h"
 #include <string>
 
+UMLRelationship::UMLRelationship(){};
+
 UMLRelationship::UMLRelationship(std::string name, UMLClass src, UMLClass dest)
   : RelationshipName(name), ClassSrc(src), ClassDest (dest)
 {
@@ -18,14 +20,3 @@ UMLClass UMLRelationship::get_src_class() const {
 UMLClass UMLRelationship::get_dest_class() const {
   return this->ClassDest;
 }
-
-void to_json(json& j, const UMLRelationship& ur)
-{
-  j = json{{"name", ur.get_relationship_name()}, {"src_class", ur.get_src_class()}, {"dest_class", ur.get_dest_class()}};
-}
-
-void from_json(json& j, const UMLRelationship& ur)
-{
-  
-};
-  

@@ -15,6 +15,7 @@ class UMLClass{
 		std::vector<UMLAttribute> ClassAttributes;
 
 	public:
+		UMLClass();
 		UMLClass(std::string name);
 		UMLClass(std::string name, std::vector<UMLAttribute> attributes);
 		~UMLClass();
@@ -28,8 +29,10 @@ class UMLClass{
 
 		bool operator==(const UMLClass& u) const;
 
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(UMLClass, ClassName, ClassAttributes);
+
 };
 
-void to_json(json& j, const UMLClass& uc);
-void from_json(json& j, const UMLClass& uc);
+//void to_json(json& j, const UMLClass& uc);
+//void from_json(json& j, const UMLClass& uc);
 #endif
