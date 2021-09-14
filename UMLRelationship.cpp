@@ -1,18 +1,21 @@
 #include "UMLRelationship.h"
+#include "UMLClass.h"
 #include <string>
+
 
 UMLRelationship::UMLRelationship(std::string name, UMLClass src, UMLClass dest)
   : RelationshipName(name), ClassSrc(src), ClassDest (dest)
 {
 }
 
-auto UMLRelationship::get_relationship_name(){
+UMLRelationship::~UMLRelationship(){};
+
+std::string UMLRelationship::get_relationship_name() const {
   return this->RelationshipName;
 }
-auto UMLRelationship::get_src_class(){
+UMLClass UMLRelationship::get_src_class() const {
   return this->ClassSrc;
 }
-auto UMLRelationship:: get_dest_class(){
+UMLClass UMLRelationship::get_dest_class() const {
   return this->ClassDest;
 }
-  
