@@ -93,3 +93,95 @@ const std::list <std::string> UMLModel::get_all_class_names()
 
     return result;
 }
+
+std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_name(std::string relationshipName){
+    if(AllRelationships.empty())
+    {
+        return AllRelationships.end();
+    } 
+    else 
+    {
+        for (auto i = AllRelationships.begin() ; i != AllRelationships.end() ; i++)
+        {
+            if((*i).get_relationship_name() == relationshipName)
+            {
+                return i;
+            }
+        }
+        return AllRelationships.end();
+    }
+}
+ 
+ bool UMLModel::does_relationship_exist(std::string relationshipName)
+ {
+     return get_relationship_iter_by_name(relationshipName) != AllRelationships.end();
+ }
+
+ bool UMLModel::add_relationship(std::string name, UMLClass src, UMLClass dest)
+ {
+     if (does_relationship_exist(name))
+     {
+        return false;
+     } 
+     else
+     {
+         //both source and destination class must exist for relationship to be created
+         if (does_class_exist(src.get_class_name()) && does_class_exist(dest.get_class_name())){
+
+            UMLRelationship newRelationship {name, src, dest};
+            AllRelationships.push_back(newRelationship);
+            return true;
+         }
+         else 
+         {
+             return false;
+         }
+     }
+     
+
+}
+
+ bool UMLModel::remove_relationship(std::string relationshipName)
+ {
+     auto i = get_relationship_iter_by_name(relationshipName);
+     if (i == AllRelationships.end())
+     {
+         return false;
+     }
+     else 
+     {
+         AllRelationships.erase(i);
+         return true;
+     }
+}
+
+ const std::list <UMLRelationship> UMLModel::get_class_relationships(std::string className)
+ {
+     std::list <UMLRelationship> result;
+
+     if (does_class_exist(className))
+     {
+         for (auto i = AllRelationships.begin() ; i != AllRelationships.end() ; i++)
+         {
+             if ((*i).get_src_class() == className || (*i).get_dest_class() == className)
+             {
+                 result.push_back(*i);
+             }
+         }
+     }
+     return result;
+}
+/*
+const UMLRelationship get_relationship_by_name(std::string relationshipName)
+{
+    if(does_relationship_exist(relationshipName))
+    {
+        return *(get_relationship_iter_by_name(relationshipName));
+    }
+    else
+    {
+        UMLRelationship empty;
+        return empty;
+    }
+}
+*/

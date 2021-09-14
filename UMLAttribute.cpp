@@ -2,6 +2,7 @@
 #include <string>
 #include "UMLClass.h"
 
+
 UMLAttribute::UMLAttribute(){};
 
 UMLAttribute::UMLAttribute(std::string name)
