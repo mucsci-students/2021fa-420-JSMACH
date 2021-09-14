@@ -21,7 +21,6 @@ class UMLModel {
         // Duplicates should not be allowed in this list.
         // Any insert/deletions to this list should go through the add/remove methods.
         std::list <UMLClass> AllClasses;
-        std::list <UMLRelationship> AllRelationships;
 
         //Contains all current existing relationships
         //Relationship must have name, source, destination
@@ -32,6 +31,8 @@ class UMLModel {
         std::list<UMLClass>::iterator get_class_iter_by_name(std::string className);
 
         std::list<UMLRelationship>::iterator get_relationship_iter_by_name(std::string relationshipName);
+
+        friend class JSONFileSys;
         
     public:
 
