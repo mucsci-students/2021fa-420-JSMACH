@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED Off)
 
 add_executable(jsmach_uml)
-target_sources(jsmach_uml PUBLIC main.cpp "UMLClass.cpp" "ConsoleView.cpp" "UMLRelationship.cpp")
+target_sources(jsmach_uml PUBLIC main.cpp "UMLClass.cpp" "UMLRelationship.cpp" "UMLAttribute.cpp" "UMLModel.cpp")
 
 # eventually when you have libraries/dependences
 #   find_package(<LibraryName> REQUIRED)
