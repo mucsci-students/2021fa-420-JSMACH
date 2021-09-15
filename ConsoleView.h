@@ -20,28 +20,28 @@ class ConsoleView
 public:
     // PrintClass Name will be used to Print the names of the class being passed by the user
     //@ Para: UMLClass object 
-    void Print_Class_Name(UMLClass X);
+    void print_class_Nname(UMLClass X);
     
     //PrintClass Attribute will Print a List of Attributes which are stored in the specified class
     //@Para: UMLClass Object  
-    void Print_Class_Attribute(UMLClass X);
+    void print_class_attribute(UMLClass X);
     
     //PrintClassRelations will Print the current list of Relationships the class being passed has
     //@para: UmlClass Obj
-    void Print_Class_Relations(UMLRelationship X);
+    void print_class_relations(UMLRelationship X);
     
     //PrintListofClass will Print out the list of classes currently in the Model
     //@para: list<string> 
-    void Print_All_Classes(std::list<std::string> x);
+    void print_all_classes(std::list<std::string> x);
     
     
     //Print The current Soruce and Dest of the Relationship 
     //@para: UMLRelationship obj
-    void Print_Source_and_Dest(UMLRelationship x);
+    void [rint_source_and_dest(UMLRelationship x);
 
     //Print All the classes stored in the model
     //@para: UMLMODEL
-    void Print_All_Classes(UMLModel x);
+    void print_all_classes(UMLModel x);
 
     
   
