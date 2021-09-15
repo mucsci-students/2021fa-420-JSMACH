@@ -1,6 +1,6 @@
 /**
  * @file UMLController.cpp
- * @author Matt Giacoponello
+ * @author Matt Giacoponello, Joshua Carney
  * @brief 
  * @version 0.1
  * @date 2021-09-09
@@ -72,26 +72,18 @@ void UMLController::execute()
     //Checks for different commands
     if (userInput == "help")
       print_command_list();
-
     else if(userInput == "list_classes")
       list_classes();
-    
     else if(userInput == "list_relationships")
-
       list_relationships();
-    
     else if(userInput == "create_class")
       create_class();
-    
     else if(userInput == "create_relationship")
       create_relationship();
-
     else if(userInput == "delete_class")
       delete_class();
-      
     else if(userInput == "delete_relationship")
       delete_relationship();
-
     else if (userInput == "exit")
       cout << "\n";
     else
