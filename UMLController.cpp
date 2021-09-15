@@ -79,13 +79,13 @@ void UMLController::execute()
       list_classes();
     
     else if(userInput == "list_relationships")
-      listRelationships();
+      list_relationships();
     
     else if(userInput == "create_class")
-      createClass();
+      create_class();
     
     else if(userInput == "create_relationship")
-      createRelationship();
+      create_relationship();
 
     else if(userInput == "delete_class")
       deleteClass();
@@ -134,28 +134,21 @@ void UMLController::print_command_list()
  */
 void UMLController::list_classes()
 {
-  std::list<string> ClassList = Model.get_all_class_names();
+  std::list<string> classList = Model.get_all_class_names();
 
 
   //if no classes, error message.
-  if (ClassList.size() == 0)
+  if (classList.size() == 0)
     cout << "You have no classes.\n";
   
   //else iterate through the collection of classes and list them all.
   else
   {
-    //The compiler was angry at me for making a for each loop, so I turned it back into a standard for loop.
-    for(long unsigned i = 0; i < ClassList.size(); i++)
+    for(auto iter = classList.begin(); iter != classList.end(); iter++)
     {
-      cout << Classes[i];
-      
-      //'if statement' fixes fencepost issue
-      if (i < Classes.size() - 1)
-        cout << ", ";
+      cout << "-->" << (*iter) << std::endl;
     }
   }
-
-  cout << "\n";
 }
 
 /*************************/
@@ -164,18 +157,20 @@ void UMLController::list_classes()
  * @brief Lists all relationships the user has created.
  * 
  */
-void listRelationships()
+void list_relationships()
 {
-  if (Relships.size() == 0)
+  std::list <UMLRelationship> allRelationships = Model.get_all_relationships();
+  if (allRelationships.size() == 0)
     cout << "You have no relationships.\n";
 
   else
   {
-    cout <<   "SOURCE : DESTINATION\n";
-
-    for(string& i: Relships)
+    for(auto iter = allRelationships.begin(); iter != allRelationships.end(); iter++)
     {
-      cout << i << "\n";
+      UMLRelationship currentRel = *iter;
+      cout << "NAME: " << currentRel.get_relationship_name(); << std::endl;
+      cout << "\tSOURCE: " << currentRel.get_src_class().get_class_name() << std::endl;
+      cout << "\tDESTINATION: " << currentRel.get_src_class().get_class_name() << std::endl;
     }
   }
   
@@ -184,106 +179,41 @@ void listRelationships()
 /*************************/
 
 /**
- * @brief The user is prompted to name the class (15 characters max)
+ * @brief The user is prompted to name the class
  * and then it pushes the class into the vector.
  * 
  */
-void createClass()
+void create_class()
 {
-  bool tryAgain;
-  string user_input; 
-  cout << "Choose a name for your class. (15 characters max)\n\nclass> ";
-  cin >> user_input;
+  UMLClass newClass;
 
-  //if user input exceeds 15 characters
-  if (user_input.length() > 15)
+  string userInputClassName;
+  cout << "Choose a name for your class -> ";
+  cin >> userInputClassName;
+
+  if(Model.does_class_exist(userInputClassName))
   {
-    cout << "\nWhat part of \"15 characters max\" don\'t you understand???\n";
-    tryAgain = continuePrompt("class> ");
-    
-    if(tryAgain)
-      createClass();
-    
-    return; 
+    cout << "That class name already exists. Aborting." << std::endl
+    return;
   }
-  //if the class name is <= 15 characters
-  else
+
+  int attributeCount;
+  cout << "How many attributes would you like to start with? -> ";
+  cin >> attributeCount;
+  for(int i = 0; i < attributeCount; i++)
   {
-    bool letterFirst = false;
-    bool alphaNumeric = false;
-
-    vector<char> alphabetCheck = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-    'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-
-    vector<char> numCheck = {'0','1','2','3','4','5','6','7','8','9'};
-
-    //First, checks to see if first character of class name is a letter
-    for (long unsigned int i = 0; i < alphabetCheck.size(); i++)
+    string attributeName;
+    cout << "What would you like to name your attribute? -> ";
+    cin >> attributeName;
+    UMLAttribute newAttribute {attributeName};
+    if(!newClass.add_attribute(newAttribute))
     {
-      if (user_input[0] == alphabetCheck[i])
-      {
-        letterFirst = true;
-        break;
-      }
-    }
-    
-    //Iterates through each character of the parsed input and checks if it's a letter or number.
-    for(long unsigned int i = 1; i < user_input.size(); i++)
-    {
-      alphaNumeric = false;
-
-      //checks for letters
-      for(long unsigned int j = 0; j < alphabetCheck.size(); j++)
-      {
-        if (user_input[i] == alphabetCheck[j])
-        {
-          alphaNumeric = true;
-          break;
-        }
-      }
-      
-      if(!alphaNumeric)
-      {
-        //checks for numbers
-        for (long unsigned int j = 0; j < numCheck.size(); j++)
-        {
-          if (user_input[i] == numCheck[j])
-          {
-            alphaNumeric = true;
-            break;
-          }
-        }
-      }
-    }
-   
-    if (letterFirst && alphaNumeric)
-    {
-      //Checks for duplicate classes
-      bool dupCheck = searchVector(user_input, Classes);
-      if (!dupCheck)
-      {
-        Classes.push_back(user_input);
-        cout << "You created a new class called \"" << user_input << "\"\n";
-      }
-      else
-      {
-        cout << user_input << " already exists. Try something new.\n";
-        tryAgain = continuePrompt("class> ");
-        
-        if(tryAgain)
-          createClass(); 
-      }
-      
-    } 
-    else
-    {
-      cout << "Invalid class name. Your classes must start with a letter, and all characters must be alpha-numeric.\n";
-      tryAgain = continuePrompt("class> ");
-    
-      if(tryAgain)
-        createClass(); 
+      cout << "That attribute name was not valid (duplicate attribute)"
+      i--;
     }
   }
+
+  Model.add_class(newClass.get_class_name(), newClass.get_all_attributes());
 }
 
 /*************************/
@@ -296,64 +226,21 @@ void createClass()
  * only need to try again with the destination.
  * 
  */
-void createRelationship()
+void create_relationship()
 {
-  string source;
-  string destination;
-  string cmdLine = "relship> ";
-  
+  string sourceClassName;
+  string destinationClassName;
+  string relationshipName;
+  bool srcValid = false;
+  bool destValid = false;
+  bool relNameValid = false;
 
+  cout << "Type in a class name you'd like to use for the source -> "
 
-  cout << "Type in a class name you'd like to use for the source.\n" << cmdLine;
-  cin >> source;
-
+  cout << "Type in a class name you'd like to use for the source -> "
+  cin >> sourceClassName
+  if(Model.does_class_exist(sourceClassName))
   
-  if (!searchVector(source,Classes))
-  {
-    cout << "Error! The class you typed does not exist.\n";
-    if(continuePrompt(cmdLine))
-    {
-      createRelationship();
-      return;
-    }
-  }
-  
-  bool failCase = false;
-  do
-  {
-    if (failCase)
-    {
-      cout << "Error! The class you typed does not exist!\n";
-      if(!continuePrompt(cmdLine))
-        return;
-    }
-    else if (source == destination)
-    {
-      cout << "Error! You can't have a relationship between a class and itself!\n";
-      if (!continuePrompt(cmdLine))
-        return;
-    }
-    
-    cout << "Type in a class name you'd like to use for the destination.\n" << cmdLine;
-    cin >> destination;
-    failCase = true;
-  } while (!searchVector(destination, Classes) && source != destination);
-
-  
-  string newRelship = "[" + source + " -> " + destination + "]";
-  
-  if(searchVector(newRelship, Relships))
-  {
-    cout << "This relationship already exists.\n";
-    if (continuePrompt(cmdLine))
-      createRelationship();
-  }
-  else
-  {
-    Relships.push_back(newRelship);
-    cout << "You created a new relationship:\n"
-    << newRelship << "\n";
-  }
 }
 
 /*************************/

@@ -14,6 +14,9 @@
 //include statements
 
 #include "UMLModel.h"
+#include "UMLRelationship.h"
+#include "UMLClass.h"
+#include "UMLAttribute.h"
 #include <iostream>
 #include <vector>
 #include <string.h>
@@ -62,11 +65,11 @@ class UMLController
 
         void list_classes();
 
-        void listRelationships();
+        void list_relationships();
 
-        void createClass();
+        void create_class();
 
-        void createRelationship();
+        void create_relationship();
 
         void deleteClass();
 
