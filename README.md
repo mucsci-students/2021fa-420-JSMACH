@@ -2,6 +2,7 @@
 
 ### Dependencies:
 
+- Python3
 - CMake (version 3.17.0 minimum)
 - Conan package manager
 
@@ -10,9 +11,10 @@
 [![C/C++ CI](https://github.com/mucsci-students/2021fa-420-JSMACH/actions/workflows/realmain.yml/badge.svg)](https://github.com/mucsci-students/2021fa-420-JSMACH/actions/workflows/realmain.yml)
 
 1. Clone repo to desired local folder
-2. Run this command: 
+2. Run these commands: 
 
     `pip3 install cmake`
+    `pip3 install conan`
 
 3. Navigate to the project root (Should have a CMakeLists.txt file in it)
 4. `conan install .`
