@@ -33,32 +33,14 @@ using std::vector;
 class UMLController
 {
     private:
-
-        vector<string> Relships;
-  
-        vector<string> Classes;
-        
         UMLModel Model;
-        //Helper Prototypes
-
-        bool continuePrompt(string commandLine);
-
-        long unsigned int searchVectorIndex(string input, vector<string> collection);
-
-        bool searchVector(string input, vector<string> collection);
-
-        string sourceParse(string relship);
-
-        string destParse(string relship, long unsigned int index);
-
-        bool search_in_relship(string Class, int option);
+        // The view will also eventually go here
 
     public:
-        UMLController(/* args */);
+        UMLController();
         UMLController(UMLModel newModel);
         ~UMLController();
-        
-
+    
         void execute();
 
         void print_command_list();
@@ -71,9 +53,10 @@ class UMLController
 
         void create_relationship();
 
-        void deleteClass();
+        void delete_relationship();
 
-        void deleteRelationship();
+        void delete_class();
+
 };
 
 

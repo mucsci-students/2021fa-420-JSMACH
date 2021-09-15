@@ -35,25 +35,19 @@ using std::vector;
 /***********************************************************/
 //Constructor
 
+UMLController::UMLController()
+{}
+
 UMLController::UMLController(UMLModel newModel)
   : Model(newModel)
 {}
 
+UMLController::~UMLController()
+{}
+
 /***********************************************************/
 //Functions
-
-int main()
-{
-  cout << "Type \"help\" for the list of commands.\n";
-  cout << "Type \"exit\" to quit your current session.\n";
-  
-  execute();
-
-  return 0;
-}
-
-
-/*************************/
+/***********************************************************/
 
 /**
  * @brief Takes in user input and does string comparisons to see if the user typed
@@ -63,6 +57,8 @@ int main()
  */
 void UMLController::execute()
 {
+  cout << "Type \"help\" for the list of commands.\n";
+  cout << "Type \"exit\" to quit your current session.\n";
   string userInput;
 
   do 
@@ -88,10 +84,10 @@ void UMLController::execute()
       create_relationship();
 
     else if(userInput == "delete_class")
-      deleteClass();
+      delete_class();
       
     else if(userInput == "delete_relationship")
-      deleteRelationship();
+      delete_relationship();
 
     else if (userInput == "exit")
       cout << "\n";
@@ -103,7 +99,7 @@ void UMLController::execute()
   } while (userInput != "exit");
   
   //This is when the user quits their current session. But I figured I'd make it a little more interesting...  >:D
-  cout << "YOU DIED\n";
+  cout << "See ya\n";
 }
 
 /*************************/
@@ -118,7 +114,7 @@ void UMLController::print_command_list()
 {
   cout << "COMMANDS:\n\n" 
     << "list_classes        : Lists all classes the user has created.\n"
-    << "list_relaionships   : Lists all relationships created by the user. (e.g. [source -> destination])\n"
+    << "list_relationships   : Lists all relationships created by the user. (e.g. [source -> destination])\n"
     << "create_class        : User will be prompted to name the class, and then it\'ll be created.\n"
     << "create_relationship : User will be prompted to type in a source class and a destination class.\n"
     << "delete_class        : User will be prompted to type the name of the class they\'d like to delete.\n"
@@ -136,7 +132,6 @@ void UMLController::list_classes()
 {
   std::list<string> classList = Model.get_all_class_names();
 
-
   //if no classes, error message.
   if (classList.size() == 0)
     cout << "You have no classes.\n";
@@ -146,7 +141,7 @@ void UMLController::list_classes()
   {
     for(auto iter = classList.begin(); iter != classList.end(); iter++)
     {
-      cout << "-->" << (*iter) << std::endl;
+      cout << "--> " << (*iter) << std::endl;
     }
   }
 }
@@ -157,7 +152,7 @@ void UMLController::list_classes()
  * @brief Lists all relationships the user has created.
  * 
  */
-void list_relationships()
+void UMLController::list_relationships()
 {
   std::list <UMLRelationship> allRelationships = Model.get_all_relationships();
   if (allRelationships.size() == 0)
@@ -168,22 +163,20 @@ void list_relationships()
     for(auto iter = allRelationships.begin(); iter != allRelationships.end(); iter++)
     {
       UMLRelationship currentRel = *iter;
-      cout << "NAME: " << currentRel.get_relationship_name(); << std::endl;
+      cout << "NAME: " << currentRel.get_relationship_name() << std::endl;
       cout << "\tSOURCE: " << currentRel.get_src_class().get_class_name() << std::endl;
-      cout << "\tDESTINATION: " << currentRel.get_src_class().get_class_name() << std::endl;
+      cout << "\tDESTINATION: " << currentRel.get_dest_class().get_class_name() << std::endl;
     }
   }
   
 }
-
-/*************************/
 
 /**
  * @brief The user is prompted to name the class
  * and then it pushes the class into the vector.
  * 
  */
-void create_class()
+void UMLController::create_class()
 {
   UMLClass newClass;
 
@@ -193,9 +186,11 @@ void create_class()
 
   if(Model.does_class_exist(userInputClassName))
   {
-    cout << "That class name already exists. Aborting." << std::endl
+    cout << "That class name already exists. Aborting." << std::endl;
     return;
   }
+
+  newClass.set_class_name(userInputClassName);
 
   int attributeCount;
   cout << "How many attributes would you like to start with? -> ";
@@ -208,12 +203,19 @@ void create_class()
     UMLAttribute newAttribute {attributeName};
     if(!newClass.add_attribute(newAttribute))
     {
-      cout << "That attribute name was not valid (duplicate attribute)"
+      cout << "That attribute name was not valid (duplicate attribute)" << std::endl;
       i--;
     }
   }
 
-  Model.add_class(newClass.get_class_name(), newClass.get_all_attributes());
+  if(Model.add_class(newClass))
+  {
+    cout << "Successfully added new class " << userInputClassName << std::endl;
+  }
+  else
+  {
+    cout << "Something went wrong when adding the new class " << userInputClassName << std::endl;
+  }
 }
 
 /*************************/
@@ -226,326 +228,102 @@ void create_class()
  * only need to try again with the destination.
  * 
  */
-void create_relationship()
+void UMLController::create_relationship()
 {
+  if(Model.get_all_class_names().size() < 2)
+  {
+    cout << "There are less than two classes in the currently running program. Please add at least two classes. Aborting. " << std::endl;
+    return;
+  }
+
   string sourceClassName;
   string destinationClassName;
   string relationshipName;
+  UMLClass srcClass;
+  UMLClass destClass;
   bool srcValid = false;
   bool destValid = false;
   bool relNameValid = false;
 
-  cout << "Type in a class name you'd like to use for the source -> "
-
-  cout << "Type in a class name you'd like to use for the source -> "
-  cin >> sourceClassName
-  if(Model.does_class_exist(sourceClassName))
-  
-}
-
-/*************************/
-
-/**
- * @brief 
- * 
- */
-void deleteRelationship()
-{
-  string source;
-  string destination;
-  string cmdLine = "-relship> ";
-  cout << "Enter the source of the relationship you\'d like to delete.\n" << cmdLine;
-  cin >> source;
-
-  if (!search_in_relship(source, 1))
+  do
   {
-    cout << "This class is not a source.\n";
-    if(continuePrompt(cmdLine))
+    cout << "Type in a class name you'd like to use for the source -> ";
+    cin >> sourceClassName;
+    if(!Model.get_class_by_name(sourceClassName, srcClass))
     {
-      deleteRelationship();
-      return;
-    }
-  }
-  else
-  {
-    bool failCase = false;
-    do{
-      
-      if (failCase)
-      {
-        cout << "This class is not a destination.\n";
-        if(!continuePrompt(cmdLine))
-          return;
-      }
-
-      cout << "Enter the destination of the relationship you\'d like to delete.\n" << cmdLine;
-      cin >> destination;
-      failCase = true;
-
-    }while(!search_in_relship(destination, 2));
-    
-    string testRelship = "[" + source + " -> " + destination + "]";
-    
-    long unsigned int index = searchVectorIndex(testRelship, Relships);
-    if ((int) index == -1)
-    {
-      cout << "Error! The relationship " << testRelship <<  " was not found.\n";
-      if(continuePrompt(cmdLine))
-      {
-        deleteRelationship();
-        return;
-      }
+      cout << "No such class " << sourceClassName << std::endl;
     }
     else
     {
-      Relships.erase(Relships.begin() + index);
-      cout << "The relationship " << testRelship << " has been deleted.\n";
+      srcValid = true;
     }
-
-  }
-
+  } while (!srcValid);
+  
+  do
+  {
+    cout << "Type in a class name you'd like to use for the destination -> ";
+    cin >> destinationClassName;
+    if(!Model.get_class_by_name(destinationClassName, destClass))
+    {
+      cout << "No such class " << destinationClassName << std::endl;
+    }
+    else
+    {
+      destValid = true;
+    }
+  } while (!destValid);
+  
+  do
+  {
+    cout << "Type in a name for the new relationship between the classes -> ";
+    cin >> relationshipName;
+    if(Model.does_relationship_exist(relationshipName))
+    {
+      cout << "Relationship already exists within the program." << std::endl;
+    }
+    else
+    {
+      relNameValid = true;
+    }
+  } while (!relNameValid);
+  
+  if(Model.add_relationship(relationshipName, srcClass, destClass))
+    cout << "Add successful!" << std::endl;
+  else
+    cout << "Adding somehow failed." << std::endl;
+  
 }
 
-/*************************/
+void UMLController::delete_relationship()
+{
+  string relationshipName;
+  cout << "Enter a relationship name to be deleted: " << std::endl;
+  cin >> relationshipName;
+  if(Model.remove_relationship(relationshipName))
+  {
+    cout << "Relationship was successfully deleted" << std::endl;
+  }
+  else
+  {
+    cout << "Relationship name did not exist. Aborting." << std::endl;
+  }
+}
 
 /**
  * @brief 
  * 
  */
-void deleteClass()
+void UMLController::delete_class()
 {
-  string input;
-  string cmdLine = "-class> ";
-  cout << "Type the name of the class you'd like to delete.\n" << cmdLine;
-  cin >> input;
-
-  if (!searchVector(input, Classes))
+  string className;
+  cout << "Enter class name to be deleted: " << std::endl;
+  cin >> className;
+  if(Model.remove_class(className))
   {
-    cout << "Error! The class you typed does not exist!\n";
-    if (continuePrompt(cmdLine))
-      deleteClass();
-      
-    return;
-  }
-  vector<long unsigned int> TargetIndexes;
-  if (Relships.size() != 0)
-  {
-    for(long unsigned int i; i < Relships.size(); i++)
-    {
-      string source = sourceParse(Relships[i]);
-      if (input == source)
-      {
-        TargetIndexes.push_back(i);
-      }
-      //It's +5 because that's the amount of iterations needed to surpass
-      //the spaces and the arrow.
-      else if (input == destParse(Relships[i], source.size() + 5))
-      {
-        TargetIndexes.push_back(i);
-      }
-    }
-
-    if(TargetIndexes.size() != 0)
-    {
-      cout << "WARNING! This class is a member of the following relationships:\n";
-      for (long unsigned int i; i < TargetIndexes.size(); i++)
-      {
-        cout << Relships[TargetIndexes[i]] << "\n";
-      }
-      cout << "Deleting this class will also delete these relationships.\n"
-      << "Do you wish to proceed?\n";
-      do
-      {
-        cout << "Type \"y\" to proceed or \"n\" to cancel.\n" << cmdLine;
-        cin >> input;
-      } while (input != "y" || input != "n");
-      
-      for (long unsigned int i; i < TargetIndexes.size(); i++)
-      {
-        Relships.erase(Relships.begin() + TargetIndexes[i]);
-      }
-      cout << "The relationship(s) have been deleted.\n";
-      
-    }
-  }
-  long unsigned int index = searchVectorIndex(input, Classes);
-  
-  Classes.erase(Classes.begin() + index);
-  cout << "The class \"" << input << "\" has been deleted.\n";
-}
-
-
-
-
-
-/***********************************************************/
-//Helper Functions
-
-/**
- * @brief Depending on the user's stubbornness and/or stupidity, the user will be prompted over and over
- * again until he/she FINALLY types "y" or "n".
- * 
- * @param commandLine 
- * @return true 
- * @return false 
- */
-bool continuePrompt(string commandLine)
-{
-  string user_input;
-
-  cout << "Type \"y\" to try again, or \"n\" to quit.\n\n" << commandLine;
-  cin >> user_input;
-  
-  while (1) 
-  {
-      
-    if (user_input == "y"){
-      return true;
-    }
-    else if (user_input == "n"){
-      return false;
-    }
-    else{ // if the user doesn't type "y" or "n"
-
-      
-      cout << "Bruh! Your instructions could not possibly be any more clear!\n" 
-      << "Type \"y\" to try again, or \"n\" to quit!\n\n" 
-      << commandLine;
-      cin >> user_input;
-    }
-  }
-}
-
-
-
-
-/**
- * @brief Searches the vector of classes to see if any of the classes match the user input.
- * If found, returns the index number. If not found, returns -1.
- * 
- * @param input 
- * @return long unsigned int 
- */
-long unsigned int searchVectorIndex(string input, vector<string> collection)
-{
-  for(long unsigned int i = 0; i < collection.size(); i++)
-  {
-    if (collection[i] == input)
-      return i;      
-  }
-  return -1;
-}
-
-
-
-
-/**
- * @brief Searches the vector of classes to see if any of the classes match the user input.
- * if found, returns true. If not found, returns false.
- * 
- * @param input 
- * @return true 
- * @return false 
- */
-bool searchVector(string input, vector<string> collection)
-{
-  long unsigned int index = searchVectorIndex(input, collection);
-  return (int)index != -1;
-}
-
-
-
-/**
- * @brief Looks through a given relationship and returns the source.
- * 
- * @param relship 
- * @return string 
- */
-string sourceParse(string relship)
-{
-  string source = "";
-  //i = 1 because we don't want '['
-  for(long unsigned int i = 1; relship[i] != ' '; i++) {
-    source += relship[i];
-  }
-  return source;
-}
-
-
-
-
-/**
- * @brief Looks through a given relationship and returns the destination.
- * 
- * This function is called by another function that searches for the 
- * source and the destination. So for efficiency's sake, the index is
- * passed as a parameter. 
- * 
- * @param relship
- * @param index
- * @return source
- */
-string destParse(string relship, long unsigned int index)
-{
-  string destination = "";
-  if (index == 0)
-  {
-    while(relship[index] != '>' && index < relship.size())
-    {
-      index++;
-    }
-    index += 2;
-  }
-  
-  while(index < relship.size() && relship[index] != ']')
-  {
-    destination += relship[index];
-    index++;
-  }
-  return destination;
-}
-
-
-
-
-/**
- * @brief Looks through the entire Relships vector to see if
- * the specified class is in there.
- * 
- * Option 1 searches the source.
- * Option 2 searches the destination.
- * 
- * Returns true if found, returns false if not found.
- * 
- * @param Class 
- * @param option 
- * @return true 
- * @return false 
- */
-bool search_in_relship(string Class, int option)
-{
-
-  string subject;
-
-  if(option == 2)
-  {
-    for(string& i: Relships)
-    {
-      subject = destParse(i, 0);
-      if (subject == Class)
-        return true;
-    }
+    cout << className << " was successfully removed." << std::endl;
   }
   else
   {
-    for(string& i: Relships)
-    {
-      subject = sourceParse(i);
-      
-      // Only return if true.
-      if(subject == Class)
-        return true;
-    }
+    cout << "Could not find class name " << className << ". Aborting." << std::endl;
   }
-  return false;
 }
