@@ -137,8 +137,6 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_name(std
              return false;
          }
      }
-     
-
 }
 
  bool UMLModel::remove_relationship(std::string relationshipName)
@@ -171,17 +169,57 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_name(std
      }
      return result;
 }
-/*
-const UMLRelationship get_relationship_by_name(std::string relationshipName)
+
+bool UMLModel::get_relationship_by_name(std::string relationshipName, UMLRelationship& outRelationship)
 {
     if(does_relationship_exist(relationshipName))
     {
-        return *(get_relationship_iter_by_name(relationshipName));
+        outRelationship = *(get_relationship_iter_by_name(relationshipName));
+        return true;
     }
     else
     {
-        UMLRelationship empty;
-        return empty;
+        return false;
     }
 }
-*/
+
+bool UMLModel::get_class_by_name(std::string className, UMLClass& outClass)
+{
+    if(does_class_exist(className))
+    {
+        outClass = *(get_class_iter_by_name(className));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool UMLModel::add_class_attribute(std::string className, UMLAttribute attribute)
+{
+    UMLClass existingClass;
+    if(get_class_by_name(className, existingClass))
+    {
+        if(existingClass.add_attribute(attribute))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool UMLModel::remove_class_attribute(std::string className, std::string attributeName)
+{
+    UMLClass existingClass;
+    if(get_class_by_name(className, existingClass))
+    {
+        if(existingClass.remove_attribute(attributeName))
+        {
+            return true;   
+        }
+    }
+
+    return false;
+}
