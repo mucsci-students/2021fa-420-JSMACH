@@ -49,6 +49,7 @@ UMLController::~UMLController()
 //Functions
 /***********************************************************/
 
+
 /**
  * @brief Takes in user input and does string comparisons to see if the user typed
  * in a valid command, and does different things based on which command was typed.
@@ -59,6 +60,7 @@ void UMLController::execute()
 {
   cout << "Type \"help\" for the list of commands.\n";
   cout << "Type \"exit\" to quit your current session.\n";
+
   string userInput;
 
   do 
@@ -75,6 +77,7 @@ void UMLController::execute()
       list_classes();
     
     else if(userInput == "list_relationships")
+
       list_relationships();
     
     else if(userInput == "create_class")
@@ -114,7 +117,7 @@ void UMLController::print_command_list()
 {
   cout << "COMMANDS:\n\n" 
     << "list_classes        : Lists all classes the user has created.\n"
-    << "list_relationships   : Lists all relationships created by the user. (e.g. [source -> destination])\n"
+    << "list_relationships  : Lists all relationships created by the user. (e.g. [source -> destination])\n"
     << "create_class        : User will be prompted to name the class, and then it\'ll be created.\n"
     << "create_relationship : User will be prompted to type in a source class and a destination class.\n"
     << "delete_class        : User will be prompted to type the name of the class they\'d like to delete.\n"
@@ -144,6 +147,7 @@ void UMLController::list_classes()
       cout << "--> " << (*iter) << std::endl;
     }
   }
+
 }
 
 /*************************/
@@ -217,9 +221,6 @@ void UMLController::create_class()
     cout << "Something went wrong when adding the new class " << userInputClassName << std::endl;
   }
 }
-
-/*************************/
-
 /**
  * @brief The user is prompted to type in the source name and then the destination.
  * If the user types a name that doesn't exist, they must try again. 
