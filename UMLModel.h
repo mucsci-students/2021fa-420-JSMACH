@@ -69,15 +69,28 @@ class UMLModel {
         // Returns a string list that contains all the current classes in the model.
         const std::list <std::string> get_all_class_names();
 
+        //Checks if relationship with name already exists
         bool does_relationship_exist(std::string relationshipName);
 
+        //Does not allow duplicate relationship names
+        //If name valid, checks that both source and destination class exist
+        //If so, relationship added to list AllRelationships
         bool add_relationship(std::string relationshipName, UMLClass src, UMLClass dest);
 
+        //Removes relationship from list AllRelationships
         bool remove_relationship(std::string relationshipName);
 
+        //Checks that class exists
+        //Returns list of relationships where className is either its source or destination
         const std::list <UMLRelationship> get_class_relationships(std::string className);
 
+        //Returns list of all current existing and valid relationships.
         const std::list <UMLRelationship> get_all_relationships();
+
+        //Called when a class is deleted
+        //Checks if class being deleted is either a source or destination of a relationship
+        //If so, relationship is also deleted because relationshp cannot exist without source AND destination.
+        void ensure_relationship_delete(std::string className);
         
         // Gets a copy of the relationship specified by name and puts it into the outRelationship variable
         // Returns true if the relationship exists, false otherwise
