@@ -60,6 +60,10 @@ class UMLModel {
         // nameTo is not a valid name. Returns true if the modify was successful.
         bool modify_class_name(std::string nameFrom, std::string nameTo);
 
+        bool add_class_attribute(std::string className, UMLAttribute attribute);
+
+        bool remove_class_attribute(std::string className, std::string attributeName);
+
         // Returns a string list that contains all the current classes in the model.
         const std::list <std::string> get_all_class_names();
 
@@ -71,11 +75,15 @@ class UMLModel {
 
         const std::list <UMLRelationship> get_class_relationships(std::string className);
         
-        // Returns relationship object by name
-        // Will return an empty relationship object if it doesnt exist, which
-        // may result in undesired behavior! Call does_relationship_exist first! :)
-        const UMLRelationship get_relationship_by_name(std::string relationshipName);
+        // Gets a copy of the relationship specified by name and puts it into the outRelationship variable
+        // Returns true if the relationship exists, false otherwise
+        // NOTE: modifying the contents of outRelationship does not modify the contents of the model.
+        bool get_relationship_by_name(std::string relationshipName, UMLRelationship& outRelationship);
 
+        // Gets a copy of the class specified by name and puts it into the outClass variable
+        // Returns true if the class exists, false otherwise
+        // NOTE: modifying the contents of outClass does not modify the contents of the model.
+        bool get_class_by_name(std::string className, UMLClass& outClass);
 };
 
 #endif
