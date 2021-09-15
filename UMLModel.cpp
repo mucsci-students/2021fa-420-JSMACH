@@ -23,6 +23,19 @@ bool UMLModel::does_class_exist(std::string className)
     return get_class_iter_by_name(className) != AllClasses.end();
 }
 
+bool UMLModel::add_class(UMLClass newClass)
+{
+    if(does_class_exist(newClass.get_class_name()))
+    {
+        return false;
+    }
+    else
+    {
+        AllClasses.push_back(newClass);
+        return true;
+    }
+}
+
 bool UMLModel::add_class(std::string className)
 {
     if(does_class_exist(className))
@@ -168,6 +181,11 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_name(std
          }
      }
      return result;
+}
+
+const std::list <UMLRelationship> UMLModel::get_all_relationships()
+{
+    return AllRelationships;
 }
 
 bool UMLModel::get_relationship_by_name(std::string relationshipName, UMLRelationship& outRelationship)

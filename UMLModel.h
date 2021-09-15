@@ -43,6 +43,8 @@ class UMLModel {
         // Returns true if the class exists in the model already, and false otherwise.
         bool does_class_exist(std::string className);
 
+        bool add_class(UMLClass newClass);
+
         // Adds a class to the model from a name alone.
         // Returns true if the add was successful, false if it failed.
         bool add_class(std::string className);
@@ -74,6 +76,8 @@ class UMLModel {
         bool remove_relationship(std::string relationshipName);
 
         const std::list <UMLRelationship> get_class_relationships(std::string className);
+
+        const std::list <UMLRelationship> get_all_relationships();
         
         // Gets a copy of the relationship specified by name and puts it into the outRelationship variable
         // Returns true if the relationship exists, false otherwise

@@ -7,7 +7,7 @@ include(conanbuildinfo.cmake)
 conan_basic_setup()
 
 add_executable(jsmach_uml)
-target_sources(jsmach_uml PUBLIC main.cpp "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp")
+target_sources(jsmach_uml PUBLIC main.cpp "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp")
 
 target_link_libraries(jsmach_uml ${CONAN_LIBS})
 
