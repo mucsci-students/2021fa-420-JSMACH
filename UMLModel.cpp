@@ -74,6 +74,7 @@ bool UMLModel::remove_class(std::string className)
     }
     else
     {
+        ensure_relationship_delete(className);
         AllClasses.erase(iter);
         return true;
     }
@@ -186,6 +187,16 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_name(std
 const std::list <UMLRelationship> UMLModel::get_all_relationships()
 {
     return AllRelationships;
+}
+
+void UMLModel::ensure_relationship_delete(std::string className)
+{
+    std::list <UMLRelationship> classRelats = get_class_relationships(className);
+    
+    for (auto i = classRelats.begin() ; i != classRelats.end() ; i++)
+    {
+        remove_relationship((*i).get_relationship_name());
+    }
 }
 
 bool UMLModel::get_relationship_by_name(std::string relationshipName, UMLRelationship& outRelationship)
