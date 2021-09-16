@@ -58,6 +58,10 @@ class UMLController
 
         void delete_class();
 
+        void rename_class();
+
+        void load_json();
+
 };
 
 

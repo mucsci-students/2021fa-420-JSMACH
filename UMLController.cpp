@@ -84,6 +84,10 @@ void UMLController::execute()
       delete_class();
     else if(userInput == "delete_relationship")
       delete_relationship();
+    else if(userInput == "rename_class")
+      rename_class();
+    else if(userInput == "load_json")
+      load_json();
     else if (userInput == "exit")
       cout << "\n";
     else
@@ -114,6 +118,8 @@ void UMLController::print_command_list()
     << "create_relationship : User will be prompted to type in a source class and a destination class.\n"
     << "delete_class        : User will be prompted to type the name of the class they\'d like to delete.\n"
     << "delete_relationship : User will be prompted to type the source and destination. The relationship will be no more, but the classes will still exist.\n"
+    << "rename_class        : User will be prompted to type the existing class name, and then the new name.\n"
+    << "load_json           : User will be prompted to type the name of the json file, and then it loads the current model from that file.\n"
     << "exit                : Exit your current session.\n";
 }
 
@@ -276,6 +282,11 @@ void UMLController::create_relationship()
   
 }
 
+
+
+
+
+
 void UMLController::delete_relationship()
 {
   string sourceClassName;
@@ -297,6 +308,11 @@ void UMLController::delete_relationship()
   }
 }
 
+
+
+
+
+
 /**
  * @brief 
  * 
@@ -314,4 +330,59 @@ void UMLController::delete_class()
   {
     cout << "Could not find class name " << className << ". Aborting." << std::endl;
   }
+}
+
+
+
+
+
+
+void  UMLController::rename_class()
+{
+  string oldClassName;
+  string newClassName;
+
+  UMLClass nameClass;
+
+  cout << "Enter the CURRENT name of the class you\'d like to rename. -> ";
+  cin >> oldClassName;
+
+  if (!Model.get_class_by_name(oldClassName, nameClass))
+  {
+    cout << "Error! The class you typed does not exist.\n"; //error msg
+    return;
+  }
+
+  cout << "Enter the new name you\'d like to rename it to. -> ";
+  cin >> newClassName;
+  
+
+  if(!Model.modify_class_name(oldClassName, newClassName))
+  {
+    cout << "Name modification failed. Make sure the name you typed is a valid class\n"
+    << "name, and isn\'t the same name as another class.\n";
+    return;
+  }
+  cout << "The class \"" << oldClassName << "\" has been renamed to \"" << newClassName << "\".\n";
+}
+
+
+
+
+
+
+void UMLController::load_json()
+{
+  string fileName;
+  cout  << "Enter the name of the JSON file you\'d like to load. -> ";
+  cin >> fileName;
+
+  cout << "Attempting to load JSON file...\n";
+  if (!Model.load_model_from_json(fileName))
+  {
+    cout << "Loading failed! The JSON file you typed either does not exist, or is invalid.\n";
+    return;
+  }
+
+  cout << "Loading complete!\n";
 }
