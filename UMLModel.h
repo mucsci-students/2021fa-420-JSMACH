@@ -101,6 +101,18 @@ class UMLModel {
         // Returns true if the class exists, false otherwise
         // NOTE: modifying the contents of outClass does not modify the contents of the model.
         bool get_class_by_name(std::string className, UMLClass& outClass);
+
+        // Saves the current model to a json file, "fileName.json"
+        // 
+        // NOTE: currently does not throw exceptions, but in the future it may need to.
+        void save_model_to_json(std::string fileName);
+
+        // Loads the current model from a json file, "fileName.json"
+        // Returns false either if the filename doesnt exist or the model trying to be 
+        // loaded is not valid
+        //
+        // NOTE: In the future this may simply throw custom exceptions.
+        bool load_model_from_json(std::string fileName);
 };
 
 #endif

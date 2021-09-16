@@ -1,4 +1,5 @@
 #include "UMLModel.h"
+#include "JSONFileSys.h"
 
 UMLModel::UMLModel() {}
 
@@ -251,4 +252,16 @@ bool UMLModel::remove_class_attribute(std::string className, std::string attribu
     }
 
     return false;
+}
+
+void UMLModel::save_model_to_json(std::string fileName)
+{
+    JSONFileSys jsonIO;
+    jsonIO.save_current_model(fileName, *this);
+}
+
+bool UMLModel::load_model_from_json(std::string fileName)
+{
+    JSONFileSys jsonIO;
+    return jsonIO.load_current_model(fileName, *this);
 }

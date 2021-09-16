@@ -9,7 +9,13 @@
 
 
 class JSONFileSys {
+    private:
+        bool ensure_json_classes_is_valid(std::list <UMLClass> candidateClassList);
+        bool ensure_json_relationships_is_valid(std::list <UMLRelationship> candidateRelationshipList);
+    
     public:
+        JSONFileSys();
+        ~JSONFileSys();
         // Saves the model object passed in as a json file to the project root directory.
         // fileName is the desired name of the file, and will append .json on the end to whatever
         // is passed in to ensure it is the correct format.
