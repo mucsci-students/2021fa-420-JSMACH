@@ -30,7 +30,7 @@ class UMLModel {
         // Internal method for getting an iterator to the class in the model by name.
         std::list<UMLClass>::iterator get_class_iter_by_name(std::string className);
 
-        std::list<UMLRelationship>::iterator get_relationship_iter_by_name(std::string relationshipName);
+        std::list<UMLRelationship>::iterator get_relationship_iter_by_src_and_dest_name(std::string classSrc, std::string classDest);
 
         friend class JSONFileSys;
         
@@ -70,15 +70,15 @@ class UMLModel {
         const std::list <std::string> get_all_class_names();
 
         //Checks if relationship with name already exists
-        bool does_relationship_exist(std::string relationshipName);
+        bool does_relationship_exist(std::string classSrc, std::string classDest);
 
         //Does not allow duplicate relationship names
         //If name valid, checks that both source and destination class exist
         //If so, relationship added to list AllRelationships
-        bool add_relationship(std::string relationshipName, UMLClass src, UMLClass dest);
+        bool add_relationship(UMLClass src, UMLClass dest);
 
-        //Removes relationship from list AllRelationships
-        bool remove_relationship(std::string relationshipName);
+
+        bool remove_relationship(std::string classSrc, std::string classDest);
 
         //Checks that class exists
         //Returns list of relationships where className is either its source or destination
@@ -95,7 +95,7 @@ class UMLModel {
         // Gets a copy of the relationship specified by name and puts it into the outRelationship variable
         // Returns true if the relationship exists, false otherwise
         // NOTE: modifying the contents of outRelationship does not modify the contents of the model.
-        bool get_relationship_by_name(std::string relationshipName, UMLRelationship& outRelationship);
+        bool get_relationship_by_src_and_dest(std::string classSrc, std::string classDest, UMLRelationship& outRelationship);
 
         // Gets a copy of the class specified by name and puts it into the outClass variable
         // Returns true if the class exists, false otherwise
