@@ -159,9 +159,8 @@ void UMLController::list_relationships()
     for(auto iter = allRelationships.begin(); iter != allRelationships.end(); iter++)
     {
       UMLRelationship currentRel = *iter;
-      cout << "NAME: " << currentRel.get_relationship_name() << std::endl;
-      cout << "\tSOURCE: " << currentRel.get_src_class().get_class_name() << std::endl;
-      cout << "\tDESTINATION: " << currentRel.get_dest_class().get_class_name() << std::endl;
+      cout << "SOURCE: \n" << "\t" << currentRel.get_src_class().get_class_name() << std::endl;
+      cout << "DESTINATION: \n" << "\t" << currentRel.get_dest_class().get_class_name() << std::endl;
     }
   }
   
@@ -223,7 +222,7 @@ void UMLController::create_class()
  */
 void UMLController::create_relationship()
 {
-  if(Model.get_all_class_names().size() < 2)
+  if(Model.get_all_class_names().size() < 1)
   {
     cout << "There are less than two classes in the currently running program. Please add at least two classes. Aborting. " << std::endl;
     return;
@@ -231,12 +230,10 @@ void UMLController::create_relationship()
 
   string sourceClassName;
   string destinationClassName;
-  string relationshipName;
   UMLClass srcClass;
   UMLClass destClass;
   bool srcValid = false;
   bool destValid = false;
-  bool relNameValid = false;
 
   do
   {
@@ -266,21 +263,13 @@ void UMLController::create_relationship()
     }
   } while (!destValid);
   
-  do
+  if(Model.does_relationship_exist(sourceClassName, destinationClassName))
   {
-    cout << "Type in a name for the new relationship between the classes -> ";
-    cin >> relationshipName;
-    if(Model.does_relationship_exist(relationshipName))
-    {
-      cout << "Relationship already exists within the program." << std::endl;
-    }
-    else
-    {
-      relNameValid = true;
-    }
-  } while (!relNameValid);
-  
-  if(Model.add_relationship(relationshipName, srcClass, destClass))
+    cout << "A relationship already exists between " << sourceClassName << " and " << destinationClassName << ". Aborting." << std::endl;
+    return;
+  }
+
+  if(Model.add_relationship(srcClass, destClass))
     cout << "Add successful!" << std::endl;
   else
     cout << "Adding somehow failed." << std::endl;
@@ -289,10 +278,16 @@ void UMLController::create_relationship()
 
 void UMLController::delete_relationship()
 {
-  string relationshipName;
-  cout << "Enter a relationship name to be deleted: " << std::endl;
-  cin >> relationshipName;
-  if(Model.remove_relationship(relationshipName))
+  string sourceClassName;
+  string destinationClassName;
+
+  cout << "Enter the source of the relationship to be deleted: " << std::endl;
+  cin >> sourceClassName;
+
+  cout << "Enter the destination of the relationship to be deleted: " << std::endl;
+  cin >> destinationClassName;
+
+  if(Model.remove_relationship(sourceClassName, destinationClassName))
   {
     cout << "Relationship was successfully deleted" << std::endl;
   }

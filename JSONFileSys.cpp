@@ -90,7 +90,7 @@ bool JSONFileSys::ensure_json_classes_is_valid(std::list <UMLClass> candidateCla
 }
 
 bool JSONFileSys::ensure_json_relationships_is_valid(std::list <UMLRelationship> candidateRelationshipList)
-{
+{/*
     // Iterate through each relationship in the list
     for(auto iter = candidateRelationshipList.begin(); iter != candidateRelationshipList.end(); iter++)
     {
@@ -106,6 +106,6 @@ bool JSONFileSys::ensure_json_relationships_is_valid(std::list <UMLRelationship>
         if(count > 1)
             return false;
     }
-
+    */
     return true;
 }
