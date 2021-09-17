@@ -35,7 +35,7 @@ class UMLController
     private:
         UMLModel Model;
         // The view will also eventually go here
-
+        
     public:
         UMLController();
         UMLController(UMLModel newModel);
@@ -61,6 +61,8 @@ class UMLController
         void rename_class();
 
         void load_json();
+
+        void save_json();
 
 };
 

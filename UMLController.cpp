@@ -47,7 +47,6 @@ UMLController::~UMLController()
 
 /***********************************************************/
 //Functions
-/***********************************************************/
 
 
 /**
@@ -86,8 +85,10 @@ void UMLController::execute()
       delete_relationship();
     else if(userInput == "rename_class")
       rename_class();
-    else if(userInput == "load_json")
+    else if(userInput == "load")
       load_json();
+    else if(userInput == "save")
+      save_json();
     else if (userInput == "exit")
       cout << "\n";
     else
@@ -112,15 +113,20 @@ void UMLController::execute()
 void UMLController::print_command_list()
 {
   cout << "COMMANDS:\n\n" 
-    << "list_classes        : Lists all classes the user has created.\n"
-    << "list_relationships  : Lists all relationships created by the user. (e.g. [source -> destination])\n"
-    << "create_class        : User will be prompted to name the class, and then it\'ll be created.\n"
-    << "create_relationship : User will be prompted to type in a source class and a destination class.\n"
-    << "delete_class        : User will be prompted to type the name of the class they\'d like to delete.\n"
-    << "delete_relationship : User will be prompted to type the source and destination. The relationship will be no more, but the classes will still exist.\n"
-    << "rename_class        : User will be prompted to type the existing class name, and then the new name.\n"
-    << "load_json           : User will be prompted to type the name of the json file, and then it loads the current model from that file.\n"
-    << "exit                : Exit your current session.\n";
+    << "list_classes        : Lists all classes the user has created, as well as their attributes.\n\n"
+    << "list_relationships  : Lists all relationships created by the user. (e.g. [source -> destination])\n\n"
+    << "create_class        : User will be prompted to name the class, and then it\'ll be created.\n\n"
+    << "create_relationship : User will be prompted to type in a source class and a destination class.\n\n"
+    << "delete_class        : User will be prompted to type the name of the class they\'d like to delete.\n\n"
+    << "delete_relationship : User will be prompted to type the source and destination. The relationship\n"
+    << "                      will be no more, but the classes will still exist.\n\n"
+    << "rename_class        : User will be prompted to type the existing class name, and then the new\n"
+    << "                      name.\n\n"
+    << "load                : User will be prompted to type the name of the json file, and then it loads\n"
+    << "                      the model from that file. WARNING! Existing progress will be overwritten!\n\n"
+    << "save                : User will be prompted to name the JSON file, which will contain their\n"
+    << "                      current progress.\n\n"
+    << "exit                : Exit your current session.\n\n";
 }
 
 /*************************/
@@ -172,6 +178,8 @@ void UMLController::list_relationships()
   
 }
 
+/*************************/
+
 /**
  * @brief The user is prompted to name the class
  * and then it pushes the class into the vector.
@@ -218,6 +226,9 @@ void UMLController::create_class()
     cout << "Something went wrong when adding the new class " << userInputClassName << std::endl;
   }
 }
+
+/*************************/
+
 /**
  * @brief The user is prompted to type in the source name and then the destination.
  * If the user types a name that doesn't exist, they must try again. 
@@ -279,14 +290,14 @@ void UMLController::create_relationship()
     cout << "Add successful!" << std::endl;
   else
     cout << "Adding somehow failed." << std::endl;
-  
 }
 
+/*************************/
 
-
-
-
-
+/**
+ * @brief 
+ * 
+ */
 void UMLController::delete_relationship()
 {
   string sourceClassName;
@@ -308,10 +319,7 @@ void UMLController::delete_relationship()
   }
 }
 
-
-
-
-
+/*************************/
 
 /**
  * @brief 
@@ -332,22 +340,21 @@ void UMLController::delete_class()
   }
 }
 
+/*************************/
 
-
-
-
-
+/**
+ * @brief 
+ * 
+ */
 void  UMLController::rename_class()
 {
   string oldClassName;
   string newClassName;
 
-  UMLClass nameClass;
-
   cout << "Enter the CURRENT name of the class you\'d like to rename. -> ";
   cin >> oldClassName;
 
-  if (!Model.get_class_by_name(oldClassName, nameClass))
+  if (!does_class_exist(oldClassName))
   {
     cout << "Error! The class you typed does not exist.\n"; //error msg
     return;
@@ -366,17 +373,25 @@ void  UMLController::rename_class()
   cout << "The class \"" << oldClassName << "\" has been renamed to \"" << newClassName << "\".\n";
 }
 
+/*************************/
 
-
-
-
-
+/**
+ * @brief 
+ * 
+ */
 void UMLController::load_json()
 {
   string fileName;
+  string answer;
   cout  << "Enter the name of the JSON file you\'d like to load. -> ";
   cin >> fileName;
+  cout << "WARNING! Existing save data will be overwritten. Do you wish to proceed?\n";
 
+  do
+  {
+    /* code */
+  } while (answer != "y" || answer  != "n");
+    
   cout << "Attempting to load JSON file...\n";
   if (!Model.load_model_from_json(fileName))
   {
@@ -385,4 +400,31 @@ void UMLController::load_json()
   }
 
   cout << "Loading complete!\n";
+}
+
+/*************************/
+
+/**
+ * @brief 
+ * 
+ */
+void UMLController::save_json()
+{
+  string fileName;
+  cout << "Type a name for your JSON file.\n"
+  << "WARNING! Typing a file name that already exists will automatically overwrite that file.\n";
+  cin >> fileName;
+
+  // This is for when the model function becomes a bool
+  /*
+  if(!Model.save_model_to_json(fileName))
+  {
+    cout << "Invalid file name!\n";
+    return;
+  }*/
+  
+  //This call will be deleted once the model function becomes a bool
+  Model.save_model_to_json(fileName);
+  
+  cout << "Your progress was saved to" << fileName << ".json\n";
 }
