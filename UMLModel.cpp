@@ -216,8 +216,7 @@ bool UMLModel::get_relationship_by_src_and_dest(std::string classSrc, std::strin
 
 void UMLModel::modify_relationship(std::string nameFrom, std::string nameTo)
 {
-    std::list <UMLRelationship> classRelats = get_class_relationships(nameFrom);
-    for (auto i = classRelats.begin() ; i != classRelats.end() ; i++)
+    for (auto i = AllRelationships.begin() ; i != AllRelationships.end() ; i++)
         {
             if ((*i).get_src_class().get_class_name() == nameFrom)
             {
