@@ -17,8 +17,8 @@ class UMLRelationship {
 		UMLRelationship(UMLClass src, UMLClass dest);
 		~UMLRelationship();
 
-		UMLClass get_src_class() const;
-		UMLClass get_dest_class() const;
+		UMLClass& get_src_class();
+		UMLClass& get_dest_class();
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(UMLRelationship, ClassSrc, ClassDest);
 };
