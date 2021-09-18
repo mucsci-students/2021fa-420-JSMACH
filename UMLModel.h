@@ -97,6 +97,8 @@ class UMLModel {
         // NOTE: modifying the contents of outRelationship does not modify the contents of the model.
         bool get_relationship_by_src_and_dest(std::string classSrc, std::string classDest, UMLRelationship& outRelationship);
 
+        void modify_relationship(std::string nameFrom, std::string nameTo);
+
         // Gets a copy of the class specified by name and puts it into the outClass variable
         // Returns true if the class exists, false otherwise
         // NOTE: modifying the contents of outClass does not modify the contents of the model.
