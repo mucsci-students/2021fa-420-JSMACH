@@ -354,7 +354,7 @@ void  UMLController::rename_class()
   cout << "Enter the CURRENT name of the class you\'d like to rename. -> ";
   cin >> oldClassName;
 
-  if (!does_class_exist(oldClassName))
+  if (!Model.does_class_exist(oldClassName))
   {
     cout << "Error! The class you typed does not exist.\n"; //error msg
     return;
