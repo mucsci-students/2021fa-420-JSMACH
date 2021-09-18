@@ -385,12 +385,17 @@ void UMLController::load_json()
   string answer;
   cout  << "Enter the name of the JSON file you\'d like to load. -> ";
   cin >> fileName;
-  cout << "WARNING! Existing save data will be overwritten. Do you wish to proceed?\n";
-
+  cout << "WARNING! Existing save data will be overwritten. Do you wish to proceed?(y/n) ->";
+  
   do
   {
-    /* code */
-  } while (answer != "y" || answer  != "n");
+    cin >> answer;
+    if(answer != "y" && answer != "n")
+      cout << "That was not y/n ";
+  } while(answer != "y" && answer != "n");
+
+  if(answer == "n")
+    return;
     
   cout << "Attempting to load JSON file...\n";
   if (!Model.load_model_from_json(fileName))
