@@ -31,6 +31,7 @@ class UMLClass{
 		bool rename_attribute(std::string attributeNameFrom, std::string attributeNameTo);
 		bool does_attribute_already_exist(std::string attributeName);
 
+
 		bool operator==(const UMLClass& u) const;
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(UMLClass, ClassName, ClassAttributes);
