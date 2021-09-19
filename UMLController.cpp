@@ -130,7 +130,7 @@ void UMLController::print_command_list()
     << "                      the model from that file. WARNING! Existing progress will be overwritten!\n\n"
     << "save                : User will be prompted to name the JSON file, which will contain their\n"
     << "                      current progress.\n\n"
-    << "quit                : Exit your current session.\n\n";
+    << "quit                : Exit your current session.\n\n"
     << "exit                : Exit your current session.\n\n";
 }
 
@@ -221,7 +221,6 @@ void UMLController::create_class()
 
   int attributeCount;
   cout << "How many attributes would you like to start with? -> ";
-  cin >> attributeCount;
   while(!(cin >> attributeCount))
   {
     cin.clear();
@@ -434,7 +433,7 @@ void UMLController::edit_attributes()
   cout << "Type \"help\" to view all available editor commands.\n";
   do
   {
-    cout "-> ";
+    cout << "-> ";
 
     cin >> input;
     
@@ -448,10 +447,10 @@ void UMLController::edit_attributes()
       add_attribute(theClass);
     
     else if(input == "delete")
-      delete_attribute(theClass)
+      delete_attribute(theClass);
     
     else if(input == "rename")
-      rename_attribute(theClass)
+      rename_attribute(theClass);
     
     else if(input == "exit")
     {
@@ -462,39 +461,6 @@ void UMLController::edit_attributes()
       cout << "Invadid command! Type \"help\" to view all available attribute editor commands.\n";
   }
   while(1);
-}
-
-/*************************/
-
-/**
- * @brief 
- * 
- */
-void  UMLController::rename_class()
-{
-  string oldClassName;
-  string newClassName;
-
-  cout << "Enter the CURRENT name of the class you\'d like to rename. -> ";
-  cin >> oldClassName;
-
-  if (!Model.does_class_exist(oldClassName))
-  {
-    cout << "Error! The class you typed does not exist.\n"; //error msg
-    return;
-  }
-
-  cout << "Enter the new name you\'d like to rename it to. -> ";
-  cin >> newClassName;
-  
-
-  if(!Model.modify_class_name(oldClassName, newClassName))
-  {
-    cout << "Name modification failed. Make sure the name you typed is a valid class\n"
-    << "name, and isn\'t the same name as another class.\n";
-    return;
-  }
-  cout << "The class \"" << oldClassName << "\" has been renamed to \"" << newClassName << "\".\n";
 }
 
 /*************************/
@@ -612,8 +578,9 @@ void UMLController::add_attribute(UMLClass &outClass)
   
   newAttribute.set_attribute_name(name);
   
-  *outClass.add_attribute(newAttribute);
+  outClass.add_attribute(newAttribute);
 
+  cout << "Successfully added new attribute " << std::endl;
 }
 
 /*************************/
@@ -621,31 +588,33 @@ void UMLController::add_attribute(UMLClass &outClass)
 void UMLController::delete_attribute(UMLClass &outClass)
 {
   string name;
-  vector<UMLAttribute> attributeList = *outClass.get_all_attributes();
+  vector<UMLAttribute> attributeList = outClass.get_all_attributes();
   cout << "Type the name of the attribute you\'d like to delete. -> ";
   cin >> name;
   
   outClass.remove_attribute(name);
+  cout << "Successfully removed attribute " << std::endl;
 }
 
 /*************************/
 
 void UMLController::rename_attribute(UMLClass &outClass)
 {
-  string name;
-  vector<UMLAttribute> attributeList = *outClass.get_all_attributes();
-  cout << "Type the name of the attribute you\'d like to rename. -> ";
-  cin >> name;
+  string nameFrom;
+  string nameTo;
+
+  cout << "Type the name of the attribute you\'d like to rename FROM. -> ";
+  cin >> nameFrom;
+
+  cout << "Type the name of the attribute you\'d like to rename TO. -> ";
+  cin >> nameTo;
   
-  for(int i = 0; i < attributeList.size(); i++)
+  if(outClass.rename_attribute(nameFrom, nameTo))
   {
-    if(name == attributeList[i].get_attribute_name())
-    {
-      cout << "Type the new name you\'d like to rename it to. -> ";
-      cin >> name;
-      attributeList[i].set_attribute_name(name);
-      return;
-    } 
+    cout << "Successfully renamed attribute" << std::endl;
   }
-  cout << "Error! The attribute \"" << name << "\" was not found.\n"
+  else
+  {
+    cout << "Error editing attribute. Aborting" << std::endl;
+  }
 }

@@ -29,6 +29,7 @@ class UMLClass{
 		std::vector<UMLAttribute> get_all_attributes() const;
 		bool add_attribute(UMLAttribute attribute);
 		bool remove_attribute(std::string);
+		bool rename_attribute(std::string attributeNameFrom, std::string attributeNameTo);
 
 		bool operator==(const UMLClass& u) const;
 
