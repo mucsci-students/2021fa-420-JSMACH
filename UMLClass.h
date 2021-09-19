@@ -15,7 +15,6 @@ class UMLClass{
 		std::vector<UMLAttribute> ClassAttributes;
 
 		std::vector<UMLAttribute>::iterator get_iterator_to_attribute_name(std::string attributeName);
-		bool does_attribute_already_exist(std::string attributeName);
 
 	public:
 		UMLClass();
@@ -30,6 +29,8 @@ class UMLClass{
 		bool add_attribute(UMLAttribute attribute);
 		bool remove_attribute(std::string);
 		bool rename_attribute(std::string attributeNameFrom, std::string attributeNameTo);
+		bool does_attribute_already_exist(std::string attributeName);
+
 
 		bool operator==(const UMLClass& u) const;
 
