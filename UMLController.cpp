@@ -204,6 +204,13 @@ void UMLController::create_class()
   int attributeCount;
   cout << "How many attributes would you like to start with? -> ";
   cin >> attributeCount;
+  while(!(cin >> attributeCount))
+  {
+    cin.clear();
+    cin.ignore(1000, '\n');
+    cout << "Invalid input.  Try again (input a number): ";
+  }
+
   for(int i = 0; i < attributeCount; i++)
   {
     string attributeName;
