@@ -70,6 +70,20 @@ bool UMLClass::remove_attribute(std::string attributeName)
 	}
 }
 
+bool UMLClass::rename_attribute(std::string attributeNameFrom, std::string attributeNameTo)
+{
+	if(does_attribute_already_exist(attributeNameTo) || !does_attribute_already_exist(attributeNameFrom))
+	{
+		return false;
+	}
+	else
+	{
+		auto iter = get_iterator_to_attribute_name(attributeNameFrom);
+		(*iter).set_attribute_name(attributeNameTo);
+		return true;
+	}
+}
+
 bool UMLClass::operator==(const UMLClass& u) const
 {
 	return ClassName == u.ClassName;
