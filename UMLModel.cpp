@@ -93,6 +93,7 @@ bool UMLModel::modify_class_name(std::string nameFrom, std::string nameTo)
     {
         auto iter = get_class_iter_by_name(nameFrom);
         (*iter).set_class_name(nameTo);
+        modify_relationship(nameFrom, nameTo);
         return true;
     }
 }
@@ -211,6 +212,21 @@ bool UMLModel::get_relationship_by_src_and_dest(std::string classSrc, std::strin
     {
         return false;
     }
+}
+
+void UMLModel::modify_relationship(std::string nameFrom, std::string nameTo)
+{
+    for (auto i = AllRelationships.begin() ; i != AllRelationships.end() ; i++)
+        {
+            if ((*i).get_src_class().get_class_name() == nameFrom)
+            {
+                (*i).get_src_class().set_class_name(nameTo);
+            }
+            if ((*i).get_dest_class().get_class_name() == nameFrom)
+            {
+                (*i).get_dest_class().set_class_name(nameTo);
+            }
+        }
 }
 
 bool UMLModel::get_class_by_name(std::string className, UMLClass& outClass)

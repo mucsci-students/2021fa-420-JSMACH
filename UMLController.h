@@ -34,6 +34,7 @@ class UMLController
 {
     private:
         UMLModel Model;
+
         void print_attribute_commands();
 
         void list_attributes(UMLClass theClass);
@@ -43,8 +44,6 @@ class UMLController
         void delete_attribute(UMLClass &outClass);
 
         void rename_attribute(UMLClass &outClass);
-
-
 
         // The view will also eventually go here
         
@@ -77,7 +76,7 @@ class UMLController
         void rename_class();
 
         void edit_attributes();
-
+  
         void load_json();
 
         void save_json();

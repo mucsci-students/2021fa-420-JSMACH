@@ -11,9 +11,9 @@ UMLRelationship::UMLRelationship(UMLClass src, UMLClass dest)
 
 UMLRelationship::~UMLRelationship(){};
 
-UMLClass UMLRelationship::get_src_class() const {
+UMLClass& UMLRelationship::get_src_class() {
   return this->ClassSrc;
 }
-UMLClass UMLRelationship::get_dest_class() const {
+UMLClass& UMLRelationship::get_dest_class() {
   return this->ClassDest;
 }

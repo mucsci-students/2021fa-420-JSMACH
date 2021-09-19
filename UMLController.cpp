@@ -91,7 +91,7 @@ void UMLController::execute()
       load_json();
     else if(userInput == "save")
       save_json();
-    else if (userInput == "quit")
+    else if (userInput == "exit")
       cout << "\n";
     else
     {
@@ -131,6 +131,7 @@ void UMLController::print_command_list()
     << "save                : User will be prompted to name the JSON file, which will contain their\n"
     << "                      current progress.\n\n"
     << "quit                : Exit your current session.\n\n";
+    << "exit                : Exit your current session.\n\n";
 }
 
 /*************************/
@@ -456,11 +457,38 @@ void UMLController::edit_attributes()
   while(1);
 }
 
+/*************************/
 
+/**
+ * @brief 
+ * 
+ */
+void  UMLController::rename_class()
+{
+  string oldClassName;
+  string newClassName;
 
+  cout << "Enter the CURRENT name of the class you\'d like to rename. -> ";
+  cin >> oldClassName;
 
+  if (!Model.does_class_exist(oldClassName))
+  {
+    cout << "Error! The class you typed does not exist.\n"; //error msg
+    return;
+  }
 
+  cout << "Enter the new name you\'d like to rename it to. -> ";
+  cin >> newClassName;
+  
 
+  if(!Model.modify_class_name(oldClassName, newClassName))
+  {
+    cout << "Name modification failed. Make sure the name you typed is a valid class\n"
+    << "name, and isn\'t the same name as another class.\n";
+    return;
+  }
+  cout << "The class \"" << oldClassName << "\" has been renamed to \"" << newClassName << "\".\n";
+}
 
 /*************************/
 
@@ -474,14 +502,18 @@ void UMLController::load_json()
   string answer;
   cout  << "Enter the name of the JSON file you\'d like to load. -> ";
   cin >> fileName;
-  cout << "WARNING! Existing save data will be overwritten. Do you wish to proceed?\n";
 
+  cout << "WARNING! Existing save data will be overwritten. Do you wish to proceed?(y/n) ->";
+  
   do
   {
-    cout << "Type \"y\" to proceed, or \"n\" to cancel. -> ";
     cin >> answer;
+    if(answer != "y" && answer != "n")
+      cout << "That was not y/n ";
+  } while(answer != "y" && answer != "n");
 
-  } while (answer != "y" || answer  != "n");
+  if(answer == "n")
+    return;
     
   cout << "Attempting to load JSON file...\n";
   if (!Model.load_model_from_json(fileName))
@@ -504,6 +536,7 @@ void UMLController::save_json()
   string fileName;
   cout << "Type a name for your JSON file.\n"
   << "WARNING! Typing a file name that already exists will automatically overwrite that file.\n-> ";
+  
   cin >> fileName;
 
   // This is for when the model function becomes a bool
@@ -519,8 +552,6 @@ void UMLController::save_json()
   
   cout << "Your progress was saved to" << fileName << ".json\n";
 }
-
-
 /***********************************************************/
 //Helper Functions
 

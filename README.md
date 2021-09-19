@@ -16,8 +16,8 @@
     `pip3 install conan`
 
 3. Navigate to the project root (Should have a CMakeLists.txt file in it)
-4. `conan install .`
-5. `cmake . .`
+4. `conan install .` - installs library dependencies
+5. `cmake . .` - creates Makefile, SLN file, etc depending on your compiler
 6. If cmake compiled with Visual Studio, then you should have a .sln file that you can compile using either Visual Studio or using the Visual Studio Developer Command Prompt with 
 
     ```cl /EHsc main.cpp```
