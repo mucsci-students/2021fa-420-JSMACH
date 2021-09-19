@@ -244,30 +244,26 @@ bool UMLModel::get_class_by_name(std::string className, UMLClass& outClass)
 
 bool UMLModel::add_class_attribute(std::string className, UMLAttribute attribute)
 {
-    UMLClass existingClass;
-    if(get_class_by_name(className, existingClass))
+    if(does_class_exist(className))
     {
-        if(existingClass.add_attribute(attribute))
-        {
-            return true;
-        }
+        return (*get_class_iter_by_name(className)).add_attribute(attribute);
     }
-
-    return false;
+    else
+    {
+        return false;
+    }
 }
 
 bool UMLModel::remove_class_attribute(std::string className, std::string attributeName)
 {
-    UMLClass existingClass;
-    if(get_class_by_name(className, existingClass))
+    if(does_class_exist(className))
     {
-        if(existingClass.remove_attribute(attributeName))
-        {
-            return true;   
-        }
+        return (*get_class_iter_by_name(className)).remove_attribute(attributeName);
     }
-
-    return false;
+    else
+    {
+        return false;
+    }
 }
 
 void UMLModel::save_model_to_json(std::string fileName)
