@@ -85,6 +85,8 @@ void UMLController::execute()
       delete_relationship();
     else if(userInput == "rename_class")
       rename_class();
+    else if(userInput == "edit_attributes")
+      edit_attributes();
     else if(userInput == "load")
       load_json();
     else if(userInput == "save")
@@ -122,10 +124,13 @@ void UMLController::print_command_list()
     << "                      will be no more, but the classes will still exist.\n\n"
     << "rename_class        : User will be prompted to type the existing class name, and then the new\n"
     << "                      name.\n\n"
+    << "edit_attributes     : User will be sent to a sub-menu, where they can enter in attribute editor\n"
+    << "                      commands.\n\n"
     << "load                : User will be prompted to type the name of the json file, and then it loads\n"
     << "                      the model from that file. WARNING! Existing progress will be overwritten!\n\n"
     << "save                : User will be prompted to name the JSON file, which will contain their\n"
     << "                      current progress.\n\n"
+    << "quit                : Exit your current session.\n\n";
     << "exit                : Exit your current session.\n\n";
 }
 
@@ -146,9 +151,22 @@ void UMLController::list_classes()
   //else iterate through the collection of classes and list them all.
   else
   {
+    UMLClass currentClass;
     for(auto iter = classList.begin(); iter != classList.end(); iter++)
     {
-      cout << "--> " << (*iter) << std::endl;
+      cout << "--> " << (*iter) << "\n";
+      
+      if (!Model.get_class_by_name(*iter, currentClass))
+      {
+        cout << "Error! Could not retrieve class by name.\n";
+        return;
+      }
+      vector<UMLAttribute> attributeList = currentClass.get_all_attributes();
+
+      for (int i = 0; i < attributeList.size(); i++)
+      {
+        cout << "    : " << attributeList[i].get_attribute_name() << "\n";
+      }
     }
   }
 
@@ -298,6 +316,27 @@ void UMLController::create_relationship()
  * @brief 
  * 
  */
+void UMLController::delete_class()
+{
+  string className;
+  cout << "Enter class name to be deleted: " << std::endl;
+  cin >> className;
+  if(Model.remove_class(className))
+  {
+    cout << className << " was successfully removed." << std::endl;
+  }
+  else
+  {
+    cout << "Could not find class name " << className << ". Aborting." << std::endl;
+  }
+}
+
+/*************************/
+
+/**
+ * @brief 
+ * 
+ */
 void UMLController::delete_relationship()
 {
   string sourceClassName;
@@ -325,19 +364,97 @@ void UMLController::delete_relationship()
  * @brief 
  * 
  */
-void UMLController::delete_class()
+void  UMLController::rename_class()
+{
+  string oldClassName;
+  string newClassName;
+
+  cout << "Enter the CURRENT name of the class you\'d like to rename. -> ";
+  cin >> oldClassName;
+
+  if (!Model.does_class_exist(oldClassName))
+  {
+    cout << "Error! The class you typed does not exist.\n";
+    return;
+  }
+
+  cout << "Enter the new name you\'d like to rename it to. -> ";
+  cin >> newClassName;
+  
+
+  if(!Model.modify_class_name(oldClassName, newClassName))
+  {
+    cout << "Name modification failed. Make sure the name you typed is a valid class\n"
+    << "name, and isn\'t the same name as another class.\n";
+    return;
+  }
+  cout << "The class \"" << oldClassName << "\" has been renamed to \"" << newClassName << "\".\n";
+}
+
+
+
+
+
+
+
+/*************************/
+
+/**
+ * @brief 
+ * 
+ */
+void UMLController::edit_attributes()
 {
   string className;
-  cout << "Enter class name to be deleted: " << std::endl;
+  UMLClass theClass;
+
+  string input;
+
+  cout << "Enter the name of the class whose attributes you\'d like to edit. -> \n";
   cin >> className;
-  if(Model.remove_class(className))
+
+  if (!Model.does_class_exist(className))
   {
-    cout << className << " was successfully removed." << std::endl;
+    cout << "Error! The class you typed does not exist.\n";
+    return;
   }
-  else
+
+  if(!Model.get_class_by_name(className, theClass))
   {
-    cout << "Could not find class name " << className << ". Aborting." << std::endl;
+    cout << "Error! Failed to retrieve the class \"" << className << "\". Aborting.\n";
   }
+
+  cout << "Type \"help\" to view all available editor commands.\n";
+  do
+  {
+    cout "-> ";
+
+    cin >> input;
+    
+    if(input == "help")
+      print_attribute_commands();
+    
+    else if(input == "view")
+      list_attributes(theClass);
+    
+    else if(input == "add")
+      add_attribute(theClass);
+    
+    else if(input == "delete")
+      delete_attribute(theClass)
+    
+    else if(input == "rename")
+      rename_attribute(theClass)
+    
+    else if(input == "exit")
+    {
+      cout << "You have exited the attribute editor.\n";
+      return;
+    }
+    else
+      cout << "Invadid command! Type \"help\" to view all available attribute editor commands.\n";
+  }
+  while(1);
 }
 
 /*************************/
@@ -385,6 +502,7 @@ void UMLController::load_json()
   string answer;
   cout  << "Enter the name of the JSON file you\'d like to load. -> ";
   cin >> fileName;
+
   cout << "WARNING! Existing save data will be overwritten. Do you wish to proceed?(y/n) ->";
   
   do
@@ -417,7 +535,8 @@ void UMLController::save_json()
 {
   string fileName;
   cout << "Type a name for your JSON file.\n"
-  << "WARNING! Typing a file name that already exists will automatically overwrite that file.\n";
+  << "WARNING! Typing a file name that already exists will automatically overwrite that file.\n-> ";
+  
   cin >> fileName;
 
   // This is for when the model function becomes a bool
@@ -432,4 +551,94 @@ void UMLController::save_json()
   Model.save_model_to_json(fileName);
   
   cout << "Your progress was saved to" << fileName << ".json\n";
+}
+/***********************************************************/
+//Helper Functions
+
+/**
+ * @brief 
+ * 
+ */
+void UMLController::print_attribute_commands()
+{
+  cout << "ATTRIBUTE EDITOR COMMANDS:\n"
+    << "view   : View the current class with its attributes.\n"
+    << "add    : Add a new attribute.\n"
+    << "delete : Delete an existing attribute.\n" 
+    << "rename : Rename an existing attribute.\n"
+    << "exit   : Quit the attribute editor and return to the normal interface.\n\n";
+}
+
+/*************************/
+
+/**
+ * @brief 
+ * 
+ */
+void UMLController::list_attributes(UMLClass theClass)
+{
+  cout << "--> " << theClass.get_class_name() << "\n";
+  vector<UMLAttribute> attributeList = theClass.get_all_attributes();
+
+  for (int i = 0; i < attributeList.size(); i++)
+  {
+    cout << "    : " << attributeList[i].get_attribute_name() << "\n";
+  }
+
+}
+
+/*************************/
+
+void UMLController::add_attribute(UMLClass &outClass)
+{
+  UMLAttribute newAttribute;
+  string name;
+
+  cout << "Type a name for the new attribute. -> ";
+  cin >> name;
+
+  /*if(!newAttribute.set_attribute_name())
+  {
+    cout << "Error! Failed to set attribute name.";
+    return;
+  }*/
+  
+  newAttribute.set_attribute_name(name);
+  
+  *outClass.add_attribute(newAttribute);
+
+}
+
+/*************************/
+
+void UMLController::delete_attribute(UMLClass &outClass)
+{
+  string name;
+  vector<UMLAttribute> attributeList = *outClass.get_all_attributes();
+  cout << "Type the name of the attribute you\'d like to delete. -> ";
+  cin >> name;
+  
+  outClass.remove_attribute(name);
+}
+
+/*************************/
+
+void UMLController::rename_attribute(UMLClass &outClass)
+{
+  string name;
+  vector<UMLAttribute> attributeList = *outClass.get_all_attributes();
+  cout << "Type the name of the attribute you\'d like to rename. -> ";
+  cin >> name;
+  
+  for(int i = 0; i < attributeList.size(); i++)
+  {
+    if(name == attributeList[i].get_attribute_name())
+    {
+      cout << "Type the new name you\'d like to rename it to. -> ";
+      cin >> name;
+      attributeList[i].set_attribute_name(name);
+      return;
+    } 
+  }
+  cout << "Error! The attribute \"" << name << "\" was not found.\n"
 }
