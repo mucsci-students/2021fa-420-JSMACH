@@ -12,8 +12,8 @@
 1. Clone repo to desired local folder
 2. Run these commands: 
 
-    `pip3 install cmake`
-    `pip3 install conan`
+    `sudo pip3 install cmake`
+    `sudo pip3 install conan`
 
 3. Navigate to the project root (Should have a CMakeLists.txt file in it)
 4. `conan install .` - installs library dependencies
@@ -26,3 +26,8 @@
 
     ```make```
 
+9. An executable should be under the bin folder.
+
+    ```cd bin```
+    
+    ```./jsmach_uml```
