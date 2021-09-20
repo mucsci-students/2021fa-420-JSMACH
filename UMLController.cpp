@@ -412,8 +412,6 @@ void  UMLController::rename_class()
 void UMLController::edit_attributes()
 {
   string className;
-  UMLClass theClass;
-
   string input;
 
   cout << "Enter the name of the class whose attributes you\'d like to edit. -> \n";
@@ -423,11 +421,6 @@ void UMLController::edit_attributes()
   {
     cout << "Error! The class you typed does not exist.\n";
     return;
-  }
-
-  if(!Model.get_class_by_name(className, theClass))
-  {
-    cout << "Error! Failed to retrieve the class \"" << className << "\". Aborting.\n";
   }
 
   cout << "Type \"help\" to view all available editor commands.\n";
@@ -441,16 +434,16 @@ void UMLController::edit_attributes()
       print_attribute_commands();
     
     else if(input == "view")
-      list_attributes(theClass);
+      list_attributes(className);
     
     else if(input == "add")
-      add_attribute(theClass);
+      add_attribute(className);
     
     else if(input == "delete")
-      delete_attribute(theClass);
+      delete_attribute(className);
     
     else if(input == "rename")
-      rename_attribute(theClass);
+      rename_attribute(className);
     
     else if(input == "exit")
     {
@@ -548,10 +541,12 @@ void UMLController::print_attribute_commands()
  * @brief 
  * 
  */
-void UMLController::list_attributes(UMLClass theClass)
+void UMLController::list_attributes(string className)
 {
-  cout << "--> " << theClass.get_class_name() << "\n";
-  vector<UMLAttribute> attributeList = theClass.get_all_attributes();
+  cout << "--> " << className << "\n";
+  UMLClass modelClass;
+  Model.get_class_by_name(className, modelClass);
+  vector<UMLAttribute> attributeList = modelClass.get_all_attributes();
 
   for (int i = 0; i < attributeList.size(); i++)
   {
@@ -562,59 +557,63 @@ void UMLController::list_attributes(UMLClass theClass)
 
 /*************************/
 
-void UMLController::add_attribute(UMLClass &outClass)
+void UMLController::add_attribute(string className)
 {
-  UMLAttribute newAttribute;
-  string name;
+  string attName;
+  cout << "Type a name for the attribute you\'d like to add. -> ";
+  cin >> attName;
 
-  cout << "Type a name for the new attribute. -> ";
-  cin >> name;
+  UMLAttribute newAttribute {attName};
+  
 
-  /*if(!newAttribute.set_attribute_name())
+  if(!Model.add_class_attribute(className, newAttribute))
   {
-    cout << "Error! Failed to set attribute name.";
+    cout << "Error! Could not add new attribute.\n";
     return;
-  }*/
-  
-  newAttribute.set_attribute_name(name);
-  
-  outClass.add_attribute(newAttribute);
+  }
 
-  cout << "Successfully added new attribute " << std::endl;
+  cout << "You have added the attribute \"" << attName << "\" to the class \"" << className << "\".\n";
 }
 
 /*************************/
 
-void UMLController::delete_attribute(UMLClass &outClass)
+void UMLController::delete_attribute(string className)
 {
-  string name;
-  vector<UMLAttribute> attributeList = outClass.get_all_attributes();
+  string attName;
   cout << "Type the name of the attribute you\'d like to delete. -> ";
-  cin >> name;
-  
-  outClass.remove_attribute(name);
-  cout << "Successfully removed attribute " << std::endl;
+  cin >> attName;
+
+  if(!Model.remove_class_attribute(className, attName))
+  {
+    cout << "Error! Could not delete attribute.\n";
+    return;
+  }
+  cout << "The attribute \"" << attName << "\" was deleted.\n";
 }
 
 /*************************/
 
-void UMLController::rename_attribute(UMLClass &outClass)
+void UMLController::rename_attribute(string className)
 {
-  string nameFrom;
-  string nameTo;
+  string attNameFrom;
+  string attNameTo;
 
-  cout << "Type the name of the attribute you\'d like to rename FROM. -> ";
-  cin >> nameFrom;
+  cout << "Type the name of the attribute you'd like to rename FROM -> ";
+  cin >> attNameFrom;
+  cout << "Type the name of the attribute you'd like to rename TO -> ";
+  cin >> attNameTo; 
 
-  cout << "Type the name of the attribute you\'d like to rename TO. -> ";
-  cin >> nameTo;
-  
-  if(outClass.rename_attribute(nameFrom, nameTo))
+  if(!Model.remove_class_attribute(className, attNameFrom))
   {
-    cout << "Successfully renamed attribute" << std::endl;
+    cout << "Error! Attribute was not found on the class " << className << "\n";
+    return;
   }
-  else
+
+  if(!Model.add_class_attribute(className, attNameTo))
   {
-    cout << "Error editing attribute. Aborting" << std::endl;
+    cout << "Error! Attribute could not be added to " << className << "\n";
+    return;
   }
+
+  cout << "Attribute successfully renamed" << std::endl;
 }
