@@ -37,13 +37,14 @@ class UMLController
 
         void print_attribute_commands();
 
-        void list_attributes(UMLClass theClass);
+        void list_attributes(string className);
         
-        void add_attribute(UMLClass &outClass);
+        void add_attribute(string className);
 
-        void delete_attribute(UMLClass &outClass);
+        void delete_attribute(string className);
 
-        void rename_attribute(UMLClass &outClass);
+        void rename_attribute(string className);
+
 
         // The view will also eventually go here
         
