@@ -93,7 +93,6 @@ bool UMLModel::modify_class_name(std::string nameFrom, std::string nameTo)
     {
         auto iter = get_class_iter_by_name(nameFrom);
         (*iter).set_class_name(nameTo);
-        modify_relationship(nameFrom, nameTo);
         return true;
     }
 }
@@ -134,16 +133,19 @@ bool UMLModel::does_relationship_exist(std::string classSrc, std::string classDe
     return get_relationship_iter_by_src_and_dest_name(classSrc, classDest) != AllRelationships.end();
 }
 
-bool UMLModel::add_relationship(UMLClass src, UMLClass dest)
+bool UMLModel::add_relationship(std::string classSrc, std::string classDest)
 {
-    if(does_relationship_exist(src.get_class_name(), dest.get_class_name()))
+    if(does_relationship_exist(classSrc, classDest))
     {
         return false;
     }
     else
     {
-        if (does_class_exist(src.get_class_name()) && does_class_exist(dest.get_class_name()))
+        if (does_class_exist(classSrc) && does_class_exist(classDest))
         {
+            UMLClass& src = *(get_class_iter_by_name(classSrc));
+            UMLClass& dest = *(get_class_iter_by_name(classDest));
+
             UMLRelationship newRelationship {src, dest};
             AllRelationships.push_back(newRelationship);
             return true;
@@ -212,21 +214,6 @@ bool UMLModel::get_relationship_by_src_and_dest(std::string classSrc, std::strin
     {
         return false;
     }
-}
-
-void UMLModel::modify_relationship(std::string nameFrom, std::string nameTo)
-{
-    for (auto i = AllRelationships.begin() ; i != AllRelationships.end() ; i++)
-        {
-            if ((*i).get_src_class().get_class_name() == nameFrom)
-            {
-                (*i).get_src_class().set_class_name(nameTo);
-            }
-            if ((*i).get_dest_class().get_class_name() == nameFrom)
-            {
-                (*i).get_dest_class().set_class_name(nameTo);
-            }
-        }
 }
 
 bool UMLModel::get_class_by_name(std::string className, UMLClass& outClass)

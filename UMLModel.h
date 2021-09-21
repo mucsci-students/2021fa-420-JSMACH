@@ -75,8 +75,7 @@ class UMLModel {
         //Does not allow duplicate relationship names
         //If name valid, checks that both source and destination class exist
         //If so, relationship added to list AllRelationships
-        bool add_relationship(UMLClass src, UMLClass dest);
-
+        bool add_relationship(std::string classSrc, std::string classDest);
 
         bool remove_relationship(std::string classSrc, std::string classDest);
 
@@ -96,8 +95,6 @@ class UMLModel {
         // Returns true if the relationship exists, false otherwise
         // NOTE: modifying the contents of outRelationship does not modify the contents of the model.
         bool get_relationship_by_src_and_dest(std::string classSrc, std::string classDest, UMLRelationship& outRelationship);
-
-        void modify_relationship(std::string nameFrom, std::string nameTo);
 
         // Gets a copy of the class specified by name and puts it into the outClass variable
         // Returns true if the class exists, false otherwise

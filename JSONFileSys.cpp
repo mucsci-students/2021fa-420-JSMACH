@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using json = nlohmann::json;
 
@@ -30,6 +31,12 @@ void JSONFileSys::save_current_model(std::string fileName, UMLModel currentModel
 
 bool JSONFileSys::load_current_model(std::string fileName, UMLModel& currentModel)
 {
+    // Grab the current model classes and relationship data.
+    // In case the model attempting to be loaded isn't valid,
+    // the data needs to be "put back"
+    auto oldClassData = currentModel.AllClasses;
+    auto oldRelationshipData = currentModel.AllRelationships;
+
     try
     {
         std::string saveName = fileName.append(".json");
@@ -39,30 +46,46 @@ bool JSONFileSys::load_current_model(std::string fileName, UMLModel& currentMode
         {
             json data = json::parse(ifs);
 
+            // Ensure classes loaded from json are valid
             std::list <UMLClass> candidateClassList = data["AllClasses"].get<std::list<UMLClass>>();
-            std::list <UMLRelationship> candidateRelationshipList = data["AllRelationships"].get<std::list<UMLRelationship>>();
-
-            if(ensure_json_classes_is_valid(candidateClassList) 
-                && ensure_json_relationships_is_valid(candidateRelationshipList))
+            if(ensure_json_classes_is_valid(candidateClassList))
             {
                 currentModel.AllClasses = candidateClassList;
-                currentModel.AllRelationships = candidateRelationshipList;
-                return true;
             }
             else
             {
                 ifs.close();
                 return false;
             }
+
+            // reinitializing relationships is... complicated...
+            json candidateRelationshipJson = data["AllRelationships"];
+            
+            if(initialize_relationships(candidateRelationshipJson, currentModel))
+            {
+                ifs.close();
+                return true;
+            }
+            else
+            {
+                currentModel.AllClasses = oldClassData;
+                currentModel.AllRelationships = oldRelationshipData;
+                ifs.close();
+                return false;
+            }
         }
         else
         {
+            // Don't bother to reinstate old data; we didn't get to that point
             ifs.close();
             return false;
         }
     }
     catch(...)
     {
+        // In the case of an exception, we want to put the old data back for safety
+        currentModel.AllClasses = oldClassData;
+        currentModel.AllRelationships = oldRelationshipData;
         return false;
     }
     return false;
@@ -89,23 +112,19 @@ bool JSONFileSys::ensure_json_classes_is_valid(std::list <UMLClass> candidateCla
     return true;
 }
 
-bool JSONFileSys::ensure_json_relationships_is_valid(std::list <UMLRelationship> candidateRelationshipList)
-{/*
-    // Iterate through each relationship in the list
-    for(auto iter = candidateRelationshipList.begin(); iter != candidateRelationshipList.end(); iter++)
+bool JSONFileSys::initialize_relationships(json candidateRelationshipJson, UMLModel& currentModel)
+{
+    for (json::iterator it = candidateRelationshipJson.begin(); it != candidateRelationshipJson.end(); ++it)
     {
-        std::string currentRelationshipName = (*iter).get_relationship_name();
-        int count = 0;
-        // Iterate through the list and see if the name of the current relationship matches any of the others
-        // Valid models should only have ONE relationship name. If the count of relationship names is >1, return false.
-        for(auto relIter = candidateRelationshipList.begin(); relIter != candidateRelationshipList.end(); relIter++)
+        json j = *it;
+        std::string classSrcName = j["ClassSrc"];
+        std::string classDestName = j["ClassDest"];
+
+        if(!currentModel.add_relationship(classSrcName, classDestName))
         {
-            if((*relIter).get_relationship_name() == currentRelationshipName)
-                count++;
-        }
-        if(count > 1)
             return false;
+        }
     }
-    */
+    
     return true;
 }
