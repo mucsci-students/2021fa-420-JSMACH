@@ -514,7 +514,7 @@ void UMLController::save_json()
   //This call will be deleted once the model function becomes a bool
   Model.save_model_to_json(fileName);
   
-  cout << "Your progress was saved to" << fileName << ".json\n";
+  cout << "Your progress was saved to " << fileName << ".json\n";
 }
 /***********************************************************/
 //Helper Functions

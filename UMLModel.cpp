@@ -5,7 +5,7 @@ UMLModel::UMLModel() {}
 
 UMLModel::~UMLModel(){}
 
-std::list<UMLClass>::iterator UMLModel::get_class_iter_by_name(std::string className)
+std::list<UMLClass>::iterator UMLModel::get_class_iter_by_name(const std::string& className)
 {
     if(AllClasses.empty())
         return AllClasses.end();
@@ -19,7 +19,7 @@ std::list<UMLClass>::iterator UMLModel::get_class_iter_by_name(std::string class
     return AllClasses.end();
 }
 
-bool UMLModel::does_class_exist(std::string className)
+bool UMLModel::does_class_exist(const std::string& className)
 {
     return get_class_iter_by_name(className) != AllClasses.end();
 }
@@ -37,7 +37,7 @@ bool UMLModel::add_class(UMLClass newClass)
     }
 }
 
-bool UMLModel::add_class(std::string className)
+bool UMLModel::add_class(const std::string& className)
 {
     if(does_class_exist(className))
     {
@@ -51,7 +51,7 @@ bool UMLModel::add_class(std::string className)
     }
 }
 
-bool UMLModel::add_class(std::string className, std::vector<UMLAttribute> attributes)
+bool UMLModel::add_class(const std::string& className, std::vector<UMLAttribute> attributes)
 {
     if(does_class_exist(className))
     {
@@ -65,7 +65,7 @@ bool UMLModel::add_class(std::string className, std::vector<UMLAttribute> attrib
     }
 }
 
-bool UMLModel::remove_class(std::string className)
+bool UMLModel::remove_class(const std::string& className)
 {
     auto iter = get_class_iter_by_name(className);
 
@@ -81,7 +81,7 @@ bool UMLModel::remove_class(std::string className)
     }
 }
 
-bool UMLModel::modify_class_name(std::string nameFrom, std::string nameTo)
+bool UMLModel::modify_class_name(const std::string& nameFrom, const std::string& nameTo)
 {
     // If the name we're modifying to exists already OR the name we're modifying 
     // from doesn't exist, return false
@@ -109,7 +109,7 @@ const std::list <std::string> UMLModel::get_all_class_names()
     return result;
 }
 
-std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_src_and_dest_name(std::string classSrc, std::string classDest)
+std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_src_and_dest_name(const std::string& classSrc, const std::string& classDest)
 {
     if(AllRelationships.empty())
     {
@@ -128,12 +128,12 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_src_and_
     return AllRelationships.end();
 }
  
-bool UMLModel::does_relationship_exist(std::string classSrc, std::string classDest)
+bool UMLModel::does_relationship_exist(const std::string& classSrc, const std::string& classDest)
 {
     return get_relationship_iter_by_src_and_dest_name(classSrc, classDest) != AllRelationships.end();
 }
 
-bool UMLModel::add_relationship(std::string classSrc, std::string classDest)
+bool UMLModel::add_relationship(const std::string& classSrc, const std::string& classDest)
 {
     if(does_relationship_exist(classSrc, classDest))
     {
@@ -157,7 +157,7 @@ bool UMLModel::add_relationship(std::string classSrc, std::string classDest)
     }
 }
 
- bool UMLModel::remove_relationship(std::string classSrc, std::string classDest)
+ bool UMLModel::remove_relationship(const std::string& classSrc, const std::string& classDest)
  {
      auto i = get_relationship_iter_by_src_and_dest_name(classSrc, classDest);
      if (i == AllRelationships.end())
@@ -171,7 +171,7 @@ bool UMLModel::add_relationship(std::string classSrc, std::string classDest)
      }
 }
 
- const std::list <UMLRelationship> UMLModel::get_class_relationships(std::string className)
+ const std::list <UMLRelationship> UMLModel::get_class_relationships(const std::string& className)
  {
      std::list <UMLRelationship> result;
 
@@ -193,7 +193,7 @@ const std::list <UMLRelationship> UMLModel::get_all_relationships()
     return AllRelationships;
 }
 
-void UMLModel::ensure_relationship_delete(std::string className)
+void UMLModel::ensure_relationship_delete(const std::string& className)
 {
     std::list <UMLRelationship> classRelats = get_class_relationships(className);
     
@@ -203,7 +203,7 @@ void UMLModel::ensure_relationship_delete(std::string className)
     }
 }
 
-bool UMLModel::get_relationship_by_src_and_dest(std::string classSrc, std::string classDest, UMLRelationship& outRelationship)
+bool UMLModel::get_relationship_by_src_and_dest(const std::string& classSrc, const std::string& classDest, UMLRelationship& outRelationship)
 {
     if(does_relationship_exist(classSrc, classDest))
     {
@@ -216,7 +216,7 @@ bool UMLModel::get_relationship_by_src_and_dest(std::string classSrc, std::strin
     }
 }
 
-bool UMLModel::get_class_by_name(std::string className, UMLClass& outClass)
+bool UMLModel::get_class_by_name(const std::string& className, UMLClass& outClass)
 {
     if(does_class_exist(className))
     {
@@ -229,7 +229,7 @@ bool UMLModel::get_class_by_name(std::string className, UMLClass& outClass)
     }
 }
 
-bool UMLModel::add_class_attribute(std::string className, UMLAttribute attribute)
+bool UMLModel::add_class_attribute(const std::string& className, UMLAttribute attribute)
 {
     if(does_class_exist(className))
     {
@@ -241,7 +241,7 @@ bool UMLModel::add_class_attribute(std::string className, UMLAttribute attribute
     }
 }
 
-bool UMLModel::remove_class_attribute(std::string className, std::string attributeName)
+bool UMLModel::remove_class_attribute(const std::string& className, const std::string& attributeName)
 {
     if(does_class_exist(className))
     {
