@@ -4,14 +4,17 @@
 #include "UMLClass.h"
 #include "UMLRelationship.h"
 #include "UMLModel.h"
+#include <nlohmann/json.hpp>
 #include <string>
 #include <list>
 
+using json = nlohmann::json;
 
 class JSONFileSys {
     private:
         bool ensure_json_classes_is_valid(std::list <UMLClass> candidateClassList);
         bool ensure_json_relationships_is_valid(std::list <UMLRelationship> candidateRelationshipList);
+        bool initialize_relationships(json candidateRelationshipJson, UMLModel& currentModel);
     
     public:
         JSONFileSys();

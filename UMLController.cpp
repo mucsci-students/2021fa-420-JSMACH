@@ -271,8 +271,6 @@ void UMLController::create_relationship()
 
   string sourceClassName;
   string destinationClassName;
-  UMLClass srcClass;
-  UMLClass destClass;
   bool srcValid = false;
   bool destValid = false;
 
@@ -280,7 +278,7 @@ void UMLController::create_relationship()
   {
     cout << "Type in a class name you'd like to use for the source -> ";
     cin >> sourceClassName;
-    if(!Model.get_class_by_name(sourceClassName, srcClass))
+    if(!Model.does_class_exist(sourceClassName))
     {
       cout << "No such class " << sourceClassName << std::endl;
     }
@@ -294,7 +292,7 @@ void UMLController::create_relationship()
   {
     cout << "Type in a class name you'd like to use for the destination -> ";
     cin >> destinationClassName;
-    if(!Model.get_class_by_name(destinationClassName, destClass))
+    if(!Model.does_class_exist(destinationClassName))
     {
       cout << "No such class " << destinationClassName << std::endl;
     }
@@ -310,7 +308,7 @@ void UMLController::create_relationship()
     return;
   }
 
-  if(Model.add_relationship(srcClass, destClass))
+  if(Model.add_relationship(sourceClassName, destinationClassName))
     cout << "Add successful!" << std::endl;
   else
     cout << "Adding somehow failed." << std::endl;
@@ -516,7 +514,7 @@ void UMLController::save_json()
   //This call will be deleted once the model function becomes a bool
   Model.save_model_to_json(fileName);
   
-  cout << "Your progress was saved to" << fileName << ".json\n";
+  cout << "Your progress was saved to " << fileName << ".json\n";
 }
 /***********************************************************/
 //Helper Functions

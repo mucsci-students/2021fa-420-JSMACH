@@ -28,9 +28,9 @@ class UMLModel {
         std::list <UMLRelationship> AllRelationships;
 
         // Internal method for getting an iterator to the class in the model by name.
-        std::list<UMLClass>::iterator get_class_iter_by_name(std::string className);
+        std::list<UMLClass>::iterator get_class_iter_by_name(const std::string& className);
 
-        std::list<UMLRelationship>::iterator get_relationship_iter_by_src_and_dest_name(std::string classSrc, std::string classDest);
+        std::list<UMLRelationship>::iterator get_relationship_iter_by_src_and_dest_name(const std::string& classSrc, const std::string& classDest);
 
         friend class JSONFileSys;
         
@@ -41,48 +41,47 @@ class UMLModel {
         
         // Checks to see if the class name already exists in the model.
         // Returns true if the class exists in the model already, and false otherwise.
-        bool does_class_exist(std::string className);
+        bool does_class_exist(const std::string& className);
 
         bool add_class(UMLClass newClass);
 
         // Adds a class to the model from a name alone.
         // Returns true if the add was successful, false if it failed.
-        bool add_class(std::string className);
+        bool add_class(const std::string& className);
 
         // Adds a class to the model from a name and a vector of attributes.
         // Returns true if the add was successful, false if it failed.
-        bool add_class(std::string className, std::vector<UMLAttribute> attributes);
+        bool add_class(const std::string& className, std::vector<UMLAttribute> attributes);
 
         // Removes a class from the model by name.
         // Returns true if the removal was successful, false otherwise.
-        bool remove_class(std::string className);
+        bool remove_class(const std::string& className);
 
         // Modify a class name from the nameFrom parameter to the nameTo parameter.
         // Returns false in cases where either the nameFrom doesnt exist or the
         // nameTo is not a valid name. Returns true if the modify was successful.
-        bool modify_class_name(std::string nameFrom, std::string nameTo);
+        bool modify_class_name(const std::string& nameFrom, const std::string& nameTo);
 
-        bool add_class_attribute(std::string className, UMLAttribute attribute);
+        bool add_class_attribute(const std::string& className, UMLAttribute attribute);
 
-        bool remove_class_attribute(std::string className, std::string attributeName);
+        bool remove_class_attribute(const std::string& className, const std::string& attributeName);
 
         // Returns a string list that contains all the current classes in the model.
         const std::list <std::string> get_all_class_names();
 
         //Checks if relationship with name already exists
-        bool does_relationship_exist(std::string classSrc, std::string classDest);
+        bool does_relationship_exist(const std::string& classSrc, const std::string& classDest);
 
         //Does not allow duplicate relationship names
         //If name valid, checks that both source and destination class exist
         //If so, relationship added to list AllRelationships
-        bool add_relationship(UMLClass src, UMLClass dest);
+        bool add_relationship(const std::string& classSrc, const std::string& classDest);
 
-
-        bool remove_relationship(std::string classSrc, std::string classDest);
+        bool remove_relationship(const std::string& classSrc, const std::string& classDest);
 
         //Checks that class exists
         //Returns list of relationships where className is either its source or destination
-        const std::list <UMLRelationship> get_class_relationships(std::string className);
+        const std::list <UMLRelationship> get_class_relationships(const std::string& className);
 
         //Returns list of all current existing and valid relationships.
         const std::list <UMLRelationship> get_all_relationships();
@@ -90,19 +89,17 @@ class UMLModel {
         //Called when a class is deleted
         //Checks if class being deleted is either a source or destination of a relationship
         //If so, relationship is also deleted because relationshp cannot exist without source AND destination.
-        void ensure_relationship_delete(std::string className);
+        void ensure_relationship_delete(const std::string& className);
         
         // Gets a copy of the relationship specified by name and puts it into the outRelationship variable
         // Returns true if the relationship exists, false otherwise
         // NOTE: modifying the contents of outRelationship does not modify the contents of the model.
-        bool get_relationship_by_src_and_dest(std::string classSrc, std::string classDest, UMLRelationship& outRelationship);
-
-        void modify_relationship(std::string nameFrom, std::string nameTo);
+        bool get_relationship_by_src_and_dest(const std::string& classSrc, const std::string& classDest, UMLRelationship& outRelationship);
 
         // Gets a copy of the class specified by name and puts it into the outClass variable
         // Returns true if the class exists, false otherwise
         // NOTE: modifying the contents of outClass does not modify the contents of the model.
-        bool get_class_by_name(std::string className, UMLClass& outClass);
+        bool get_class_by_name(const std::string& className, UMLClass& outClass);
 
         // Saves the current model to a json file, "fileName.json"
         // 
