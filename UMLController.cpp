@@ -28,11 +28,6 @@ using std::vector;
 
 
 /***********************************************************/
-//Structs & Global Variables 
-
-
-
-/***********************************************************/
 //Constructor
 
 UMLController::UMLController()
@@ -91,14 +86,14 @@ void UMLController::execute()
       load_json();
     else if(userInput == "save")
       save_json();
-    else if (userInput == "exit")
+    else if (userInput == "quit")
       cout << "\n";
     else
     {
       cout << "Invadid command! Type \"help\" to view all available commands.\n";
     }
 
-  } while (userInput != "exit");
+  } while (userInput != "quit");
   
   //This is when the user quits their current session. But I figured I'd make it a little more interesting...  >:D
   cout << "See ya\n";
@@ -130,8 +125,7 @@ void UMLController::print_command_list()
     << "                      the model from that file. WARNING! Existing progress will be overwritten!\n\n"
     << "save                : User will be prompted to name the JSON file, which will contain their\n"
     << "                      current progress.\n\n"
-    << "quit                : Exit your current session.\n\n"
-    << "exit                : Exit your current session.\n\n";
+    << "quit                : Exit your current session.\n\n";
 }
 
 /*************************/
