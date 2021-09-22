@@ -17,7 +17,9 @@
 
 3. Navigate to the project root (Should have a CMakeLists.txt file in it)
 4. `conan install .` - installs library dependencies
-5. `cmake . .` - creates Makefile, SLN file, etc depending on your compiler
+5. `mkdir build`
+6. `cd build`
+5. `cmake ..` - creates Makefile, SLN file, etc depending on your compiler
 6. If cmake compiled with Visual Studio, then you should have a .sln file that you can compile using either Visual Studio or using the Visual Studio Developer Command Prompt with 
 
     ```cl /EHsc main.cpp```
@@ -26,8 +28,6 @@
 
     ```make```
 
-9. An executable should be under the bin folder.
-
-    ```cd bin```
+9. An executable should be available.
     
     ```./jsmach_uml```

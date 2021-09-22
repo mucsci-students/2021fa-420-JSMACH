@@ -6,16 +6,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED Off)
 include(conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
+add_library(uml)
+target_sources(uml PRIVATE "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp")
+target_link_libraries(uml CONAN_PKG::nlohmann_json)
+
 add_executable(jsmach_uml)
-target_sources(jsmach_uml PUBLIC main.cpp "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp")
+target_sources(jsmach_uml PUBLIC main.cpp)
+target_link_libraries(jsmach_uml uml)
 
-target_link_libraries(jsmach_uml CONAN_PKG::nlohmann_json)
-
-FILE(GLOB TEST_FILES tests/*.cpp)
-
-add_executable(jsmach_tests tests/UnitTests.cpp ${TEST_FILES})
-target_sources(jsmach_tests PUBLIC "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp")
-target_link_libraries(jsmach_tests CONAN_PKG::catch2 CONAN_PKG::nlohmann_json)
+add_executable(jsmach_tests)
+target_sources(jsmach_tests PUBLIC tests/UnitTests.cpp tests/UMLModel_Test.cpp)
+target_link_libraries(jsmach_tests uml CONAN_PKG::catch2)
 
 
 enable_testing()
