@@ -23,6 +23,7 @@ class UMLRelationship {
 
 	public:
 		UMLRelationship();
+		UMLRelationship(UMLClass& src, UMLClass& dest);
 		UMLRelationship(UMLClass& src, UMLClass& dest, RelationshipType type);
 		~UMLRelationship();
 
@@ -30,6 +31,7 @@ class UMLRelationship {
 		const UMLClass& get_dest_class() const;
 
 		std::string type_to_string();
+		static RelationshipType type_from_string(std::string typeName);
 		bool set_type(std::string);
  
 };
