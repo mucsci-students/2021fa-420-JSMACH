@@ -32,7 +32,7 @@ class UMLRelationship {
 
 		std::string type_to_string();
 		static RelationshipType type_from_string(std::string typeName);
-		bool set_type(std::string);
+		void set_type(std::string typeName);
  
 };
 

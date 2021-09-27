@@ -66,8 +66,14 @@ RelationshipType UMLRelationship::type_from_string(std::string typeName)
   {
     return RelationshipType::Realization;
   }
-  
+
   throw UMLErrorCode::no_such_relationship_type;
+}
+
+void UMLRelationship::set_type(std::string typeName)
+{
+  RelationshipType newType = type_from_string(typeName);
+  this->Type = newType;
 }
 
 void to_json(json& j, const UMLRelationship& ur)
