@@ -19,6 +19,7 @@
 //include statements
 
 #include "UMLController.h"
+#include "UMLException.hpp"
 #include <iostream>
 #include <vector>
 #include <string.h>
@@ -178,7 +179,8 @@ void UMLController::list_relationships()
       UMLRelationship currentRel = *iter;
       string source = currentRel.get_src_class().get_class_name();
       string destination = currentRel.get_dest_class().get_class_name();
-      Interface.display_relationship(source, destination);
+      string rType = currentRel.type_to_string();
+      Interface.display_relationship(source, destination, rType);
     }
   }
   
@@ -264,8 +266,12 @@ void UMLController::create_relationship()
 
   string sourceClassName;
   string destinationClassName;
+  string relationshipType;
+  RelationshipType rType;
+
   bool srcValid = false;
   bool destValid = false;
+  bool relationshipTypeValid = false;
 
   do
   {
@@ -299,11 +305,30 @@ void UMLController::create_relationship()
   if(Model.does_relationship_exist(sourceClassName, destinationClassName))
   {
     Interface.display_message("A relationship already exists between " + sourceClassName + " and " + destinationClassName + ". Aborting.\n");
-
     return;
   }
 
-  if(Model.add_relationship(sourceClassName, destinationClassName))
+  do
+  {
+    try
+    {
+      Interface.display_message("Give a type for your new relationship\n");
+      Interface.display_message("(Aggregation, Composition, Inheritance, Realization) -> ");
+      relationshipType = Interface.get_user_input();
+
+      rType = UMLRelationship::type_from_string(relationshipType);
+      relationshipTypeValid = true;
+    }
+    catch(UMLErrorCode e)
+    {
+      Interface.display_message(UMLException::error_to_string(e));
+      Interface.display_message("\n");
+    }
+    
+  } while (!relationshipTypeValid);
+  
+
+  if(Model.add_relationship(sourceClassName, destinationClassName, rType))
     Interface.display_message("Add successful!\n");
   else
     Interface.display_message("Adding somehow failed.\n");

@@ -75,7 +75,7 @@ class UMLModel {
         //Does not allow duplicate relationship names
         //If name valid, checks that both source and destination class exist
         //If so, relationship added to list AllRelationships
-        bool add_relationship(const std::string& classSrc, const std::string& classDest);
+        bool add_relationship(const std::string& classSrc, const std::string& classDest, RelationshipType rType);
 
         bool remove_relationship(const std::string& classSrc, const std::string& classDest);
 
