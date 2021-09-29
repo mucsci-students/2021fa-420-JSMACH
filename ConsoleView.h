@@ -46,7 +46,7 @@ public:
 
   // Takes in the source name and the destination name, then
   // it labels and prints them in a specific format.
-  void display_relationship(string source, string destination);
+  void display_relationship(string source, string destination, string rType);
 
   
   

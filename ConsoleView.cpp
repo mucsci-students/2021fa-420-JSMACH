@@ -78,8 +78,9 @@ void ConsoleView::display_attribute(string name)
 
 /*************************/
 
-void ConsoleView::display_relationship(string source, string destination)
+void ConsoleView::display_relationship(string source, string destination, string rType)
 {
+  cout << "TYPE: \n\t" << rType << "\n";
   cout << "SOURCE: \n\t" << source << "\n";
   cout << "DESTINATION: \n\t" << destination << "\n";
 }

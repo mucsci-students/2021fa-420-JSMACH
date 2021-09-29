@@ -133,7 +133,7 @@ bool UMLModel::does_relationship_exist(const std::string& classSrc, const std::s
     return get_relationship_iter_by_src_and_dest_name(classSrc, classDest) != AllRelationships.end();
 }
 
-bool UMLModel::add_relationship(const std::string& classSrc, const std::string& classDest)
+bool UMLModel::add_relationship(const std::string& classSrc, const std::string& classDest, RelationshipType rType)
 {
     if(does_relationship_exist(classSrc, classDest))
     {
@@ -146,7 +146,7 @@ bool UMLModel::add_relationship(const std::string& classSrc, const std::string& 
             UMLClass& src = *(get_class_iter_by_name(classSrc));
             UMLClass& dest = *(get_class_iter_by_name(classDest));
 
-            UMLRelationship newRelationship {src, dest};
+            UMLRelationship newRelationship {src, dest, rType};
             AllRelationships.push_back(newRelationship);
             return true;
         }
