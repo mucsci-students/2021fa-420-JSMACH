@@ -4,6 +4,8 @@
 #include "UMLClass.h"
 #include "UMLController.h"
 #include "UMLModel.h"
+#include <SDL.h>
+#include <SDL_opengl.h>
 
 
 int main()
