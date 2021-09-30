@@ -9,6 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED Off)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Catch2 CONFIG REQUIRED)
 
+#If we get nana:
+#find_package(unofficial-nana CONFIG REQUIRED)
+
 add_library(uml)
 target_sources(uml PRIVATE "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp" "UMLException.hpp" "ConsoleView.cpp")
 target_link_libraries(uml PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
@@ -16,11 +19,13 @@ target_link_libraries(uml PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
 add_executable(jsmach_uml)
 target_sources(jsmach_uml PUBLIC main.cpp)
 target_link_libraries(jsmach_uml PRIVATE uml nlohmann_json nlohmann_json::nlohmann_json)
+#If we get nana:
+#target_link_libraries(jsmach_uml PRIVATE uml nlohmann_json nlohmann_json::nlohmann_json unofficial::nana::nana)
 
 
 add_executable(jsmach_tests)
 target_sources(jsmach_tests PUBLIC tests/UnitTests.cpp tests/UMLModel_Test.cpp)
-target_link_libraries(jsmach_tests PRIVATE uml Catch2::Catch2 Catch2::Catch2WithMain)
+target_link_libraries(jsmach_tests PRIVATE uml Catch2::Catch2)
 
 
 enable_testing()
