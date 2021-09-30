@@ -1,11 +1,10 @@
-[![C/C++ CI](https://github.com/mucsci-students/2021fa-420-JSMACH/actions/workflows/realmain.yml/badge.svg)](https://github.com/mucsci-students/2021fa-420-JSMACH/actions/workflows/realmain.yml)
 # 2021fa-420-JSMACH
 
 ### Dependencies:
 
 - Python3
 - CMake (version 3.17.0 minimum)
-- Conan package manager
+- VCPKG 
 
 ### Instructions:
 
@@ -13,10 +12,31 @@
 2. Run these commands: 
 
     `sudo pip3 install cmake`
-    `sudo pip3 install conan`
 
 3. Navigate to the project root (Should have a CMakeLists.txt file in it)
-4. `conan install .` - installs library dependencies
+4. Install vcpkg for your OS:
+
+   - `git clone https://github.com/microsoft/vcpkg` - clones vcpkg (make sure you're in project root!)
+   - Next you'll install the packages the project depends on:
+   
+   - WINDOWS:
+
+        ```.\vcpkg\bootstrap-vcpkg.bat```
+
+        ```.\vcpkg\vcpkg install catch2:x64-windows nlohmann-json:x64-windows ```
+
+   - MAC:
+
+        ```./vcpkg/bootstrap-vcpkg.sh```
+
+        ```./vcpkg/vcpkg install catch2:x64-osx nlohmann-json:x64-osx ```
+
+    - LINUX:
+
+        ```./vcpkg/bootstrap-vcpkg.sh```
+
+        ```./vcpkg/vcpkg install catch2:x64-linux nlohmann-json:x64-linux ```
+
 5. `mkdir build`
 6. `cd build`
 5. `cmake ..` - creates Makefile, SLN file, etc depending on your compiler
