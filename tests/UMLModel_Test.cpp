@@ -2,6 +2,7 @@
 #include <vector>
 #include "../UMLClass.h"
 #include "../UMLAttribute.h"
+#include "../UMLRelationship.h"
 #include "../UMLModel.h"
 
 TEST_CASE("Class related operations in the UMLModel")
@@ -41,4 +42,27 @@ TEST_CASE("Class related operations in the UMLModel")
         REQUIRE(class3Copy.does_attribute_already_exist("NewAttribute") == true);
         REQUIRE(class3Copy.does_attribute_already_exist("MyAttribute1") == false);
     }
+}
+
+TEST_CASE("Relationship related operations in the UMLModel")
+{
+    UMLModel model;
+
+    model.add_class("MyClass1");
+    model.add_class("MyClass2");
+
+    model.add_relationship("MyClass1", "MyClass2");
+
+    SECTION("Ensure relationships exist")
+    {
+        REQUIRE(model.does_relationship_exist("MyClass1", "MyClass2") == true);
+        //make sure delete class
+        //make sure no duplicate
+        //recursive
+        //delete relationship
+        //delete class
+        //rename class is reflected
+    }
+
+    
 }
