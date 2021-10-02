@@ -114,6 +114,7 @@ bool JSONFileSys::ensure_json_classes_is_valid(std::list <UMLClass> candidateCla
 
 bool JSONFileSys::initialize_relationships(json candidateRelationshipJson, UMLModel& currentModel)
 {
+    /*
     for (json::iterator it = candidateRelationshipJson.begin(); it != candidateRelationshipJson.end(); ++it)
     {
         json j = *it;
@@ -125,6 +126,6 @@ bool JSONFileSys::initialize_relationships(json candidateRelationshipJson, UMLMo
             return false;
         }
     }
-    
+    */
     return true;
 }

@@ -17,6 +17,9 @@ conanbuildinfo.txt
 conaninfo.txt
 graph_info.json
 
+#VCPKG
+vcpkg/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
