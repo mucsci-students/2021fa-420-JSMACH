@@ -1,32 +1,50 @@
-
 #ifndef CLASSMETHOD
 #define CLASSMETHOD
 
 #include <string>
 #include <list>
+#include "MethodParameter.h"
 
 class ClassMethod {
     private:
         std::string ClassMethodName;
-        std::list <std::string> ClassParameters;
+        std::list <MethodParameter> MethodParameters;
 
-        std::list<std::string>::iterator get_param_iter_by_name(const std::string& paramName);
-        bool does_parameter_exist(const std::string& paramName);
-        std::string get_param_name();
-        void set_param_name(std::string newName);
+        std::list<MethodParameter>::iterator get_param_iter_by_name(const std::string& paramName);
 
     public:
+        // No method parameters constructor
         ClassMethod(std::string name);
-        ClassMethod(std::string name, std::list<std::string> parameters);
+
+        // Method name and parameters constructor
+        ClassMethod(std::string name, std::list<MethodParameter> parameters);
         ~ClassMethod();
 
+        // Getter for method name
         std::string get_method_name() const;
+        // Setter for method name
         void set_method_name(const std::string& name);
 
-        const std::list <std::string> get_parameters() const;
-        bool add_parameter(const std::string& paramName);
+        // Gets a const list of all the method parameters in the current method
+        // Could return empty list if there are no parameters
+        const std::list <MethodParameter> get_parameters() const;
+
+        // Adds a MethodParameter object to the method parameter list
+        // Returns true if successful
+        // Returns false in cases where the object already exists (by name)
+        bool add_parameter(MethodParameter parameter);
+
+        // Removes a parameter from the curret object method by name
+        // Returns true if successful
+        // Returns false if the parameter doesn't exist
         bool remove_parameter(const std::string& paramName);
+
+        // Renames a parameter from the "nameFrom" name to the "nameTo" name
+        // Returns true if successful
+        // Returns false if either the "nameFrom" doesn't exist or the "nameTo" already exists
         bool rename_parameter(const std::string& nameFrom, const std::string& nameTo);
+
+        bool does_parameter_exist(const std::string& paramName);
 };
 
 #endif

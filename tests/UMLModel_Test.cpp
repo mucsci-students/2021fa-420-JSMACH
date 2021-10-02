@@ -12,12 +12,25 @@ TEST_CASE("Class related operations in the UMLModel")
     // Just name
     model.add_class("MyClass1");
 
-    // Name and vector of attributes
-    std::vector <UMLAttribute> myAttributes {{"MyAttribute1"}, {"MyAttribute2"}};
-    model.add_class("MyClass2", myAttributes);
+    // Name and vector of fields and methods
+    std::vector <ClassField> myFields{ {"MyField1"}, {"MyField2"}, {"MyField3"} };
+
+    ClassMethod method1 { "MethodNoParameters" };
+    ClassMethod method2 { "MethodWithParameters" };
+    MethodParameter param1 { "MyParam1" };
+    MethodParameter param2 { "MyParam2" };
+
+    method2.add_parameter(param1);
+    method2.add_parameter(param2);
+
+    std::vector <ClassMethod> myMethods;
+    myMethods.push_back(method1);
+    myMethods.push_back(method2);
+
+    model.add_class("MyClass2", myFields, myMethods);
     
     // Derived from a new UMLClass object
-    UMLClass newClass {"MyClass3", {{"MyAttribute1"}, {"MyAttribute2"}}};
+    UMLClass newClass{ "MyClass3", {}, {} };
     model.add_class(newClass);
 
     SECTION("Overloads for adding classes all work")
@@ -29,18 +42,37 @@ TEST_CASE("Class related operations in the UMLModel")
 
     SECTION("Methods that modify classes work")
     {
+        // Ensure they get added
         REQUIRE(model.modify_class_name("MyClass1", "MyCoolClass") == true);
         REQUIRE(model.does_class_exist("MyCoolClass") == true);
         REQUIRE(model.does_class_exist("MyClass1") == false);
 
-        UMLAttribute newAttribute {"NewAttribute"};
-        REQUIRE(model.add_class_attribute("MyClass3", newAttribute) == true);
-        REQUIRE(model.remove_class_attribute("MyClass3", "MyAttribute1") == true);
+        model.modify_class_name("MyCoolClass", "MyClass1");
 
-        UMLClass class3Copy;
-        REQUIRE(model.get_class_by_name("MyClass3", class3Copy) == true);
-        REQUIRE(class3Copy.does_attribute_already_exist("NewAttribute") == true);
-        REQUIRE(class3Copy.does_attribute_already_exist("MyAttribute1") == false);
+        // Fields
+        ClassField newField{ "AnotherField" };
+        REQUIRE(model.add_class_field("MyClass3", newField) == true);
+        REQUIRE(model.does_class_have_field("MyClass3", newField.get_field_name()) == true);
+        REQUIRE(model.remove_class_field("MyClass3", newField.get_field_name()) == true);
+        REQUIRE(model.does_class_have_field("MyClass3", newField.get_field_name()) == false);
+
+        // Methods
+        ClassMethod newMethod{ "AnotherMethod" };
+        REQUIRE(model.add_class_method("MyClass1", newMethod) == true);
+        REQUIRE(model.does_class_have_method("MyClass1", "AnotherMethod") == true);
+        REQUIRE(model.rename_class_method("MyClass1", "AnotherMethod", "TheSameMethodAgain") == true);
+
+        REQUIRE(model.does_class_have_method("MyClass1", "AnotherMethod") == false);
+        REQUIRE(model.does_class_have_method("MyClass1", "TheSameMethodAgain") == true);
+        REQUIRE(model.remove_class_method("MyClass1", "TheSameMethodAgain") == true);
+        REQUIRE(model.does_class_have_method("MyClass1", "TheSameMethodAgain") == false);
+
+        // Duplicate field and method names aren't allowed:
+        ClassField duplicateField{ "MyField1" };
+        ClassMethod duplicateMethod{ "MethodNoParameters" };
+        REQUIRE(model.add_class_field("MyClass2", duplicateField) == false);
+        REQUIRE(model.add_class_method("MyClass2", duplicateMethod) == false);
+
     }
 }
 

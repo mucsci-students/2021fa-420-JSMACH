@@ -15,9 +15,10 @@ class ClassField {
 
 		ClassField(std::string name);
         ~ClassField();
-
+		// Getter for the field name
 		std::string get_field_name() const;
 
+		// Setter for the field name
 		void set_field_name(std::string newName);
 };
 

@@ -4,6 +4,8 @@
 #include <string>
 #include <cstring>
 
+#define strcasecmp _stricmp
+
 UMLRelationship::UMLRelationship(){};
 
 UMLRelationship::UMLRelationship(UMLClass& src, UMLClass& dest)
