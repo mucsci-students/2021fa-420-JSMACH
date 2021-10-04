@@ -13,7 +13,7 @@ find_package(Catch2 CONFIG REQUIRED)
 #find_package(unofficial-nana CONFIG REQUIRED)
 
 add_library(uml)
-target_sources(uml PRIVATE "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp" "UMLException.hpp" "ClassMethod.cpp" "ClassField.cpp" "MethodParameter.cpp"
+target_sources(uml PRIVATE "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "ConsoleView.cpp" "JSONFileSys.cpp" "UMLException.hpp" "ClassMethod.cpp" "ClassField.cpp" "MethodParameter.cpp")
 target_link_libraries(uml PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
 
 add_executable(jsmach_uml)

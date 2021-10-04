@@ -101,6 +101,8 @@ class UMLModel {
             //If so, relationship added to list AllRelationships
             bool add_relationship(StrRef classSrc, StrRef classDest);
 
+            bool add_relationship(StrRef classSrc, StrRef classDest, RelationshipType type);
+
             bool remove_relationship(StrRef classSrc, StrRef classDest);
 
             //Checks that class exists
