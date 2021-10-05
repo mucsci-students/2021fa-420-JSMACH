@@ -1,6 +1,6 @@
 /**
  * @file UMLController.cpp
- * @author Matt Giacoponello, Joshua Carney
+ * @author Matt Giacoponello, Joshua Carney, CJ Sydorko
  * @brief 
  * @version 0.1
  * @date 2021-09-09
@@ -61,14 +61,10 @@ void UMLController::execute()
   {
     userInput = Interface.console_menu();
 
-    //Checks for different commands
-    /*if (userInput == "help")
-    {
-      string help = command_list();
-      Interface.display_message(help);
-    }
+    if (userInput == "help")
+      Interface.help();
 
-    else */if(userInput == "list_classes")
+    else if(userInput == "list_classes")
       list_classes();
     
     else if(userInput == "list_relationships")
@@ -89,8 +85,11 @@ void UMLController::execute()
     else if(userInput == "rename_class")
       rename_class();
     
-    else if(userInput == "edit_attributes")
-      edit_attributes();
+    else if(userInput == "edit_fields")
+      edit_fields();
+    
+    else if(userInput == "edit_methods")
+      edit_methods();
     
     else if(userInput == "load")
       load_json();
@@ -109,22 +108,6 @@ void UMLController::execute()
   while(userInput != "quit");
   
   Interface.display_message("See ya!\n");
-}
-
-/*************************/
-
-/**
- * @brief Stores the list of all available commands, except for "help",
- * because let's be real here, if they didn't already know that, they
- * wouldn't have gotten here in the first place. XD
- * 
- */
-/*string UMLController::command_list()
-{
-  //Sorry. The compiler made me do it like this. X'D
-  string commandList = "COMMANDS:\n\n" + "list_classes        : Lists all classes the user has created, as well as their attributes.\n\n" + "list_relationships  : Lists all relationships created by the user. (e.g. [source -> destination])\n\n" + "create_class        : User will be prompted to name the class, and then it\'ll be created.\n\n" + "create_relationship : User will be prompted to type in a source class and a destination class.\n\n" + "delete_class        : User will be prompted to type the name of the class they\'d like to delete.\n\n" + "delete_relationship : User will be prompted to type the source and destination. The relationship\n" + "                      will be no more, but the classes will still exist.\n\n" + "rename_class        : User will be prompted to type the existing class name, and then the new\n" + "                      name.\n\n" + "edit_attributes     : User will be sent to a sub-menu, where they can enter in attribute editor\n" + "                      commands.\n\n" + "load                : User will be prompted to type the name of the json file, and then it loads\n" + "                      the model from that file. WARNING! Existing progress will be overwritten!\n\n" + "save                : User will be prompted to name the JSON file, which will contain their\n" + "                      current progress.\n\n" + "quit                : Exit your current session.\n\n";
-
-  return commandList;
 }
 
 /*************************/
@@ -154,8 +137,7 @@ void UMLController::list_classes()
       return;
     }
 
-    //This function also lists the class.
-    list_attributes(*iter);
+    Interface.display_class(currentClass);
   }
   
 }
@@ -197,36 +179,41 @@ void UMLController::create_class()
 {
   UMLClass newClass;
 
-  string userInputClassName;
+  string className;
   Interface.display_message("Choose a name for your class -> ");
-  userInputClassName = Interface.get_user_input();
+  className = Interface.get_user_input();
 
-  if(Model.does_class_exist(userInputClassName))
+  if(Model.does_class_exist(className))
   {
     Interface.display_message("That class name already exists. Aborting.\n");
     return;
   }
 
-  newClass.set_class_name(userInputClassName);
+  newClass.set_class_name(className);
 
-  int attributeCount; //We should make this unsigned in the future. The reason I'm not doing it now is because the compiler might complain.
-  Interface.display_message("How many attributes would you like to start with? -> ");
-  
-  //Hmmm... I'm not sure how to transfer this to ConsoleView appropriately.
-  //-----------------------------------------------------------------------
-  while(!(cin >> attributeCount))
+  if(Model.add_class(newClass))
   {
-    cin.clear();
-    cin.ignore(1000, '\n');
-    Interface.display_message("Invalid input. Try again (input a number): ");
+    Interface.display_message("Successfully added new class \"" + className + "\".\n");
   }
-  //-----------------------------------------------------------------------
+  else
+  {
+    Interface.display_message("Something went wrong when adding the new class " + className + "\n");
+    return;
+  }
+  
+  // This commented out portion will eventually be deleted. But it has pretty much
+  // the EXACT same syntax as what you'll be doing for the fields. In fact, if I
+  // were you, I'd copy and paste this, and then edit it to say 'field(s)' instead of
+  // 'attribute(s)'.
+
+  /*
+  Interface.display_message("How many attributes would you like to start with? -> ");
+  unsigned int attributeCount = Interface.user_int_input();
 
   for(int i = 0; i < attributeCount; i++)
   {
-    string attributeName;
     Interface.display_message("What would you like to name your attribute? -> ");
-    attributeName = Interface.get_user_input();
+    string attributeName = Interface.get_user_input();
 
     UMLAttribute newAttribute {attributeName};
     if(!newClass.add_attribute(newAttribute))
@@ -234,16 +221,49 @@ void UMLController::create_class()
       Interface.display_message("That attribute name was not valid (duplicate attribute)\n");
       i--;
     }
+  } */
+
+  //--------------------------------------------------------------------
+  // TODO
+  // Hint: When declaring the field, use the type 'ClassField'
+
+  //--------------------------------------------------------------------
+
+
+  Interface.display_message("How many methods would you like to start with? -> ");
+  unsigned int methodCount = Interface.user_int_input();
+
+
+
+  for(int i = 0; i < methodCount; i++)
+  {
+    Interface.display_message("What would you like to name your method? -> ");
+    string methodName = Interface.get_user_input();
+    
+    ClassMethod newMethod {methodName};
+
+    if(!Model.add_class_method(className, newMethod))
+    {
+      Interface.display_message("Error! The method \"" + methodName + "\" could not be created.\n");
+      Interface.display_message("Either the method already exists, or the name is invalid.\n");
+      i--;
+    } 
+    else
+    {
+      Interface.display_message("The method \"" + methodName + "\" was successfully created!\n");
+      Interface.display_message("How many parameters would you like to give this method? -> ");
+      unsigned int parameterCount = Interface.user_int_input();
+      
+      for(int j = 0; j < parameterCount; j++)
+      {
+        if(!add_parameter(className, methodName))
+          j--;
+      }
+    }
   }
 
-  if(Model.add_class(newClass))
-  {
-    Interface.display_message("Successfully added new class " + userInputClassName + "\n");
-  }
-  else
-  {
-    Interface.display_message("Something went wrong when adding the new class " + userInputClassName + "\n");
-  }
+  Interface.display_message("Overview:\n");
+  Interface.display_class(newClass);
 }
 
 /*************************/
@@ -314,7 +334,7 @@ void UMLController::create_relationship()
     {
       Interface.display_message("Give a type for your new relationship\n");
       Interface.display_message("(Aggregation, Composition, Inheritance, Realization) -> ");
-      relationshipType = Interface.get_user_input();
+      relationshipType = Interface.get_relationship_type();
 
       rType = UMLRelationship::type_from_string(relationshipType);
       relationshipTypeValid = true;
@@ -417,15 +437,12 @@ void  UMLController::rename_class()
 
 
 
-
-
-
 /*************************/
 
 /**
  * @brief 
  * 
- */
+ *
 void UMLController::edit_attributes()
 {
   string className;
@@ -437,6 +454,7 @@ void UMLController::edit_attributes()
   if (!Model.does_class_exist(className))
   {
     Interface.display_message("Error! The class you typed does not exist.\n");
+    Interface.display_message("Returning to main menu.\n");
     return;
   }
 
@@ -445,13 +463,13 @@ void UMLController::edit_attributes()
   {
     Interface.display_message("-> ");
 
-    input = Interface.attribute_menu();
+    input = Interface.get_user_input();
     
-    /*if(input == "help")
-      print_attribute_commands();
+    if(input == "help")
+      Interface.print_attribute_commands();
     
-    else */if(input == "view")
-      list_attributes(className);
+    else if(input == "view")
+      Interface.display_class();
     
     else if(input == "add")
       add_attribute(className);
@@ -462,6 +480,12 @@ void UMLController::edit_attributes()
     else if(input == "rename")
       rename_attribute(className);
     
+    else if(input == "switch_class")
+    {
+      //recursive call
+      edit_attributes();
+      return;
+    }
     else if(input == "exit")
     {
       Interface.display_message("You have exited the attribute editor.\n");
@@ -473,6 +497,156 @@ void UMLController::edit_attributes()
   while(1);
 
 }
+
+
+
+
+/*************************/
+
+/**
+ * @brief This method will be extremely similar to the method that's commented
+ * out above. Make sure to replace anything that has to do with attributes 
+ * with stuff that has to do with fields.
+ * 
+ * Hint: If the user types "help", call Interface.print_field_commands()
+ * 
+ */
+void UMLController::edit_fields()
+{
+  // TODO
+}
+
+
+
+/*************************/
+
+/**
+ * @brief 
+ * 
+ */
+void UMLController::edit_methods()
+{
+  string className;
+  string input;
+  UMLClass currentClass;
+  
+  Interface.display_message("Enter the name of the class whose methods and/or parameters you\'d like to edit.\n-> ");
+  className = Interface.get_user_input();
+
+  if (!Model.does_class_exist(className))
+  {
+    Interface.display_message("Error! The class you typed does not exist.\n");
+    Interface.display_message("Returning to main menu.\n");
+    return;
+  }
+  if(!Model.get_class_by_name(className, currentClass))
+
+  Interface.display_message("Type \"help\" to view all available editor commands.\n");
+  do
+  {
+    Interface.display_message("-> ");
+
+    input = Interface.get_user_input();
+    
+    if(input == "help")
+      Interface.print_method_commands();
+    
+    else if(input == "view")
+      Interface.display_class();
+    
+    else if(input == "add")
+      add_method(className);
+    
+    else if(input == "delete")
+      delete_method(className);
+    
+    else if(input == "rename")
+      rename_method(className);
+    
+    else if (input == "edit_parameters")
+      edit_parameters(className);
+
+    else if (input == "switch_class")
+    {
+      //recursive call
+      edit_methods();
+      return;
+    }
+    else if(input == "exit")
+    {
+      Interface.display_message("You have exited the method editor.\n");
+      Interface.display_message("Returning to main menu.\n");
+      return;
+    }
+    else
+      Interface.display_message("Invadid command! Type \"help\" to view all available method editor commands.\n");
+  }
+  while(1);
+
+}
+
+/*************************/
+
+/**
+ * @brief 
+ * 
+ */
+void UMLController::edit_parameters(string className)
+{
+  string methodName;
+  string input;
+
+  Interface.display_message("Enter the name of the method whose parameters you\'d like to edit.\n-> ");
+  methodName = Interface.get_user_input();
+
+  if (!Model.does_class_exist(className))
+  {
+    Interface.display_message("Error! The method you typed does not exist.\n");
+    Interface.display_message("Returning to method editor.\n");
+    return;
+  }
+
+  Interface.display_message("Type \"help\" to view all available editor commands.\n");
+  do
+  {
+    Interface.display_message("-> ");
+
+    input = Interface.get_user_input();
+    
+    if(input == "help")
+      Interface.print_parameter_commands();
+    
+    else if(input == "view")
+      Interface.display_method();
+    
+    else if(input == "add")
+      add_parameter(className, methodName);
+    
+    else if(input == "delete")
+      delete_parameter(className, methodName);
+    
+    else if(input == "rename")
+      rename_parameter(className, methodName);
+    
+    else if(input == "switch_method")
+    {
+      //recursive call
+      edit_parameters(className);
+      return;
+    }
+    else if(input == "exit")
+    {
+      Interface.display_message("You have exited the parameter editor.\n");
+      Interface.display_message("Returning to method editor.\n");
+      return;
+    }
+    else
+      Interface.display_message("Invadid command! Type \"help\" to view all available parameter editor commands.\n");
+  }
+  while(1);
+
+}
+
 
 /*************************/
 
@@ -543,37 +717,12 @@ void UMLController::save_json()
 /***********************************************************/
 //Helper Functions
 
-/**
- * @brief 
- * 
- */
-/*void UMLController::print_attribute_commands()
-{
-  Interface.display_message("ATTRIBUTE EDITOR COMMANDS:\n" + "view   : View the current class with its attributes.\n" + "add    : Add a new attribute.\n" + "delete : Delete an existing attribute.\n" + "rename : Rename an existing attribute.\n" + "exit   : Quit the attribute editor and return to the normal interface.\n\n");
-}*/
 
+
+
+//ADDING
 /*************************/
-
-/**
- * @brief 
- * 
- */
-void UMLController::list_attributes(string className)
-{
-  Interface.display_class(className);
-  UMLClass modelClass;
-  Model.get_class_by_name(className, modelClass);
-  vector<UMLAttribute> attributeList = modelClass.get_all_attributes();
-
-  for (int i = 0; i < attributeList.size(); i++)
-  {
-    Interface.display_attribute(attributeList[i].get_attribute_name());
-  }
-
-}
-
-/*************************/
-
+/*
 void UMLController::add_attribute(string className)
 {
   string attName;
@@ -594,6 +743,73 @@ void UMLController::add_attribute(string className)
 
 /*************************/
 
+
+void UMLController::add_field(string className)
+{
+  // TODO
+  // Hint: The type you'll be using to declare a new field is 'ClassField'
+}
+
+
+
+/*************************/
+
+void UMLController::add_method(string className)
+{
+  string methodName;
+  Interface.display_message("Type a name for the method you\'d like to add. -> ");
+  methodName = Interface.get_user_input();
+
+  //UMLAttribute newAttribute {attName};
+  ClassMethod newMethod {methodName};
+
+  if(!Model.add_class_method(className, newMethod))
+  {
+    Interface.display_message("Error! Could not add new method.\n");
+    return;
+  }
+
+  Interface.display_message("You have added the method \"" + methodName + "\" to the class \"" + className + "\".\n");
+  Interface.display_message("How many parameters would you like to give this method? -> ");
+  unsigned int parameterCount = Interface.user_int_input();
+  
+  for(int i = 0; i < parameterCount; i++)
+  {
+    if(!add_parameter())
+      i--;
+  }
+  Interface.display_message("Overview:\n");
+  Interface.display_method(newMethod);
+}
+
+/*************************/
+
+bool UMLController::add_parameter(string className, string methodName)
+{
+
+  Interface.display_message("Type a name for your parameter -> ");
+  string parameterName = Interface.get_user_input();
+
+  MethodParameter newParameter {parameterName};
+        
+  if(!Model.add_class_method_parameter(className, methodName, newParameter))
+  {
+    Interface.display_message("Error! The parameter \"" + parameterName + "\" could not be created.\n");
+    Interface.display_message("Either the parameter already exists, or the name is invalid.\n");
+    return false;
+  }
+    Interface.display_message("The parameter \"" + parameterName + "\" was successfully created!\n");
+    return true;
+}
+
+
+
+
+
+
+//DELETING
+/*************************/
+/*
 void UMLController::delete_attribute(string className)
 {
   string attName;
@@ -610,27 +826,95 @@ void UMLController::delete_attribute(string className)
 
 /*************************/
 
-void UMLController::rename_attribute(string className)
+void UMLController::delete_field(string className)
 {
-  string attNameFrom;
-  string attNameTo;
+  //TODO
+}
 
-  Interface.display_message("Type the name of the attribute you'd like to rename FROM -> ");
-  attNameFrom = Interface.get_user_input();
-  Interface.display_message("Type the name of the attribute you'd like to rename TO -> ");
-  attNameTo = Interface.get_user_input(); 
+/*************************/
 
-  if(!Model.remove_class_attribute(className, attNameFrom))
+void UMLController::delete_method(string className)
+{
+  string methodName;
+  Interface.display_message("Type the name of the method you\'d like to delete. -> ");
+  methodName = Interface.get_user_input();
+
+  if(!Model.remove_class_method(className, methodName))
   {
-    Interface.display_message("Error! Attribute was not found on the class \"" + className + "\".\n");
+    Interface.display_message("Error! Could not delete method.\n");
+    return;
+  }
+  Interface.display_message("The method \"" + methodName + "\" was deleted.\n");
+}
+
+/*************************/
+
+void UMLController::delete_parameter(string className, string methodName)
+{
+  string parameterName;
+  Interface.display_message("Type the name of the parameter you\'d like to delete. -> ");
+  parameterName = Interface.get_user_input();
+
+  if(!Model.does_class_method_have_parameter(className, methodName, parameterName))
+  {
+    Interface.display_message("Error! The parameter you typed does not exist.\n");
     return;
   }
 
-  if(!Model.add_class_attribute(className, attNameTo))
+  if(!Model.remove_class_method_parameter(className, methodName, parameterName))
   {
-    Interface.display_message("Error! Attribute could not be added to \"" + className + "\".\n");
+    Interface.display_message("Error! Could not delete parameter.\n");
     return;
   }
+  Interface.display_message("The parameter \"" + parameterName + "\" was deleted.\n");
+}
 
-  Interface.display_message("Attribute successfully renamed.\n");
+
+
+
+//RENAMING
+/*************************/
+
+/**
+ * @brief I deleted rename_attribute() instead of commenting it out, because
+ * there was no function in the model to rename attributes, so I had to do
+ * it manually in the controller back then. But now it's super easy! :D
+ * It's basically exactly like what I have in rename_method().
+ * 
+ */
+void UMLController::rename_field()
+{
+  //TODO
+}
+
+/*************************/
+
+void UMLController::rename_method(string className)
+{
+  string methodNameFrom;
+  string methodNameTo;
+
+  Interface.display_message("Type the name of the method you\'d like to rename FROM -> ");
+  methodNameFrom = Interface.get_user_input();
+
+  Interface.display_message("Type the name of the method you\'d like to rename TO -> ");
+  methodNameTo = Interface.get_user_input();
+
+  Model.rename_class_method(className, methodNameFrom, methodNameTo);
+}
+
+/*************************/
+
+void UMLController::rename_parameter(string className, string methodName)
+{
+  string paramNameFrom;
+  string paramNameTo;
+
+  Interface.display_message("Type the name of the parameter you\'d like to rename FROM -> ");
+  paramNameFrom = Interface.get_user_input();
+
+  Interface.display_message("Type the name of the parameter you\'d like to rename TO -> ");
+  paramNameTo = Interface.get_user_input();
+
+  Model.rename_class_method_parameter(className, methodName, paramNameFrom, paramNameTo);
 }

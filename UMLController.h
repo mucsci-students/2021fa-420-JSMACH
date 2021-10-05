@@ -40,17 +40,21 @@ class UMLController
     //IView Interface; - This will be uncommented once the IView is complete.
     
     ConsoleView Interface; // This is temporary
-
-    //void print_attribute_commands();
-
-    void list_attributes(string className);
         
-    void add_attribute(string className);
+    //void add_attribute(string className);
+    void add_field(string className);
+    void add_method(string className);
+    bool add_parameter(string className, string methodName);
 
-    void delete_attribute(string className);
+    //void delete_attribute(string className);
+    void delete_field(string className);
+    void delete_method(string className);
+    void delete_parameter(string className, string methodName);
 
-    void rename_attribute(string className);
-
+    //void rename_attribute(string className);
+    void rename_field(string className);
+    void rename_method(string className);
+    void rename_parameter(string className, string methodName);
 
     // The view will also eventually go here
         
@@ -62,10 +66,6 @@ class UMLController
     // Takes in user input and calls different functions based on
     // what command the user typed.
     void execute();
-
-    // Returns a string of all available commands for the user to
-    // type in the command line, or click in the GUI.
-    //string command_list();
 
     // Lists all classes the user has created.
     void list_classes();
@@ -93,7 +93,16 @@ class UMLController
     void rename_class();
 
     // Does various things with attributes based on user input.
-    void edit_attributes();
+    //void edit_attributes();
+
+    // Does various things with fields based on user input.
+    void edit_fields();
+
+    // Does various things with methods based on user input.
+    void edit_methods();
+
+    // Does various things with parameters based on user input.
+    void edit_parameters();
 
     // Loads a json save file, overwriting the current session.
     void load_json();
