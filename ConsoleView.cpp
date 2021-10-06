@@ -71,7 +71,7 @@ void ConsoleView::display_class(UMLClass currentClass)
   vector<ClassMethod> methods = currentClass.get_all_methods();
 
   cout << "CLASS: " << className << "{\n";
-  cout << "  Fields: [feature disabled]\n";
+  cout << "  Fields:\n";
   
   for(unsigned int i = 0; i < fields.size(); i++)
   {
