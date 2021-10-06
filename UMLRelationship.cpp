@@ -4,7 +4,7 @@
 #include <string>
 #include <cstring>
 
-#define strcasecmp _stricmp
+//#define strcasecmp _stricmp
 
 UMLRelationship::UMLRelationship(){};
 
