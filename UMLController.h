@@ -102,7 +102,7 @@ class UMLController
     void edit_methods();
 
     // Does various things with parameters based on user input.
-    void edit_parameters();
+    void edit_parameters(string className);
 
     // Loads a json save file, overwriting the current session.
     void load_json();

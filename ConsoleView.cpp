@@ -71,7 +71,7 @@ void ConsoleView::display_class(UMLClass currentClass)
   vector<ClassMethod> methods = currentClass.get_all_methods();
 
   cout << "CLASS: " << className << "{\n";
-  cout << "  Fields:\n";
+  cout << "  Fields: [feature disabled]\n";
   
   for(unsigned int i = 0; i < fields.size(); i++)
   {
@@ -177,6 +177,7 @@ unsigned int ConsoleView::user_int_input()
     cin.ignore(1000, '\n');
     cout << "Invalid input. Try again (input a number): ";
   }
+  return num;
 }
 
 /*************************/
@@ -184,10 +185,10 @@ unsigned int ConsoleView::user_int_input()
 void ConsoleView::print_field_commands()
 {
   cout << "FIELD EDITOR COMMANDS:\n"
-    << "view         : View the current class with its attributes.\n"
-    << "add          : Add a new attribute.\n"
-    << "delete       : Delete an existing attribute.\n"
-    << "rename       : Rename an existing attribute.\n"
+    << "view         : View the current class with its fields.\n"
+    << "add          : Add a new field.\n"
+    << "delete       : Delete an existing field.\n"
+    << "rename       : Rename an existing field.\n"
     << "switch_class : Allows the user to switch to a different class.\n"
     << "exit         : Quit the field editor and return to the normal interface.\n\n";
 
@@ -198,10 +199,10 @@ void ConsoleView::print_field_commands()
 void ConsoleView::print_method_commands()
 {
   cout << "METHOD EDITOR COMMANDS:\n"
-    << "view            : View the current class with its attributes.\n"
-    << "add             : Add a new attribute.\n"
-    << "delete          : Delete an existing attribute.\n"
-    << "rename          : Rename an existing attribute.\n"
+    << "view            : View the current class with its methods.\n"
+    << "add             : Add a new method.\n"
+    << "delete          : Delete an existing method.\n"
+    << "rename          : Rename an existing method.\n"
     << "switch_class    : Allows the user to switch to a different class.\n"
     << "edit_parameters : User will be sent to a sub menu to edit a method's parameters.\n"
     << "exit            : Quit the method editor and return to the normal interface.\n\n";
@@ -213,9 +214,9 @@ void ConsoleView::print_parameter_commands()
 {
   cout << "PARAMETER EDITOR COMMANDS:\n"
     << "view          : View the current class with its fields, methods, and parameters.\n"
-    << "add           : Add a new attribute.\n"
-    << "delete        : Delete an existing attribute.\n"
-    << "rename        : Rename an existing attribute.\n"
+    << "add           : Add a new parameter.\n"
+    << "delete        : Delete an existing parameter.\n"
+    << "rename        : Rename an existing parameter.\n"
     << "switch_method : Allows the user to switch to a different method.\n"
     << "exit          : Quit the parameter editor and return to the method editor.\n\n";
 
