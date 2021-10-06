@@ -82,19 +82,84 @@ TEST_CASE("Relationship related operations in the UMLModel")
 
     model.add_class("MyClass1");
     model.add_class("MyClass2");
+    model.add_class("MyClass3");
+    model.add_class("MyClass4");
 
+    //just src and dest
     model.add_relationship("MyClass1", "MyClass2");
 
-    SECTION("Ensure relationships exist")
+    //recursive
+    model.add_relationship("MyClass1", "MyClass1");
+
+    //src, dest, type
+    model.add_relationship("MyClass2", "MyClass3", RelationshipType::Aggregation);
+    model.add_relationship("MyClass3", "MyClass4", RelationshipType::Composition);
+
+    RelationshipType inh = UMLRelationship::type_from_string("inHerItaNce");
+    RelationshipType real = UMLRelationship::type_from_string("REALIZATION");
+   
+    //src, dest, type (checking for case insensitivity)
+    model.add_relationship("MyClass4", "MyClass3", inh);
+    model.add_relationship("MyClass3", "MyClass2", real);
+
+    SECTION("Adding relationships")
     {
+        //src and dest
         REQUIRE(model.does_relationship_exist("MyClass1", "MyClass2") == true);
-        //make sure delete class
-        //make sure no duplicate
-        //recursive
-        //delete relationship
-        //delete class
-        //rename class is reflected
+        REQUIRE(model.does_relationship_exist("MyClass1", "MyClass1") == true);
+
+        //src, dest, type
+        REQUIRE(model.does_relationship_exist("MyClass2", "MyClass3") == true);
+        REQUIRE(model.does_relationship_exist("MyClass3", "MyClass4") == true);
+        REQUIRE(model.does_relationship_exist("MyClass4", "MyClass3") == true);
+        REQUIRE(model.does_relationship_exist("MyClass3", "MyClass2") == true);   
     }
 
-    
+    SECTION("Modifying relationships and relationships reflect class changes")
+    {
+        model.remove_class("MyClass1");
+
+        //ensure removing class removes relationship
+        REQUIRE(model.does_relationship_exist("MyClass1", "MyClass2") == false);
+        REQUIRE(model.does_relationship_exist("MyClass1", "MyClass1") == false);
+
+        model.remove_relationship("MyClass2", "MyClass3");
+
+        //ensure remove
+        REQUIRE(model.does_relationship_exist("MyClass2", "MyClass3") == false);
+
+        //no duplicates
+        REQUIRE(model.add_relationship("MyClass3", "MyClass4") == false);
+
+        model.modify_class_name("MyClass3", "NewClassName");
+
+        //rename class is reflected
+        REQUIRE(model.does_relationship_exist("MyClass3", "MyClass4") == false);
+        REQUIRE(model.does_relationship_exist("NewClassName", "MyClass4") == true);
+
+    }
+ 
+/* TEST_CASE("Requirements for UMLClass enforced")
+{
+    UMLClass myClass;
+
+    model.add_class(myClass);
+
+    SECTION("")
+    {
+        
+        
+        //no duplicate class name
+        REQUIRE(model.add_class("MyClass1") == false);
+
+        model.remove_class("MyClass1");
+
+        //remove class
+        REQUIRE(model.does_class_exist("MyClass1") == false);
+        
+    }
+
+}
+*/
+
 }
