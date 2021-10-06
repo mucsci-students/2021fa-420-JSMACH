@@ -86,10 +86,10 @@ TEST_CASE("Relationship related operations in the UMLModel")
     model.add_class("MyClass4");
 
     //just src and dest
-    model.add_relationship("MyClass1", "MyClass2");
+    model.add_relationship("MyClass1", "MyClass2", RelationshipType::Aggregation);
 
     //recursive
-    model.add_relationship("MyClass1", "MyClass1");
+    model.add_relationship("MyClass1", "MyClass1", RelationshipType::Realization);
 
     //src, dest, type
     model.add_relationship("MyClass2", "MyClass3", RelationshipType::Aggregation);
@@ -129,7 +129,7 @@ TEST_CASE("Relationship related operations in the UMLModel")
         REQUIRE(model.does_relationship_exist("MyClass2", "MyClass3") == false);
 
         //no duplicates
-        REQUIRE(model.add_relationship("MyClass3", "MyClass4") == false);
+        REQUIRE(model.add_relationship("MyClass3", "MyClass4", RelationshipType::Composition) == false);
 
         model.modify_class_name("MyClass3", "NewClassName");
 

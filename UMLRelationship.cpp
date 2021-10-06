@@ -4,7 +4,10 @@
 #include <string>
 #include <cstring>
 
-//#define strcasecmp _stricmp
+// love windows :)))
+#if defined(_WIN64)
+    #define strcasecmp _stricmp
+#endif
 
 UMLRelationship::UMLRelationship(){};
 

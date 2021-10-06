@@ -162,8 +162,7 @@ void UMLController::list_relationships()
       UMLRelationship currentRel = *iter;
       string source = currentRel.get_src_class().get_class_name();
       string destination = currentRel.get_dest_class().get_class_name();
-      //string rType = currentRel.type_to_string();
-      string rType = "[feature disabled]"; //Temporary
+      string rType = currentRel.type_to_string();
       Interface.display_relationship(source, destination, rType);
     }
   }
@@ -337,7 +336,7 @@ void UMLController::create_relationship()
     return;
   }
 
-  /*do
+  do
   {
     try
     {
@@ -354,10 +353,10 @@ void UMLController::create_relationship()
       Interface.display_message("\n");
     }
     
-  } while (!relationshipTypeValid);*/
+  } while (!relationshipTypeValid);
   
   
-  if(Model.add_relationship(sourceClassName, destinationClassName/*, rType*/))
+  if(Model.add_relationship(sourceClassName, destinationClassName, rType))
     Interface.display_message("Add successful!\n");
   else
     Interface.display_message("Adding somehow failed.\n");
@@ -706,12 +705,17 @@ void UMLController::load_json()
 
   if(answer == "n")
     return;
-    
+  
   Interface.display_message("Attempting to load JSON file...\n");
-  if (!Model.load_model_from_json(fileName))
+  try
   {
-    Interface.display_message("Loading failed! The JSON file you typed either does not exist, or is invalid.\n");
-    return;
+      Model.load_model_from_json(fileName);
+  }
+  catch (UMLErrorCode e)
+  {
+      Interface.display_message("Loading from JSON failed: \n");
+      Interface.display_message(UMLException::error_to_string(e) + "\n");
+      return;
   }
 
   Interface.display_message("Loading complete!\n");

@@ -42,12 +42,10 @@ void JSONFileSys::load_current_model(std::string fileName, UMLModel& currentMode
     try
     {
         std::string saveName = fileName.append(".json");
-        std::cout << saveName << std::endl;
         std::ifstream ifs(saveName);
         // If the file exists, load the data. Else throw exception
         if(ifs)
         {
-            std::cout << "Opened ifs" << std::endl;
             json data = json::parse(ifs);
 
             // Ensure classes loaded from json are valid

@@ -96,11 +96,6 @@ class UMLModel {
             //Checks if relationship with name already exists
             bool does_relationship_exist(StrRef classSrc, StrRef classDest);
 
-            //Does not allow duplicate relationship names
-            //If name valid, checks that both source and destination class exist
-            //If so, relationship added to list AllRelationships
-            bool add_relationship(StrRef classSrc, StrRef classDest);
-
             bool add_relationship(StrRef classSrc, StrRef classDest, RelationshipType type);
 
             bool remove_relationship(StrRef classSrc, StrRef classDest);
