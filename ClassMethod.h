@@ -13,6 +13,9 @@ class ClassMethod {
         std::list<MethodParameter>::iterator get_param_iter_by_name(const std::string& paramName);
 
     public:
+
+        ClassMethod();
+
         // No method parameters constructor
         ClassMethod(std::string name);
 
@@ -46,5 +49,8 @@ class ClassMethod {
 
         bool does_parameter_exist(const std::string& paramName);
 };
+
+void to_json(json& j, const ClassMethod& cm);
+void from_json(const json& j, ClassMethod& cm);
 
 #endif

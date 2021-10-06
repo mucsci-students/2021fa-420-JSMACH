@@ -4,6 +4,9 @@
 #include "UMLClass.h"
 #include "MethodParameter.h"
 
+ClassMethod::ClassMethod()
+{}
+
 ClassMethod::ClassMethod(std::string name)
   : ClassMethodName(name)
 {}
@@ -89,4 +92,17 @@ bool ClassMethod::rename_parameter(const std::string& nameFrom, const std::strin
         (*i).set_name(nameTo);
         return true;
     }
+}
+
+void to_json(json& j, const ClassMethod& cm)
+{
+    j = json{ {"name", cm.get_method_name()}, {"params", cm.get_parameters()}};
+}
+
+void from_json(const json& j, ClassMethod& cm)
+{
+    cm.set_method_name(j.at("name"));
+    std::list<MethodParameter> params = j.at("params");
+    for (MethodParameter mp : params)
+        cm.add_parameter(mp);
 }

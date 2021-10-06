@@ -32,7 +32,7 @@ class JSONFileSys {
         // to be loaded would violate the UMLModel's rules (ie, dupliate classes, attributes, etc)
         //
         // NOTE as of 9/13, the model does not validate that the json is valid before loading it.
-        bool load_current_model(std::string fileName, UMLModel& currentModel);
+        void load_current_model(std::string fileName, UMLModel& currentModel);
 };
 
 #endif

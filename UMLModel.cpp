@@ -192,6 +192,30 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_src_and_
         }
     }
 
+    bool UMLModel::add_relationship(StrRef classSrc, StrRef classDest, RelationshipType type)
+    {
+        if (does_relationship_exist(classSrc, classDest))
+        {
+            return false;
+        }
+        else
+        {
+            if (does_class_exist(classSrc) && does_class_exist(classDest))
+            {
+                UMLClass& src = *(get_class_iter_by_name(classSrc));
+                UMLClass& dest = *(get_class_iter_by_name(classDest));
+
+                UMLRelationship newRelationship{ src, dest, type };
+                AllRelationships.push_back(newRelationship);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
     bool UMLModel::remove_relationship(StrRef classSrc, StrRef classDest)
      {
          auto i = get_relationship_iter_by_src_and_dest_name(classSrc, classDest);
@@ -456,7 +480,8 @@ bool UMLModel::remove_class_attribute(StrRef className, StrRef attributeName)
     bool UMLModel::load_model_from_json(std::string fileName)
     {
         JSONFileSys jsonIO;
-        return jsonIO.load_current_model(fileName, *this);
+        jsonIO.load_current_model(fileName, *this);
+        return true;
     }
 
 #pragma endregion Model_JSON

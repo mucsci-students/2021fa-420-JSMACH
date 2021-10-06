@@ -13,6 +13,7 @@ class ClassField {
 
 	public:
 
+		ClassField();
 		ClassField(std::string name);
         ~ClassField();
 		// Getter for the field name
@@ -22,6 +23,6 @@ class ClassField {
 		void set_field_name(std::string newName);
 };
 
-//void to_json(json& j, const ClassField& ua);
-//void from_json(json& j, const ClassField& ua);
+void to_json(json& j, const ClassField& cf);
+void from_json(const json& j, ClassField& cf);
 #endif

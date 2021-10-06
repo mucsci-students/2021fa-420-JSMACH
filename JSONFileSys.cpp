@@ -1,10 +1,12 @@
 #include "JSONFileSys.h"
 #include "UMLClass.h"
 #include "UMLRelationship.h"
+#include "UMLException.hpp"
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <filesystem>
 
 using json = nlohmann::json;
 
@@ -21,15 +23,15 @@ void JSONFileSys::save_current_model(std::string fileName, UMLModel currentModel
     std::list <UMLRelationship> currentRelationships = currentModel.AllRelationships;
 
     json newJsonSave;
-    newJsonSave["AllClasses"] = currentClasses;
-    newJsonSave["AllRelationships"] = currentRelationships;
+    newJsonSave["classes"] = currentClasses;
+    newJsonSave["relationships"] = currentRelationships;
 
     std::ofstream file(fileName);
     file << newJsonSave;
     file.close();
 }
 
-bool JSONFileSys::load_current_model(std::string fileName, UMLModel& currentModel)
+void JSONFileSys::load_current_model(std::string fileName, UMLModel& currentModel)
 {
     // Grab the current model classes and relationship data.
     // In case the model attempting to be loaded isn't valid,
@@ -40,55 +42,49 @@ bool JSONFileSys::load_current_model(std::string fileName, UMLModel& currentMode
     try
     {
         std::string saveName = fileName.append(".json");
+        std::cout << saveName << std::endl;
         std::ifstream ifs(saveName);
-        // If the file exists, load the data. Else return false
+        // If the file exists, load the data. Else throw exception
         if(ifs)
         {
+            std::cout << "Opened ifs" << std::endl;
             json data = json::parse(ifs);
 
             // Ensure classes loaded from json are valid
-            std::list <UMLClass> candidateClassList = data["AllClasses"].get<std::list<UMLClass>>();
+            std::list <UMLClass> candidateClassList = data["classes"].get<std::list<UMLClass>>();
             if(ensure_json_classes_is_valid(candidateClassList))
             {
                 currentModel.AllClasses = candidateClassList;
             }
             else
             {
-                ifs.close();
-                return false;
+                throw UMLErrorCode::invalid_json_file;
             }
 
             // reinitializing relationships is... complicated...
-            json candidateRelationshipJson = data["AllRelationships"];
+            json candidateRelationshipJson = data["relationships"];
             
-            if(initialize_relationships(candidateRelationshipJson, currentModel))
-            {
-                ifs.close();
-                return true;
-            }
-            else
+            if (!initialize_relationships(candidateRelationshipJson, currentModel))
             {
                 currentModel.AllClasses = oldClassData;
                 currentModel.AllRelationships = oldRelationshipData;
                 ifs.close();
-                return false;
+                throw UMLErrorCode::invalid_json_file;
             }
         }
         else
         {
             // Don't bother to reinstate old data; we didn't get to that point
-            ifs.close();
-            return false;
+            throw UMLErrorCode::file_does_not_exist;
         }
     }
-    catch(...)
+    catch(UMLErrorCode e)
     {
         // In the case of an exception, we want to put the old data back for safety
         currentModel.AllClasses = oldClassData;
         currentModel.AllRelationships = oldRelationshipData;
-        return false;
+        throw e;
     }
-    return false;
 }
 
 bool JSONFileSys::ensure_json_classes_is_valid(std::list <UMLClass> candidateClassList)
@@ -114,18 +110,22 @@ bool JSONFileSys::ensure_json_classes_is_valid(std::list <UMLClass> candidateCla
 
 bool JSONFileSys::initialize_relationships(json candidateRelationshipJson, UMLModel& currentModel)
 {
-    /*
-    for (json::iterator it = candidateRelationshipJson.begin(); it != candidateRelationshipJson.end(); ++it)
+    // Iterate through candidate relationship list
+    for (json::iterator it = candidateRelationshipJson.begin(); it != candidateRelationshipJson.end(); it++)
     {
         json j = *it;
-        std::string classSrcName = j["ClassSrc"];
-        std::string classDestName = j["ClassDest"];
 
-        if(!currentModel.add_relationship(classSrcName, classDestName))
+        // Grab src and dest
+        std::string classSrcName = j["source"];
+        std::string classDestName = j["destination"];
+        RelationshipType rType = UMLRelationship::type_from_string(j["type"]);
+
+        // If at any point a relationship cannot be added, return false; it's not a valid relationship.
+        if (!currentModel.add_relationship(classSrcName, classDestName, rType))
         {
             return false;
         }
     }
-    */
+
     return true;
 }
