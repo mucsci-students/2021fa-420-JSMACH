@@ -276,6 +276,27 @@ bool UMLClass::operator==(const UMLClass& u) const
 	return ClassName == u.ClassName;
 }
 
+void to_json(json& j, const UMLClass& uc)
+{
+	j = json{
+		{"name", uc.get_class_name()},
+		{"fields", uc.get_all_fields()},
+		{"methods", uc.get_all_methods()}
+	};
+}
+
+void from_json(const json& j, UMLClass& uc)
+{
+	uc.set_class_name(j.at("name"));
+	std::list<ClassField> fields = j.at("fields");
+	for (ClassField cf : fields)
+		uc.add_field(cf);
+	std::list<ClassMethod> methods = j.at("methods");
+	for (ClassMethod cm : methods)
+		uc.add_method(cm);
+}
+
+
 /*
 void to_json(json& j, const UMLClass& uc)
 {

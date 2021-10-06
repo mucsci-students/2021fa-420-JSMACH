@@ -480,7 +480,8 @@ bool UMLModel::remove_class_attribute(StrRef className, StrRef attributeName)
     bool UMLModel::load_model_from_json(std::string fileName)
     {
         JSONFileSys jsonIO;
-        return jsonIO.load_current_model(fileName, *this);
+        jsonIO.load_current_model(fileName, *this);
+        return true;
     }
 
 #pragma endregion Model_JSON

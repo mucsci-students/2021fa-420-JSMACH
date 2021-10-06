@@ -20,7 +20,10 @@
 */
 enum class UMLErrorCode
 {
-    no_such_relationship_type
+    no_such_relationship_type,
+    invalid_json_file,
+    file_does_not_exist,
+    json_load_error
 };
 
 class UMLException
@@ -38,6 +41,12 @@ class UMLException
             {
                 case UMLErrorCode::no_such_relationship_type:
                     return "A relationship with the specified type/value does not exist";
+                case UMLErrorCode::invalid_json_file:
+                    return "The json save attempting to be loaded is not valid";
+                case UMLErrorCode::file_does_not_exist:
+                    return "No file by the name specified was found";
+                case UMLErrorCode::json_load_error:
+                    return "Something went wrong when trying to load json data";
                 default:
                     return "Unknown error code; The UMLErrorCode was probably defined but the to string method was not updated";
             }

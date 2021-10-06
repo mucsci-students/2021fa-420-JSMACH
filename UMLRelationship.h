@@ -30,7 +30,7 @@ class UMLRelationship {
 		const UMLClass& get_src_class() const;
 		const UMLClass& get_dest_class() const;
 
-		std::string type_to_string();
+		std::string type_to_string() const;
 		static RelationshipType type_from_string(std::string typeName);
 		void set_type(std::string typeName);
  
