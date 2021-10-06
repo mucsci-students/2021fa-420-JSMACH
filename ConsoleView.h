@@ -1,7 +1,6 @@
 #ifndef UML_CONSOLE_VIEW
 #define UML_CONSOLE_VIEW
 
-#include "UMLAttribute.h"
 #include "UMLClass.h"
 #include "UMLRelationship.h"
 

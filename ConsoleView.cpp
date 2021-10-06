@@ -127,10 +127,7 @@ void ConsoleView::display_relationship(string source, string destination, string
  * 
  * @return string 
  */
-string ConsoleView::attribute_menu()
-{
-  return get_user_input();
-}
+
 
 /*************************/
 
