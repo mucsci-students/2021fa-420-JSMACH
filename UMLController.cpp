@@ -202,31 +202,6 @@ void UMLController::create_class()
     return;
   }
   
-  // This commented out portion will eventually be deleted. But it has pretty much
-  // the EXACT same syntax as what you'll be doing for the fields. In fact, if I
-  // were you, I'd copy and paste this, and then edit it to say 'field(s)' instead of
-  // 'attribute(s)'.
-
-  /*
-  Interface.display_message("How many attributes would you like to start with? -> ");
-  unsigned int attributeCount = Interface.user_int_input();
-
-  for(int i = 0; i < attributeCount; i++)
-  {
-    Interface.display_message("What would you like to name your attribute? -> ");
-    string attributeName = Interface.get_user_input();
-
-    UMLAttribute newAttribute {attributeName};
-    if(!newClass.add_attribute(newAttribute))
-    {
-      Interface.display_message("That attribute name was not valid (duplicate attribute)\n");
-      i--;
-    }
-  } */
-
-  //--------------------------------------------------------------------
-  // TODO
-  // Hint: When declaring the field, use the type 'ClassField'
   Interface.display_message("How many fields would you like to start with? -> ");
   unsigned int fieldCount = Interface.user_int_input();
 
@@ -250,8 +225,7 @@ void UMLController::create_class()
       Interface.display_message("The field \"" + fieldName + "\" was successfully created!\n");
     }
   }
-  //--------------------------------------------------------------------
-
+  
 
   Interface.display_message("How many methods would you like to start with? -> ");
   unsigned int methodCount = Interface.user_int_input();
@@ -463,74 +437,6 @@ void  UMLController::rename_class()
   }
   Interface.display_message("The class \"" + oldClassName + "\" has been renamed to \"" + newClassName + "\".\n");
 }
-
-
-
-
-/*************************/
-
-/**
- * @brief 
- * 
- *
-void UMLController::edit_attributes()
-{
-  string className;
-  string input;
-  UMLClass currentClass;
-
-  Interface.display_message("Enter the name of the class whose attributes you\'d like to edit.\n-> ");
-  className = Interface.get_user_input();
-
-  if (!Model.does_class_exist(className))
-  {
-    Interface.display_message("Error! The class you typed does not exist.\n");
-    Interface.display_message("Returning to main menu.\n");
-    return;
-  }
-
-  Interface.display_message("Type \"help\" to view all available editor commands.\n");
-  do
-  {
-    Interface.display_message("-> ");
-
-    input = Interface.get_user_input();
-    
-    if(input == "help")
-      Interface.print_attribute_commands();
-    
-    else if(input == "view")
-      Interface.display_class(currentClass);
-    
-    else if(input == "add")
-      add_attribute(className);
-    
-    else if(input == "delete")
-      delete_attribute(className);
-    
-    else if(input == "rename")
-      rename_attribute(className);
-    
-    else if(input == "switch_class")
-    {
-      //recursive call
-      edit_attributes();
-      return;
-    }
-    else if(input == "exit")
-    {
-      Interface.display_message("You have exited the attribute editor.\n");
-      return;
-    }
-    else
-      Interface.display_message("Invadid command! Type \"help\" to view all available attribute editor commands.\n");
-  }
-  while(1);
-
-}
-
-
-
 
 /*************************/
 
@@ -853,7 +759,7 @@ void UMLController::add_field(string className)
   Interface.display_message("Type a name for the field you\'d like to add. -> ");
   fieldName = Interface.get_user_input();
 
-  //UMLAttribute newAttribute {attName};
+  
   ClassField newField {fieldName};
 
   if(!Model.add_class_field(className, newField))
@@ -875,7 +781,6 @@ void UMLController::add_method(string className)
   Interface.display_message("Type a name for the method you\'d like to add. -> ");
   methodName = Interface.get_user_input();
 
-  //UMLAttribute newAttribute {attName};
   ClassMethod newMethod {methodName};
 
   if(!Model.add_class_method(className, newMethod))

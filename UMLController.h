@@ -16,7 +16,6 @@
 #include "UMLModel.h"
 #include "UMLRelationship.h"
 #include "UMLClass.h"
-#include "UMLAttribute.h"
 //#include "IView.h"
 #include "ConsoleView.h" //temporary
 
