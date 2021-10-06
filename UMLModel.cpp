@@ -168,30 +168,6 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_src_and_
         return get_relationship_iter_by_src_and_dest_name(classSrc, classDest) != AllRelationships.end();
     }
 
-    bool UMLModel::add_relationship(StrRef classSrc, StrRef classDest)
-    {
-        if(does_relationship_exist(classSrc, classDest))
-        {
-            return false;
-        }
-        else
-        {
-            if (does_class_exist(classSrc) && does_class_exist(classDest))
-            {
-                UMLClass& src = *(get_class_iter_by_name(classSrc));
-                UMLClass& dest = *(get_class_iter_by_name(classDest));
-
-                UMLRelationship newRelationship {src, dest};
-                AllRelationships.push_back(newRelationship);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
     bool UMLModel::add_relationship(StrRef classSrc, StrRef classDest, RelationshipType type)
     {
         if (does_relationship_exist(classSrc, classDest))
