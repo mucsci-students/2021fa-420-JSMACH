@@ -227,7 +227,29 @@ void UMLController::create_class()
   //--------------------------------------------------------------------
   // TODO
   // Hint: When declaring the field, use the type 'ClassField'
+  Interface.display_message("How many fields would you like to start with? -> ");
+  unsigned int fieldCount = Interface.user_int_input();
 
+
+
+  for(int i = 0; i < fieldCount; i++)
+  {
+    Interface.display_message("What would you like to name your field? -> ");
+    string fieldName = Interface.get_user_input();
+    
+    ClassField newField {fieldName};
+
+    if(!Model.add_class_field(className, newField))
+    {
+      Interface.display_message("Error! The field \"" + fieldName + "\" could not be created.\n");
+      Interface.display_message("Either the field already exists, or the name is invalid.\n");
+      i--;
+    } 
+    else
+    {
+      Interface.display_message("The field \"" + fieldName + "\" was successfully created!\n");
+    }
+  }
   //--------------------------------------------------------------------
 
 
@@ -522,8 +544,71 @@ void UMLController::edit_attributes()
  */
 void UMLController::edit_fields()
 {
-  // TODO
-  Interface.display_message("[feature disabled]\n");
+  string className;
+  string input;
+  UMLClass currentClass;
+  
+  Interface.display_message("Enter the name of the class whose fields and/or parameters you\'d like to edit.\n-> ");
+  className = Interface.get_user_input();
+
+  if (!Model.does_class_exist(className))
+  {
+    Interface.display_message("Error! The class you typed does not exist.\n");
+    Interface.display_message("Returning to main menu.\n");
+    return;
+  }
+  
+  if(!Model.get_class_by_name(className, currentClass))
+  {
+    Interface.display_message("Error! Could not retrieve class.\n");
+    return;
+  }
+
+  Interface.display_message("Type \"help\" to view all available editor commands.\n");
+  do
+  {
+    Interface.display_message("-> ");
+
+    input = Interface.get_user_input();
+    
+    if(input == "help")
+      Interface.print_field_commands();
+    
+    else if(input == "view")
+      Interface.display_class(currentClass);
+    
+    else if(input == "add")
+      add_field(className);
+
+    else if(input == "delete")
+      delete_field(className);
+    
+    else if(input == "rename")
+      rename_field(className);
+
+    else if (input == "switch_class")
+    {
+      //recursive call
+      edit_fields();
+      return;
+    }
+    else if(input == "exit")
+    {
+      Interface.display_message("You have exited the field editor.\n");
+      Interface.display_message("Returning to main menu.\n");
+      return;
+    }
+    else
+      Interface.display_message("Invadid command! Type \"help\" to view all available field editor commands.\n");
+
+
+    if(!Model.get_class_by_name(className, currentClass))
+    {
+      Interface.display_message("The changes were successfully made, but failed to update view.\n");
+    }
+  }
+  while(1);
+
 }
 
 
@@ -760,32 +845,24 @@ void UMLController::save_json()
 
 //ADDING
 /*************************/
-/*
-void UMLController::add_attribute(string className)
-{
-  string attName;
-  Interface.display_message("Type a name for the attribute you\'d like to add. -> ");
-  attName = Interface.get_user_input();
-
-  UMLAttribute newAttribute {attName};
-  
-
-  if(!Model.add_class_attribute(className, newAttribute))
-  {
-    Interface.display_message("Error! Could not add new attribute.\n");
-    return;
-  }
-
-  Interface.display_message("You have added the attribute \"" + attName + "\" to the class \"" + className + "\".\n");
-}
-
-/*************************/
 
 
 void UMLController::add_field(string className)
 {
-  // TODO
-  // Hint: The type you'll be using to declare a new field is 'ClassField'
+  string fieldName;
+  Interface.display_message("Type a name for the field you\'d like to add. -> ");
+  fieldName = Interface.get_user_input();
+
+  //UMLAttribute newAttribute {attName};
+  ClassField newField {fieldName};
+
+  if(!Model.add_class_field(className, newField))
+  {
+    Interface.display_message("Error! Could not add new field.\n");
+    return;
+  }
+
+  Interface.display_message("You have added the field \"" + fieldName + "\" to the class \"" + className + "\".\n");
 }
 
 
@@ -847,26 +924,19 @@ bool UMLController::add_parameter(string className, string methodName)
 
 //DELETING
 /*************************/
-/*
-void UMLController::delete_attribute(string className)
-{
-  string attName;
-  Interface.display_message("Type the name of the attribute you\'d like to delete. -> ");
-  attName = Interface.get_user_input();
-
-  if(!Model.remove_class_attribute(className, attName))
-  {
-    Interface.display_message("Error! Could not delete attribute.\n");
-    return;
-  }
-  Interface.display_message("The attribute \"" + attName + "\" was deleted.\n");
-}
-
-/*************************/
 
 void UMLController::delete_field(string className)
 {
-  //TODO
+  string fieldName;
+  Interface.display_message("Type the name of the field you\'d like to delete. -> ");
+  fieldName = Interface.get_user_input();
+
+  if(!Model.remove_class_field(className, fieldName))
+  {
+    Interface.display_message("Error! Could not delete field.\n");
+    return;
+  }
+  Interface.display_message("The field \"" + fieldName + "\" was deleted.\n");
 }
 
 /*************************/
@@ -922,7 +992,29 @@ void UMLController::delete_parameter(string className, string methodName)
  */
 void UMLController::rename_field(string className)
 {
-  //TODO
+  string fieldNameFrom;
+  string fieldNameTo;
+
+  Interface.display_message("Type the name of the field you\'d like to rename FROM -> ");
+  fieldNameFrom = Interface.get_user_input();
+
+  if(!Model.does_class_have_field(className, fieldNameFrom))
+  {
+    Interface.display_message("Error! The field you typed does not exist.\n");
+    return;
+  }
+
+  Interface.display_message("Type the name of the field you\'d like to rename TO -> ");
+  fieldNameTo = Interface.get_user_input();
+
+  if (Model.does_class_have_field(className, fieldNameTo))
+  {
+    Interface.display_message("Error! That name is already taken.\n");
+    return;
+  }
+
+  Model.rename_class_field(className, fieldNameFrom, fieldNameTo);
+  Interface.display_message("Field successfully renamed!\n");
 }
 
 /*************************/
