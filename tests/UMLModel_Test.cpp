@@ -139,27 +139,4 @@ TEST_CASE("Relationship related operations in the UMLModel")
 
     }
  
-/* TEST_CASE("Requirements for UMLClass enforced")
-{
-    UMLClass myClass;
-
-    model.add_class(myClass);
-
-    SECTION("")
-    {
-        
-        
-        //no duplicate class name
-        REQUIRE(model.add_class("MyClass1") == false);
-
-        model.remove_class("MyClass1");
-
-        //remove class
-        REQUIRE(model.does_class_exist("MyClass1") == false);
-        
-    }
-
-}
-*/
-
 }
