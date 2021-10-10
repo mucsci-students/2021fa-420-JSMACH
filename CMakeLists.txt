@@ -24,7 +24,7 @@ target_link_libraries(jsmach_uml PRIVATE uml nlohmann_json nlohmann_json::nlohma
 
 
 add_executable(jsmach_tests)
-target_sources(jsmach_tests PUBLIC tests/UnitTests.cpp tests/UMLModel_Test.cpp)
+target_sources(jsmach_tests PUBLIC tests/UnitTests.cpp tests/UMLModel_Test.cpp tests/UMLClass_Test.cpp)
 target_link_libraries(jsmach_tests PRIVATE uml Catch2::Catch2)
 
 

@@ -1,5 +1,7 @@
 #include "UMLClass.h"
 #include "UMLAttribute.h"
+#include "ClassField.h"
+#include "ClassMethod.h"
 
 UMLClass::~UMLClass(){}	
 
