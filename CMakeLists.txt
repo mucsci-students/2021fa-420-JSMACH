@@ -8,19 +8,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED Off)
 
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Catch2 CONFIG REQUIRED)
-
-#If we get nana:
-#find_package(unofficial-nana CONFIG REQUIRED)
+find_package(unofficial-nana CONFIG REQUIRED)
 
 add_library(uml)
-target_sources(uml PRIVATE "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp" "UMLException.hpp" "ClassMethod.cpp" "ClassField.cpp" "MethodParameter.cpp" "ConsoleView.cpp")
-target_link_libraries(uml PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
+target_sources(uml PRIVATE "GUIController.cpp" "GUIView.cpp" "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp" "UMLException.hpp" "ClassMethod.cpp" "ClassField.cpp" "MethodParameter.cpp" "ConsoleView.cpp")
+target_link_libraries(uml PRIVATE nlohmann_json nlohmann_json::nlohmann_json unofficial::nana::nana)
 
 add_executable(jsmach_uml)
 target_sources(jsmach_uml PUBLIC main.cpp)
 target_link_libraries(jsmach_uml PRIVATE uml nlohmann_json nlohmann_json::nlohmann_json)
-#If we get nana:
-#target_link_libraries(jsmach_uml PRIVATE uml nlohmann_json nlohmann_json::nlohmann_json unofficial::nana::nana)
 
 
 add_executable(jsmach_tests)
