@@ -336,8 +336,8 @@ void UMLController::create_relationship()
   {
     try
     {
-      Interface.display_message("Give a type for your new relationship\n");
-      Interface.display_message("(Aggregation, Composition, Inheritance, Realization) -> ");
+      Interface.display_message("Give a type for your new relationship. (Type in a letter.)\n");
+      Interface.display_message("(Aggregation = A, Composition = C, Inheritance = I, Realization = R) -> ");
       relationshipType = Interface.get_relationship_type();
 
       rType = UMLRelationship::type_from_string(relationshipType);
