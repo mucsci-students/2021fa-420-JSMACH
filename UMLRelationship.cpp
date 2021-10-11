@@ -55,19 +55,19 @@ std::string UMLRelationship::type_to_string() const
 
 RelationshipType UMLRelationship::type_from_string(std::string typeName)
 {
-  if(strcasecmp(typeName.c_str(), "Aggregation") == 0)
+  if(strcasecmp(typeName.c_str(), "A") == 0 || strcasecmp(typeName.c_str(), "Aggregation") == 0)
   {
     return RelationshipType::Aggregation;
   }
-  else if(strcasecmp(typeName.c_str(), "Composition") == 0)
+  else if(strcasecmp(typeName.c_str(), "C") == 0 || strcasecmp(typeName.c_str(), "Composition") == 0)
   {
     return RelationshipType::Composition;
   }
-  else if(strcasecmp(typeName.c_str(), "Inheritance") == 0)
+  else if(strcasecmp(typeName.c_str(), "I") == 0 || strcasecmp(typeName.c_str(), "Inheritance") == 0)
   {
     return RelationshipType::Inheritance;
   }
-  else if(strcasecmp(typeName.c_str(), "Realization")  == 0)
+  else if(strcasecmp(typeName.c_str(), "R")  == 0 || strcasecmp(typeName.c_str(), "Realization")  == 0)
   {
     return RelationshipType::Realization;
   }
