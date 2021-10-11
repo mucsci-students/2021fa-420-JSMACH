@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+*.a
+*.json
+
 # User-specific files
 *.rsuser
 *.suo
@@ -17,6 +20,9 @@ conanbuildinfo.txt
 conaninfo.txt
 graph_info.json
 
+#VCPKG
+vcpkg/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -28,6 +34,8 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+[Ll]ib/
+[Bb]uild/
 x64/
 x86/
 [Ww][Ii][Nn]32/

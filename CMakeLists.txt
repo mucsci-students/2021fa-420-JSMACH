@@ -1,21 +1,27 @@
 cmake_minimum_required (VERSION 3.17.0)
+
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
 project(UML_CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED Off)
 
-include(conanbuildinfo.cmake)
-conan_basic_setup(TARGETS)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(Catch2 CONFIG REQUIRED)
+find_package(unofficial-nana CONFIG REQUIRED)
+
+add_library(uml)
+target_sources(uml PRIVATE "GUIController.cpp" "GUIView.cpp" "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp" "UMLException.hpp" "ClassMethod.cpp" "ClassField.cpp" "MethodParameter.cpp" "ConsoleView.cpp")
+target_link_libraries(uml PRIVATE nlohmann_json nlohmann_json::nlohmann_json unofficial::nana::nana)
 
 add_executable(jsmach_uml)
-target_sources(jsmach_uml PUBLIC main.cpp "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp")
+target_sources(jsmach_uml PUBLIC main.cpp)
+target_link_libraries(jsmach_uml PRIVATE uml nlohmann_json nlohmann_json::nlohmann_json)
 
-target_link_libraries(jsmach_uml CONAN_PKG::nlohmann_json)
 
-FILE(GLOB TEST_FILES tests/*.cpp)
-
-add_executable(jsmach_tests tests/UnitTests.cpp ${TEST_FILES})
-target_sources(jsmach_tests PUBLIC "UMLController.cpp" "UMLAttribute.cpp" "UMLClass.cpp" "UMLRelationship.cpp" "UMLModel.cpp" "JSONFileSys.cpp")
-target_link_libraries(jsmach_tests CONAN_PKG::catch2 CONAN_PKG::nlohmann_json)
+add_executable(jsmach_tests)
+target_sources(jsmach_tests PUBLIC tests/UnitTests.cpp tests/UMLModel_Test.cpp tests/UMLClass_Test.cpp)
+target_link_libraries(jsmach_tests PRIVATE uml Catch2::Catch2)
 
 
 enable_testing()

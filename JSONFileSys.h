@@ -4,14 +4,17 @@
 #include "UMLClass.h"
 #include "UMLRelationship.h"
 #include "UMLModel.h"
+#include <nlohmann/json.hpp>
 #include <string>
 #include <list>
 
+using json = nlohmann::json;
 
 class JSONFileSys {
     private:
         bool ensure_json_classes_is_valid(std::list <UMLClass> candidateClassList);
         bool ensure_json_relationships_is_valid(std::list <UMLRelationship> candidateRelationshipList);
+        bool initialize_relationships(json candidateRelationshipJson, UMLModel& currentModel);
     
     public:
         JSONFileSys();
@@ -29,7 +32,7 @@ class JSONFileSys {
         // to be loaded would violate the UMLModel's rules (ie, dupliate classes, attributes, etc)
         //
         // NOTE as of 9/13, the model does not validate that the json is valid before loading it.
-        bool load_current_model(std::string fileName, UMLModel& currentModel);
+        void load_current_model(std::string fileName, UMLModel& currentModel);
 };
 
 #endif

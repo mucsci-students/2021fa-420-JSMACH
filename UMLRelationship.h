@@ -3,26 +3,40 @@
 #define UMLRELATIONSHIP
 
 #include "UMLClass.h"
+#include <string>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+enum class RelationshipType {
+	Aggregation,
+	Composition,
+	Inheritance,
+	Realization
+};
+
 class UMLRelationship {
 	private:
-		UMLClass ClassSrc;
-		UMLClass ClassDest;
+		UMLClass* ClassSrc;
+		UMLClass* ClassDest;
+		RelationshipType Type;
 
 	public:
 		UMLRelationship();
-		UMLRelationship(UMLClass src, UMLClass dest);
+		UMLRelationship(UMLClass& src, UMLClass& dest);
+		UMLRelationship(UMLClass& src, UMLClass& dest, RelationshipType type);
 		~UMLRelationship();
 
-		UMLClass& get_src_class();
-		UMLClass& get_dest_class();
+		const UMLClass& get_src_class() const;
+		const UMLClass& get_dest_class() const;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(UMLRelationship, ClassSrc, ClassDest);
+		std::string type_to_string() const;
+		static RelationshipType type_from_string(std::string typeName);
+		void set_type(std::string typeName);
+ 
 };
 
-//void to_json(json& j, const UMLRelationship& ur);
-//void from_json(json& j, const UMLRelationship& ur);
+void to_json(json& j, const UMLRelationship& ur);
+//THERE IS NO FROM JSON.
+//Its impossible; json needs to be reinitialized manually from names and utilizing references
 #endif
