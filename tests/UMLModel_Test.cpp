@@ -1,7 +1,6 @@
 #include <catch2/catch.hpp>
 #include <vector>
 #include "../UMLClass.h"
-#include "../UMLAttribute.h"
 #include "../UMLRelationship.h"
 #include "../UMLModel.h"
 

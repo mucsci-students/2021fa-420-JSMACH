@@ -74,20 +74,6 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_src_and_
         }
     }
 
-    bool UMLModel::add_class(StrRef className, std::vector<UMLAttribute> attributes)
-    {
-        if(does_class_exist(className))
-        {
-            return false;
-        }
-        else
-        {
-            UMLClass newClass {className, attributes};
-            AllClasses.push_back(newClass);
-            return true;
-        }
-    }
-
     bool UMLModel::add_class(StrRef className, std::vector<ClassField> fields, std::vector<ClassMethod> methods)
     {
         if (does_class_exist(className))
@@ -420,30 +406,6 @@ std::list<UMLRelationship>::iterator UMLModel::get_relationship_iter_by_src_and_
     }
 
 #pragma endregion Class_Method_Parameters
-
-bool UMLModel::add_class_attribute(StrRef className, UMLAttribute attribute)
-{
-    if(does_class_exist(className))
-    {
-        return (*get_class_iter_by_name(className)).add_attribute(attribute);
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool UMLModel::remove_class_attribute(StrRef className, StrRef attributeName)
-{
-    if(does_class_exist(className))
-    {
-        return (*get_class_iter_by_name(className)).remove_attribute(attributeName);
-    }
-    else
-    {
-        return false;
-    }
-}
 
 #pragma region Model_JSON
 
