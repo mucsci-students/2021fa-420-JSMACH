@@ -2,7 +2,6 @@
 #define UML_MODEL
 
 #include <list>
-#include "UMLAttribute.h"
 #include "UMLClass.h"
 #include "UMLRelationship.h"
 #include "ClassField.h"
@@ -16,9 +15,6 @@ using StrRef = const std::string&;
     The UMLModel will hold all the data for the current running program. It will hold
     all the class, relationship, and attribute data. Other classes can access the data
     indirectly via method calls. 
-
-    Save/Loading from Json may want to be relegated to another class instead of here
-    as good practice for separation of concerns. 
 */
 class UMLModel {
     private:
@@ -59,11 +55,6 @@ class UMLModel {
             // Returns true if the add was successful, false if it failed.
             bool add_class(StrRef className);
 
-            // Adds a class to the model from a name and a vector of attributes.
-            // Returns true if the add was successful, false if it failed.
-            // SOON TO BE DEPRECATED
-            bool add_class(StrRef className, std::vector<UMLAttribute> attributes);
-
             bool add_class(StrRef className, std::vector<ClassField> fields, std::vector<ClassMethod> methods);
 
             // Removes a class from the model by name.
@@ -84,12 +75,6 @@ class UMLModel {
             const std::list <std::string> get_all_class_names();
 
         #pragma endregion Model_Class_Operations
-
-        //WILL SOON BE DEPRECATED
-        bool add_class_attribute(StrRef className, UMLAttribute attribute);
-
-        //WILL SOON BE DEPRECATED
-        bool remove_class_attribute(StrRef className, StrRef attributeName);
 
         #pragma region Model_Relationship_Operations
 

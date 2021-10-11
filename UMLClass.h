@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include "UMLAttribute.h"
 #include "ClassField.h"
 #include "ClassMethod.h"
 
@@ -17,10 +16,6 @@ class UMLClass{
 		std::vector<ClassField> Fields;
 		std::vector<ClassMethod> Methods;
 
-		//BOTH SOON TO BE DEPRECATED
-		std::vector<UMLAttribute> ClassAttributes;
-		std::vector<UMLAttribute>::iterator get_iterator_to_attribute_name(std::string attributeName);
-
 		std::vector<ClassField>::iterator get_iterator_to_field_name(std::string fieldName);
 		std::vector<ClassMethod>::iterator get_iterator_to_method_name(std::string methodName);
 
@@ -29,26 +24,12 @@ class UMLClass{
 		UMLClass();
 		UMLClass(std::string name);
 
-		//THIS CONSTRUCTOR WILL SOON BE DEPRECATED
-		UMLClass(std::string name, std::vector<UMLAttribute> attributes);
-
 		UMLClass(std::string name, std::vector<ClassField> fields, std::vector<ClassMethod> methods);
 
 		~UMLClass();
 
 		std::string get_class_name() const;
 		void set_class_name(std::string newName);
-		
-		// SOON TO BE DEPRECATED
-		std::vector<UMLAttribute> get_all_attributes() const;
-		// SOON TO BE DEPRECATED
-		bool add_attribute(UMLAttribute attribute);
-		// SOON TO BE DEPRECATED
-		bool remove_attribute(std::string);
-		// SOON TO BE DEPRECATED
-		bool rename_attribute(std::string attributeNameFrom, std::string attributeNameTo);
-		// SOON TO BE DEPRECATED
-		bool does_attribute_already_exist(std::string attributeName);
 
 		/*
 			FIELD OPERATIONS

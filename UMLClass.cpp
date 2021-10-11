@@ -1,5 +1,4 @@
 #include "UMLClass.h"
-#include "UMLAttribute.h"
 #include "ClassField.h"
 #include "ClassMethod.h"
 
@@ -11,26 +10,9 @@ UMLClass::UMLClass(std::string name)
 	: ClassName (name)
 {}
 
-UMLClass::UMLClass(std::string name, std::vector<UMLAttribute> attributes)
-	: ClassName (name), ClassAttributes (attributes)
-{}
-
 UMLClass::UMLClass(std::string name, std::vector<ClassField> fields, std::vector<ClassMethod> methods)
 	: ClassName(name), Fields(fields), Methods(methods)
 {}
-
-std::vector<UMLAttribute>::iterator UMLClass::get_iterator_to_attribute_name(std::string attributeName)
-{
-	for(auto iter = ClassAttributes.begin(); iter != ClassAttributes.end(); iter++)
-	{
-		if((*iter).get_attribute_name() == attributeName)
-		{
-			return iter;
-		}
-	}
-	
-	return ClassAttributes.end();
-}
 
 std::vector<ClassField>::iterator UMLClass::get_iterator_to_field_name(std::string fieldName)
 {
@@ -58,11 +40,6 @@ std::vector<ClassMethod>::iterator UMLClass::get_iterator_to_method_name(std::st
 	return Methods.end();
 }
 
-bool UMLClass::does_attribute_already_exist(std::string attributeName)
-{
-	return get_iterator_to_attribute_name(attributeName) != ClassAttributes.end();
-}
-
 bool UMLClass::does_field_already_exist(std::string fieldName)
 {
 	return get_iterator_to_field_name(fieldName) != Fields.end();
@@ -83,51 +60,6 @@ void UMLClass::set_class_name(std::string newName)
 	this->ClassName = newName;
 }
 
-std::vector<UMLAttribute> UMLClass::get_all_attributes() const 
-{
-	return this->ClassAttributes;
-}
-
-bool UMLClass::add_attribute(UMLAttribute attribute)
-{
-	if(does_attribute_already_exist(attribute.get_attribute_name()))
-	{
-		return false;
-	}
-	else
-	{
-		ClassAttributes.push_back(attribute);
-		return true;
-	}
-}
-
-bool UMLClass::remove_attribute(std::string attributeName)
-{
-	if(!does_attribute_already_exist(attributeName))
-	{
-		return false;
-	}
-	else
-	{
-		auto iter = get_iterator_to_attribute_name(attributeName);
-		ClassAttributes.erase(iter);
-		return true;
-	}
-}
-
-bool UMLClass::rename_attribute(std::string attributeNameFrom, std::string attributeNameTo)
-{
-	if(does_attribute_already_exist(attributeNameTo) || !does_attribute_already_exist(attributeNameFrom))
-	{
-		return false;
-	}
-	else
-	{
-		auto iter = get_iterator_to_attribute_name(attributeNameFrom);
-		(*iter).set_attribute_name(attributeNameTo);
-		return true;
-	}
-}
 
 std::vector<ClassField> UMLClass::get_all_fields() const
 {
@@ -297,16 +229,3 @@ void from_json(const json& j, UMLClass& uc)
 	for (ClassMethod cm : methods)
 		uc.add_method(cm);
 }
-
-
-/*
-void to_json(json& j, const UMLClass& uc)
-{
-	j = json {{"name", uc.get_class_name()}, {"attributes", uc.get_all_attributes()}};
-}
-
-void from_json(json& j, const UMLClass& uc)
-{
-
-}
-*/
