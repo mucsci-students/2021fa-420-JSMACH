@@ -671,7 +671,6 @@ void UMLController::edit_parameters(string className)
   while(1);
 }
 
-
 /*************************/
 
 /**
