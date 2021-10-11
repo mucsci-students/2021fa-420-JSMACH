@@ -6,6 +6,7 @@
 #include "UMLModel.h"
 #include "GUIView.h"
 #include "GUIController.h"
+#include "UMLRelationship.h"
 
 void run_cli()
 {
@@ -19,7 +20,7 @@ void run_gui()
     // Create model and view
     // View constructs stuff such as buttons and other UI elements
     UMLModel model;
-    GUIView view;
+    GUIView view{ model };
 
     // Construct controller
     // Controller links view buttons with controller methods
